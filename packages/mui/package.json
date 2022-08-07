@@ -31,9 +31,9 @@
     "build:cjs": "tsc --project tsconfig.cjs.json"
   },
   "devDependencies": {
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
-    "@mui/material": "^5.8.3",
+    "@emotion/react": "11.9.3",
+    "@emotion/styled": "11.9.3",
+    "@mui/material": "5.9.2",
     "@react-fluent-edit/core": "workspace:*",
     "@react-fluent-edit/mentions": "workspace:*"
   }
