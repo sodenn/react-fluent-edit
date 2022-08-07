@@ -19,7 +19,7 @@
     "slate-react": "0.81.0"
   },
   "devDependencies": {
-    "@babel/core": "7.18.9",
+    "@babel/core": "7.18.10",
     "@playwright/experimental-ct-react": "1.24.0",
     "@playwright/test": "1.24.0",
     "@storybook/addon-actions": "6.5.9",
