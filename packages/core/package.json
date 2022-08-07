@@ -1,0 +1,36 @@
+{
+  "name": "@react-fluent-edit/core",
+  "version": "0.0.0",
+  "license": "MIT",
+  "description": "Slate based editor powered by plugins",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/esm/index.d.ts",
+  "files": [
+    "lib",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sodenn/react-fluent-edit.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/sodenn/react-fluent-edit",
+  "author": {
+    "name": "sodenn",
+    "email": "mail@sodenn.dev"
+  },
+  "scripts": {
+    "build": "yarn clean && yarn build:esm & yarn build:cjs && yarn fixup",
+    "clean": "rimraf lib",
+    "fixup": "../../scripts/patch-package-json",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json"
+  },
+  "dependencies": {
+    "remark-parse": "^10.0.1",
+    "remark-slate-transformer": "0.7.0",
+    "remark-stringify": "^10.0.2",
+    "unified": "^10.1.2"
+  }
+}
