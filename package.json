@@ -7,8 +7,8 @@
   "scripts": {
     "build": "yarn workspaces foreach run build",
     "test": "jest",
-    "lint": "npx eslint --ext .tsx,.ts packages/**/src/",
-    "fmt": "prettier --check packages/**/src/",
+    "lint": "npx eslint packages/**/src/**",
+    "fmt": "prettier --check packages/**/src/**",
     "test:e2e": "playwright test -c playwright-ct.config.ts",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
