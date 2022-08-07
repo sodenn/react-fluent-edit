@@ -1,6 +1,6 @@
 {
   "name": "@react-fluent-edit/rich-text",
-  "version": "0.0.0",
+  "private": true,
   "license": "MIT",
   "description": "Rich Text Plugin for React FluentEdit",
   "main": "./lib/cjs/index.js",

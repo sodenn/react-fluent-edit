@@ -1,6 +1,6 @@
 {
   "name": "@react-fluent-edit/core",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "description": "Slate based editor powered by plugins",
   "main": "./lib/cjs/index.js",
@@ -10,6 +10,9 @@
     "lib",
     "package.json"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sodenn/react-fluent-edit.git",
