@@ -1,4 +1,4 @@
-import { Fade, MenuItem, MenuItemProps, MenuList, Paper } from "@mui/material";
+import {Fade, MenuItem, MenuItemProps, MenuList, Paper, useTheme} from "@mui/material";
 import { WithChildrenProp } from "@react-fluent-edit/core";
 import {
   MentionCombobox,
@@ -29,12 +29,16 @@ const ListItemComponent = (props: MenuItemProps) => {
   );
 };
 
-const MuiMentionCombobox = (props: MentionComboboxProps) => (
-  <MentionCombobox
-    ListComponent={ListComponent}
-    ListItemComponent={ListItemComponent}
-    {...props}
-  />
-);
+const MuiMentionCombobox = (props: Pick<MentionComboboxProps, "items" | "renderAddMentionLabel">) => {
+  const theme = useTheme();
+  return (
+    <MentionCombobox
+      zIndex={theme.zIndex.modal + 1}
+      ListComponent={ListComponent}
+      ListItemComponent={ListItemComponent}
+      {...props}
+    />
+  )
+};
 
 export default MuiMentionCombobox;
