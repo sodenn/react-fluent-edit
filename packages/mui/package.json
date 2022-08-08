@@ -7,8 +7,7 @@
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
   "files": [
-    "lib",
-    "package.json"
+    "lib"
   ],
   "publishConfig": {
     "access": "public"
