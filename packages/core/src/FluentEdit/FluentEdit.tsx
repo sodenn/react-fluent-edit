@@ -121,9 +121,8 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
         case "Enter":
           handleEnterPress(event);
           break;
-        default:
-          onKeyDown?.(event);
       }
+      onKeyDown?.(event);
     },
     [onKeyDown, handleEnterPress]
   );
