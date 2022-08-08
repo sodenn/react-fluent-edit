@@ -6,6 +6,10 @@
   ],
   "scripts": {
     "build": "yarn workspaces foreach run build",
+    "version:patch": "yarn workspaces foreach --no-private version patch",
+    "version:minor": "yarn workspaces foreach --no-private version minor",
+    "version:major": "yarn workspaces foreach --no-private version major",
+    "publish": "yarn workspaces foreach --no-private npm publish --tolerate-republish",
     "test": "jest",
     "lint": "npx eslint packages/**/src/**",
     "fmt": "prettier --check packages/**/src/**",
