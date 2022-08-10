@@ -21,10 +21,10 @@ Install the core package in your project directory with:
 
 ```bash
 // with npm
-npm install @react-fluent-edit/core @react-fluent-edit/mentions @react-fluent-edit/mui
+npm install @react-fluent-edit/core
 
 // with yarn
-yarn add @react-fluent-edit/core @react-fluent-edit/mentions @react-fluent-edit/mui
+yarn add @react-fluent-edit/core
 ```
 
 Install additional packages of your choice:
