@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "remark-parse": "10.0.1",
-    "remark-slate-transformer": "0.7.0",
+    "remark-slate-transformer": "0.7.1",
     "remark-stringify": "10.0.2",
     "unified": "10.1.2"
   },

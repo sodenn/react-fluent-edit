@@ -2622,7 +2622,7 @@ __metadata:
   resolution: "@react-fluent-edit/core@workspace:packages/core"
   dependencies:
     remark-parse: 10.0.1
-    remark-slate-transformer: 0.7.0
+    remark-slate-transformer: 0.7.1
     remark-stringify: 10.0.2
     unified: 10.1.2
   peerDependencies:
@@ -14326,12 +14326,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remark-slate-transformer@npm:0.7.0":
-  version: 0.7.0
-  resolution: "remark-slate-transformer@npm:0.7.0"
+"remark-slate-transformer@npm:0.7.1":
+  version: 0.7.1
+  resolution: "remark-slate-transformer@npm:0.7.1"
   peerDependencies:
-    unified: ">= 10.1.0"
-  checksum: 15737d6091db7cf300253e9d47229c46e955b6775ce7a5b4359e294e1b279600104b214014be51bef9f62e086438656a7f1ecd66d0edf1c72b114b3061e197da
+    unified: ">=10.1.0"
+  checksum: ade71792c85366bcf6770d864f95bf094b2d5d696f4c190ecae51290a9b00000fad258b8b57431f283d259a29c9dd4de4f8685b7eedc6b392fa69d7b3e4cf194
   languageName: node
   linkType: hard
 
