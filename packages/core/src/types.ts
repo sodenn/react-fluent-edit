@@ -47,9 +47,21 @@ interface EventHandlers {
 
 interface Serialize {
   /**
-   * Called just before serializing or after deserializing.
+   * Called just before serializing.
    */
   handler: (nodes: Descendant[]) => Descendant[];
+
+  /**
+   * A high value results in earlier execution.
+   */
+  priority?: number;
+}
+
+interface Deserialize {
+  /**
+   * Called just after deserializing.
+   */
+  handler: (nodes: Descendant[], props: unknown) => Descendant[];
 
   /**
    * A high value results in earlier execution.
@@ -91,7 +103,7 @@ interface Plugin<T = {}> {
   /**
    * Called after the given string is converted into a data structure.
    */
-  afterDeserialize?: Serialize;
+  afterDeserialize?: Deserialize;
 
   /**
    * Modify the original behavior of the editor.

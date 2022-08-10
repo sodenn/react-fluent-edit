@@ -1,7 +1,7 @@
 import { Plugin } from "@react-fluent-edit/core";
 import MentionsComponent from "../MentionsComponent";
-import { MentionsPluginOptions } from "../types";
-import { withoutMentionNotes } from "../utils";
+import { Mention, MentionsPluginOptions } from "../types";
+import { withMentionNodes, withoutMentionNodes } from "../utils";
 import withMentions from "../withMentions";
 
 function createMentionsPlugin(
@@ -18,7 +18,13 @@ function createMentionsPlugin(
     overrides: [{ handler: (editor) => withMentions(editor) }],
     beforeSerialize: {
       handler: (nodes) => {
-        return withoutMentionNotes(nodes);
+        return withoutMentionNodes(nodes);
+      },
+    },
+    afterDeserialize: {
+      handler: (nodes, options: { mentions: Mention[] }) => {
+        const mentions = options.mentions;
+        return withMentionNodes(nodes, mentions);
       },
     },
     options,

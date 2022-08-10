@@ -33,16 +33,26 @@ function useSerialize(markdown: boolean) {
 function useDeserialize(markdown: boolean) {
   const plugins = usePlugins();
   return useCallback(
-    (text: string, singleLine: boolean): Descendant[] => {
+    (
+      text: string,
+      singleLine: boolean,
+      options: { [key: string]: unknown }
+    ): Descendant[] => {
       text = singleLine ? text.replace("\n", " ") : text;
       let nodes: Descendant[] = markdown
         ? markdown2slate(text)
         : text2slate(text);
       nodes = plugins
-        .map((p) => p.afterDeserialize)
-        .sort((s1, s2) => (s2.priority || 0) - (s1.priority || 0))
-        .map((s) => s.handler)
-        .reduce<Descendant[]>((prev, curr) => curr(nodes), nodes);
+        .sort(
+          (s1, s2) =>
+            (s2.afterDeserialize.priority || 0) -
+            (s1.afterDeserialize.priority || 0)
+        )
+        .reduce<Descendant[]>(
+          (prev, curr) =>
+            curr.afterDeserialize.handler(nodes, options[curr.name]),
+          nodes
+        );
       return addRoot(nodes);
     },
     [plugins]

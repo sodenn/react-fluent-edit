@@ -22,15 +22,15 @@ const normalizePlugins = (plugins: Plugin[] = []): Required<Plugin>[] =>
 
 const PluginProvider = ({
   children,
-  plugins: initialPlugins,
+  plugins: _plugins,
 }: PluginProviderProps) => {
   const [plugins, setPlugins] = useState<Required<Plugin>[]>(() =>
-    normalizePlugins(initialPlugins)
+    normalizePlugins(_plugins)
   );
 
   useEffect(() => {
     setPlugins(normalizePlugins(plugins));
-  }, [initialPlugins]);
+  }, [_plugins]);
 
   return <PluginCtx.Provider value={plugins}>{children}</PluginCtx.Provider>;
 };

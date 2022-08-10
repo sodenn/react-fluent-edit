@@ -75,6 +75,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
     onChange,
     onCreateEditor,
     children,
+    plugins = [],
     ...rest
   } = props;
 
@@ -104,9 +105,18 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
     }
   }, []);
 
+  const pluginOptions = useMemo(
+    () =>
+      plugins.reduce((prev, curr) => {
+        prev[curr.name] = curr.options;
+        return prev;
+      }, {}),
+    [plugins]
+  );
+
   const initialValue = useMemo<Descendant[]>(
-    () => addRoot(deserializer(initialTextValue, singleLine)),
-    [serializer, initialTextValue, singleLine]
+    () => addRoot(deserializer(initialTextValue, singleLine, pluginOptions)),
+    [serializer, initialTextValue, singleLine, pluginOptions]
   );
 
   const handleEnterPress = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -138,7 +148,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
     (event: ClipboardEvent<HTMLDivElement>) => {
       event.preventDefault();
       const text = event.clipboardData.getData("text");
-      const nodes = removeRoot(deserializer(text, singleLine));
+      const nodes = removeRoot(deserializer(text, singleLine, pluginOptions));
       Transforms.insertNodes(editor, nodes);
       Transforms.move(editor);
 

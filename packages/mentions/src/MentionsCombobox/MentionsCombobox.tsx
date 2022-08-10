@@ -1,5 +1,12 @@
 import { WithChildrenProp } from "@react-fluent-edit/core";
-import { forwardRef, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  FC,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { Range } from "slate";
 import { ReactEditor, useSlate } from "slate-react";
@@ -48,7 +55,7 @@ const DefaultListItemComponent = (props: MentionComboboxItemProps) => (
   />
 );
 
-const MentionsCombobox = (props: MentionComboboxProps) => {
+const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
   const {
     renderAddMentionLabel,
     items = [],
@@ -225,7 +232,6 @@ const MentionsCombobox = (props: MentionComboboxProps) => {
     if (mentionsContext) {
       mentionsContext.setMentions(mentions);
     }
-    addMentionNodes(editor, mentions);
   }, [JSON.stringify(mentions)]);
 
   useEffect(() => {
@@ -288,5 +294,7 @@ const MentionsCombobox = (props: MentionComboboxProps) => {
 
   return null;
 };
+
+MentionsCombobox.displayName = "mentions";
 
 export default MentionsCombobox;

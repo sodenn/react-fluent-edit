@@ -1,4 +1,5 @@
 import {
+  cloneChildren,
   CustomText,
   MentionElement,
   Plugin,
@@ -11,6 +12,7 @@ import {
   Descendant,
   Editor,
   Element,
+  Node,
   NodeEntry,
   Range,
   Text,
@@ -113,6 +115,64 @@ function setSuggestionComboboxPosition(
   }
 }
 
+function withMentionNodes(
+  nodes: Descendant[],
+  mentions: Mention[]
+): Descendant[] {
+  const root: Node = { type: "paragraph", children: cloneChildren(nodes) };
+
+  if (mentions.length === 0) {
+    return nodes;
+  }
+
+  const textEntries = Array.from(Node.nodes(root)).filter(
+    (e): e is NodeEntry<CustomText> => Text.isText(e[0])
+  );
+
+  for (const textEntry of textEntries) {
+    const [textNode, textPath] = textEntry;
+    const text = textNode.text;
+    const items = getMentionItems(
+      text,
+      mentions.map((m) => m.trigger)
+    );
+
+    let index = 0;
+    const textNodesAndMentions: Descendant[] = [];
+
+    for (const item of items) {
+      const { value, start, end, trigger } = item;
+      const style = mentions.find((m) => m.trigger === trigger)?.style;
+
+      const textBefore = text.substring(index, start);
+      if (textBefore) {
+        textNodesAndMentions.push({ text: textBefore });
+      }
+
+      const mention: MentionElement = {
+        type: "mention",
+        trigger,
+        value,
+        style,
+        children: [{ text: "" }],
+      };
+      textNodesAndMentions.push(mention);
+
+      index = end;
+    }
+
+    textNodesAndMentions.push({
+      text: text.substring(index),
+    });
+
+    const parent = Node.parent(root, textPath);
+    const textNodeIndex = parent.children.indexOf(textNode as any);
+    parent.children.splice(textNodeIndex, 1, ...textNodesAndMentions);
+  }
+
+  return root.children;
+}
+
 function addMentionNodes(editor: Editor, mentions: Mention[]) {
   removeMentionNodes(editor);
 
@@ -197,7 +257,7 @@ function removeMentionNodes(editor: Editor) {
   }
 }
 
-function withoutMentionNotes(nodes: Descendant[]) {
+function withoutMentionNodes(nodes: Descendant[]) {
   const editor = withMentions(createEditor());
   editor.children = nodes;
   removeMentionNodes(editor);
@@ -263,7 +323,8 @@ export {
   setSuggestionComboboxPosition,
   addMentionNodes,
   removeMentionNodes,
-  withoutMentionNotes,
+  withMentionNodes,
+  withoutMentionNodes,
   getMentionItems,
   escapeRegExp,
   useMentionPlugins,
