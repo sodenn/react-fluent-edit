@@ -1,6 +1,6 @@
 {
   "name": "@react-fluent-edit/mui",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "description": "Bindings for using React FluentEdit with MUI",
   "main": "./lib/cjs/index.js",
