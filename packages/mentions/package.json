@@ -1,6 +1,6 @@
 {
   "name": "@react-fluent-edit/mentions",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "license": "MIT",
   "description": "Mentions Plugin for React FluentEdit",
   "main": "./lib/cjs/index.js",
@@ -31,5 +31,12 @@
   },
   "dependencies": {
     "@react-fluent-edit/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "slate": "^0.81.3",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.81.0"
   }
 }

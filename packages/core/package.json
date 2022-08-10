@@ -1,6 +1,6 @@
 {
   "name": "@react-fluent-edit/core",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "license": "MIT",
   "description": "Slate based editor powered by plugins",
   "main": "./lib/cjs/index.js",
@@ -30,9 +30,16 @@
     "build:cjs": "tsc --project tsconfig.cjs.json"
   },
   "dependencies": {
-    "remark-parse": "^10.0.1",
+    "remark-parse": "10.0.1",
     "remark-slate-transformer": "0.7.0",
-    "remark-stringify": "^10.0.2",
-    "unified": "^10.1.2"
+    "remark-stringify": "10.0.2",
+    "unified": "10.1.2"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "slate": "^0.81.3",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.81.0"
   }
 }

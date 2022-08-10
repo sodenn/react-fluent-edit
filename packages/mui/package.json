@@ -1,6 +1,6 @@
 {
   "name": "@react-fluent-edit/mui",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "license": "MIT",
   "description": "Bindings for using React FluentEdit with MUI",
   "main": "./lib/cjs/index.js",
@@ -29,11 +29,23 @@
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:cjs": "tsc --project tsconfig.cjs.json"
   },
+  "dependencies": {
+    "@react-fluent-edit/core": "workspace:*",
+    "@react-fluent-edit/mentions": "workspace:*"
+  },
   "devDependencies": {
     "@emotion/react": "11.9.3",
     "@emotion/styled": "11.9.3",
-    "@mui/material": "5.9.2",
-    "@react-fluent-edit/core": "workspace:*",
-    "@react-fluent-edit/mentions": "workspace:*"
+    "@mui/material": "5.9.2"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/material": "^5.9.2",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "slate": "^0.81.3",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.81.0"
   }
 }
