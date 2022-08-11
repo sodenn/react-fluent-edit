@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - release-please/bootstrap/default
+      - release-please-1
 name: release-please
 jobs:
   release-please:
