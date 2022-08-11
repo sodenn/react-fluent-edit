@@ -1,12 +1,15 @@
 {
   "packages": {
-    "./packages/core": {
+    "packages/core": {
+      "release-as": "0.1.0",
       "package-name": "@react-fluent-edit/core"
     },
-    "./packages/mentions": {
+    "packages/mentions": {
+      "release-as": "0.1.0",
       "package-name": "@react-fluent-edit/mentions"
     },
-    "./packages/mui": {
+    "packages/mui": {
+      "release-as": "0.1.0",
       "package-name": "@react-fluent-edit/mui"
     }
   },
