@@ -9,5 +9,6 @@
     "./packages/mui": {
       "package-name": "@react-fluent-edit/mui"
     }
-  }
+  },
+  "bootstrap-sha": "374ddb58822cb8448e756661c8ef167402eca45d"
 }
