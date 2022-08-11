@@ -10,7 +10,6 @@ jobs:
       - uses: google-github-actions/release-please-action@v2
         with:
           command: manifest
-          monorepo-tags: true
 
       # The logic below handles the npm publication:
       - name: Checkout Repository
