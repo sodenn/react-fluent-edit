@@ -1,5 +1,5 @@
 {
-  "./packages/core": "0.0.8",
-  "./packages/mentions": "0.0.8",
-  "./packages/mui": "0.0.8"
+  "./packages/core": "0.0.7",
+  "./packages/mentions": "0.0.7",
+  "./packages/mui": "0.0.7"
 }
