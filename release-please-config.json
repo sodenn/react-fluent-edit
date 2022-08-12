@@ -1,0 +1,7 @@
+{
+  "packages": {
+    "packages/core": {},
+    "packages/mentions": {},
+    "packages/mui": {}
+  }
+}
