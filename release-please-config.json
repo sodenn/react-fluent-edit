@@ -3,5 +3,6 @@
     "packages/core": {},
     "packages/mentions": {},
     "packages/mui": {}
-  }
+  },
+  "plugins": ["node-workspace"]
 }
