@@ -1,6 +1,6 @@
 {
   "name": "@react-fluent-edit/mentions",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "Mentions Plugin for React FluentEdit",
   "main": "./lib/cjs/index.js",
