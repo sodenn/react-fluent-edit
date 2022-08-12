@@ -1,0 +1,22 @@
+{
+  "packages": {
+    "packages/core": {
+      "component": "core"
+    },
+    "packages/mentions": {
+      "component": "mentions"
+    },
+    "packages/mui": {
+      "component": "mui"
+    }
+  },
+  "plugins": [
+    {
+      "type": "linked-versions",
+      "group-name": "fixed",
+      "components": [
+        "core", "mentions", "mui"
+      ]
+    }
+  ]
+}
