@@ -1,6 +1,8 @@
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
+const maxCount = 50;
+
 async function getVersion() {
   const args = process.argv.slice(2);
   let branchName = args.length > 0 ? args[0] : undefined;
@@ -25,12 +27,16 @@ async function getVersion() {
 
   let count = -1;
   let exists = true;
-  while (exists || count > 100) {
+  while (exists && count < maxCount) {
     count++;
     const { stdout: prevVersionsStr } = await exec(
       `npm show @react-fluent-edit/core@${version}.${count} version`
     );
     exists = !!prevVersionsStr;
+  }
+
+  if (count === maxCount && exists) {
+    process.exit(1);
   }
 
   const nextVersion = `${version}.${count}`;
