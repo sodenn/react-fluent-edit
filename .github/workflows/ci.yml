@@ -53,6 +53,8 @@ jobs:
     if: github.ref != 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
       - uses: actions/setup-node@v3
         with:
           node-version: v16.13.0
