@@ -1,7 +1,7 @@
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
-const maxCount = 50;
+const corePkg = "@react-fluent-edit/core";
 
 async function getVersion() {
   const args = process.argv.slice(2);
@@ -19,24 +19,25 @@ async function getVersion() {
       ? "next"
       : branchName.trim().replaceAll(/[^a-zA-Z0-9]/g, "-");
 
-  const { stdout: latestVersion } = await exec(
-    "npm show @react-fluent-edit/core version"
-  );
+  const { stdout: latestVersion } = await exec(`npm show ${corePkg} version`);
 
   const version = `${latestVersion.trim()}-${tag}`;
 
-  let count = -1;
-  let exists = true;
-  while (exists && count < maxCount) {
-    count++;
-    const { stdout: prevVersionsStr } = await exec(
-      `npm show @react-fluent-edit/core@${version}.${count} version`
-    );
-    exists = !!prevVersionsStr;
-  }
-
-  if (count === maxCount && exists) {
-    process.exit(1);
+  let count = 0;
+  const { stdout: allVersions } = await exec(
+    `npm show ${corePkg} versions --json`
+  );
+  try {
+    const prevVersions = JSON.parse(allVersions)
+      .sort((a, b) => b.localeCompare(a))
+      .filter((v) => v.startsWith(version));
+    if (prevVersions.length > 0) {
+      const prevVersion = prevVersions[0];
+      const prevCount = prevVersion.substring(prevVersion.lastIndexOf(".") + 1);
+      count = parseInt(prevCount) + 1;
+    }
+  } catch (e) {
+    //
   }
 
   const nextVersion = `${version}.${count}`;
