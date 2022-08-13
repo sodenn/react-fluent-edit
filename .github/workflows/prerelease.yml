@@ -1,6 +1,8 @@
 name: Prerelease
 
 on:
+  push:
+    branches: [ "chore/release-improvements" ]
   workflow_dispatch:
 
 jobs:
