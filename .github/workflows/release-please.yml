@@ -46,7 +46,7 @@ jobs:
           command: manifest
           prerelease: true
           skip-github-release: true
-          default-branch: ${{ github.ref_name }}
+          default-branch: ${{ github.event.pull_request.head.ref }}
       - name: releaseinfo
         run: echo "${{ steps.release }}"
       - name: Checkout Repository
