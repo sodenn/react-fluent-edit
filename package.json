@@ -7,7 +7,7 @@
   "scripts": {
     "build": "yarn workspaces foreach run build",
     "version:beta": "yarn workspaces foreach --no-private version ${PKG_VERSION}",
-    "publish": "yarn workspaces foreach --no-private npm publish --tolerate-republish",
+    "publish": "yarn workspaces foreach --no-private npm publish --tolerate-republish --access public",
     "test": "jest",
     "lint": "npx eslint packages/**/src/**",
     "fmt": "prettier --check packages/**/src/**",
