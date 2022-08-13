@@ -59,6 +59,12 @@ jobs:
         with:
           node-version: v16.13.0
           registry-url: 'https://registry.npmjs.org'
+      - name: Setup .yarnrc.yml
+        run: |
+          yarn config set npmAuthToken $NPM_TOKEN
+          yarn config set npmAlwaysAuth true
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: corepack enable
       - run: yarn install --immutable --immutable-cache
       - run: yarn build
