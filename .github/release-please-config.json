@@ -1,19 +1,13 @@
 {
   "packages": {
     "packages/core": {
-      "component": "core",
-      "skip-github-release": true,
-      "prerelease": true
+      "component": "core"
     },
     "packages/mentions": {
-      "component": "mentions",
-      "skip-github-release": true,
-      "prerelease": true
+      "component": "mentions"
     },
     "packages/mui": {
-      "component": "mui",
-      "skip-github-release": true,
-      "prerelease": true
+      "component": "mui"
     }
   },
   "plugins": [
