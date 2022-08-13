@@ -53,6 +53,8 @@ jobs:
     if: github.ref != 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
       - uses: actions/setup-node@v3
         with:
           node-version: v16.13.0
@@ -60,7 +62,7 @@ jobs:
       - run: yarn install --immutable --immutable-cache
       - run: yarn build
       - run: echo $(node ./scripts/get-version.js)
-#      - run: PKG_VERSION=${{ LATEST_NPM_VERSION }}-${{ github.run_id }} yarn version:beta
+#      - run: PKG_VERSION=$(node ./scripts/get-version.js) yarn version:beta
 #      - run: yarn publish
 #        env:
 #          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
