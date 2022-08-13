@@ -48,6 +48,7 @@ jobs:
           skip-github-release: true
           default-branch: ${{ github.event.pull_request.head.ref }}
           config-file: .github/release-please-config.json
+          manifest-file: .github/release-please-manifest.json
       - name: releaseinfo
         run: echo "${{ steps.release }}"
       - name: Checkout Repository
