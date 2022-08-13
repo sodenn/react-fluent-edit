@@ -1,0 +1,28 @@
+{
+  "packages": {
+    "packages/core": {
+      "component": "core",
+      "skip-github-release": true,
+      "prerelease": true
+    },
+    "packages/mentions": {
+      "component": "mentions",
+      "skip-github-release": true,
+      "prerelease": true
+    },
+    "packages/mui": {
+      "component": "mui",
+      "skip-github-release": true,
+      "prerelease": true
+    }
+  },
+  "plugins": [
+    {
+      "type": "linked-versions",
+      "group-name": "fixed",
+      "components": [
+        "core", "mentions", "mui"
+      ]
+    }
+  ]
+}
