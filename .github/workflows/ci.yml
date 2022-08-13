@@ -47,3 +47,20 @@ jobs:
       - run: yarn install --immutable --immutable-cache
       - run: yarn lint
       - run: yarn fmt
+  npm:
+    runs-on: ubuntu-latest
+#    needs: [test, e2e, hygiene]
+    if: github.ref != 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: v16.13.0
+      - run: corepack enable
+      - run: yarn install --immutable --immutable-cache
+      - run: yarn build
+      - run: echo $(npm show @react-fluent-edit/core version)-${{ github.run_id }}
+#      - run: PKG_VERSION=${{ LATEST_NPM_VERSION }}-${{ github.run_id }} yarn version:beta
+#      - run: yarn publish
+#        env:
+#          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
