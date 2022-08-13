@@ -49,6 +49,7 @@ jobs:
       - run: yarn fmt
   prerelease:
     runs-on: ubuntu-latest
+    needs: [test, e2e, hygiene]
     steps:
       - uses: actions/checkout@v3
         with:
