@@ -59,8 +59,7 @@ jobs:
       - run: corepack enable
       - run: yarn install --immutable --immutable-cache
       - run: yarn build
-      - run: echo $(node ./scripts/get-version.js ${{ github.event.pull_request.head.ref }})
-#      - run: PKG_VERSION=$(node ./scripts/get-version.js ${{ github.event.pull_request.head.ref }}) yarn version:beta
-#      - run: yarn publish
-#        env:
-#          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - run: PKG_VERSION=$(node ./scripts/get-version.js ${{ github.event.pull_request.head.ref }}) yarn version:beta
+      - run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
