@@ -1,21 +1,18 @@
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 name: release-please
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: google-github-actions/release-please-action@v3.3.0
         with:
           command: manifest
-#          config-file: .github/release-please-config.json
-#          manifest-file: .github/release-please-manifest.json
+          config-file: .github/release-please-config.json
+          manifest-file: .github/release-please-manifest.json
       # The logic below handles the npm publication:
-      - name: releaseinfo
-        run: echo "${{ steps.release }}"
       - name: Checkout Repository
         if: ${{ steps.release.outputs.release_created }}
         uses: actions/checkout@v3
