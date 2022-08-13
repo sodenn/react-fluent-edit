@@ -1,0 +1,8 @@
+Manual release trigger
+
+Note: Commit message must start with: fix or feat
+
+Example:
+fix(release): trigger manual release
+
+1
