@@ -5,10 +5,6 @@ async function getVersion() {
   const args = process.argv.slice(2);
   let branchName = args.length > 0 ? args[0] : undefined;
 
-  const { stdout: latestVersion } = await exec(
-    "npm show @react-fluent-edit/core version"
-  );
-
   const { stdout: currentBranch } = await exec("git branch --show-current");
   branchName = branchName || currentBranch;
 
@@ -21,26 +17,26 @@ async function getVersion() {
       ? "next"
       : branchName.trim().replaceAll(/[^a-zA-Z0-9]/g, "-");
 
+  const { stdout: latestVersion } = await exec(
+    "npm show @react-fluent-edit/core version"
+  );
+
   const version = `${latestVersion.trim()}-${tag}`;
 
-  let count = 0;
-  const { stdout: prevVersionsStr } = await exec(
-    `npm show @react-fluent-edit/core@${version} version --json`
-  );
-  try {
-    let prevVersions = JSON.parse(prevVersionsStr);
-    prevVersions = prevVersions.sort((a, b) => b.localeCompare(a));
-    const prevVersion = prevVersions[0];
-    const prevCount = prevVersion.substring(prevVersion.lastIndexOf(".") + 1);
-    count = parseInt(prevCount) + 1;
-  } catch (e) {
-    //
+  let count = -1;
+  let exists = true;
+  while (exists || count > 100) {
+    count++;
+    const { stdout: prevVersionsStr } = await exec(
+      `npm show @react-fluent-edit/core@${version}.${count} version`
+    );
+    exists = !!prevVersionsStr;
   }
 
-  const betaVersion = `${version}.${count}`;
+  const nextVersion = `${version}.${count}`;
 
-  console.log(betaVersion);
-  return betaVersion;
+  console.log(nextVersion);
+  return nextVersion;
 }
 
 getVersion();
