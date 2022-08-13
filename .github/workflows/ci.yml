@@ -59,7 +59,7 @@ jobs:
       - run: corepack enable
       - run: yarn install --immutable --immutable-cache
       - run: yarn build
-      - run: echo $(npm show @react-fluent-edit/core version)-${{ github.run_id }}
+      - run: echo $(node ./scripts/get-version.js)
 #      - run: PKG_VERSION=${{ LATEST_NPM_VERSION }}-${{ github.run_id }} yarn version:beta
 #      - run: yarn publish
 #        env:
