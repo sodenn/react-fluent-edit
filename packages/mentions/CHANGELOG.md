@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/sodenn/react-fluent-edit/compare/mentions-v1.0.1...mentions-v1.0.2) (2022-08-14)
+
+
+### Bug Fixes
+
+* **MentionsCombobox:** prevents event propagation when mention combobox is open ([#29](https://github.com/sodenn/react-fluent-edit/issues/29)) ([54a3619](https://github.com/sodenn/react-fluent-edit/commit/54a36192cd77cc1a5b472854514bdca1f0e1ad40))
+
 ## [1.0.1](https://github.com/sodenn/react-fluent-edit/compare/mentions-v1.0.0...mentions-v1.0.1) (2022-08-13)
 
 
