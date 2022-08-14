@@ -143,6 +143,7 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
   const handleEnterPress = (event: KeyboardEvent) => {
     if (target && mention) {
       event.preventDefault();
+      event.stopPropagation();
       const value = index < suggestions.length ? suggestions[index] : search;
       insertMention({ editor, value, target, ...mention });
       closeCombobox();
