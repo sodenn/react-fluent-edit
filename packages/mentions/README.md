@@ -55,7 +55,7 @@ const [items] = useState<MentionItem[]>([
 ...
 
 return (
-  <FluentEdit>
+  <FluentEdit plugins={plugins}>
     <MentionsCombobox items={items} />
   </FluentEdit>
 );
