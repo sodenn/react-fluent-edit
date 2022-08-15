@@ -37,10 +37,14 @@ const DefaultListComponent = forwardRef<HTMLUListElement, WithChildrenProp>(
     <ul
       ref={ref}
       style={{
-        backgroundColor: "#eee",
+        cursor: "pointer",
+        borderRadius: 4,
+        backgroundColor: "rgb(255, 255, 255)",
+        boxShadow:
+          "rgb(0 0 0 / 20%) 0px 5px 5px -3px, rgb(0 0 0 / 14%) 0px 8px 10px 1px, rgb(0 0 0 / 12%) 0px 3px 14px 2px",
         listStyle: "none",
-        padding: 0,
-        margin: "0 12px",
+        padding: "4px 0",
+        margin: "0 0 0 12px",
       }}
     >
       {children}
@@ -51,7 +55,12 @@ const DefaultListComponent = forwardRef<HTMLUListElement, WithChildrenProp>(
 const DefaultListItemComponent = (props: MentionComboboxItemProps) => (
   <li
     {...props}
-    style={{ backgroundColor: props.selected ? "#ddd" : "#eee", padding: 4 }}
+    style={{
+      backgroundColor: props.selected
+        ? "rgba(0, 0, 0, 0.04)"
+        : "rgb(255, 255, 255)",
+      padding: 8,
+    }}
   />
 );
 
