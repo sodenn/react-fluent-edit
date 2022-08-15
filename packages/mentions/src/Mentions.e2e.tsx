@@ -26,7 +26,7 @@ test("should open the mention combobox by typing a trigger key", async ({
     page.locator('[data-testid="fe-mention-combobox-item-Jane"]')
   ).toContainText("Jane");
   await expect(
-    page.locator('[data-testid="fe-mention-combobox-item-Jane"]')
+    page.locator('[data-testid="fe-mention-combobox-item-John"]')
   ).toContainText("John");
 });
 
