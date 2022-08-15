@@ -22,6 +22,12 @@ test("should open the mention combobox by typing a trigger key", async ({
   await expect(
     page.locator('[data-testid="fe-mention-combobox"]')
   ).toBeVisible();
+  await expect(
+    page.locator('[data-testid="fe-mention-combobox-item-Jane"]')
+  ).toContainText("Jane");
+  await expect(
+    page.locator('[data-testid="fe-mention-combobox-item-Jane"]')
+  ).toContainText("John");
 });
 
 test("should open the mention combobox by clicking on a button", async ({
@@ -64,5 +70,93 @@ test("should select a mention when clicking on a list item", async ({
   await page.locator('[data-testid="fe-mention-combobox-item-Jane"]').click();
   await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
     "@Jane"
+  );
+});
+
+test("should add a mention from outside of the editor", async ({
+  mount,
+  page,
+}) => {
+  const component = await mount(<TestComponent autoFocus />);
+  await component.locator('[data-testid="fe-mention-to-add"]').type("Test");
+  await component.locator('[data-testid="fe-add-mention"]').click();
+  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
+    "@Test"
+  );
+});
+
+test("should remove a mention from outside of the editor", async ({
+  mount,
+  page,
+}) => {
+  const component = await mount(
+    <TestComponent autoFocus initialValue="This is a @Small @Test" />
+  );
+  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
+    "This is a @Small @Test"
+  );
+  await component.locator('[data-testid="fe-mention-to-remove"]').type("Test");
+  await component.locator('[data-testid="fe-remove-mention"]').click();
+  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
+    "This is a @Small"
+  );
+});
+
+test("should remove all mention from outside of the editor", async ({
+  mount,
+  page,
+}) => {
+  const component = await mount(
+    <TestComponent autoFocus initialValue="@A @B #C" />
+  );
+  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
+    "@A @B #C"
+  );
+  await page.selectOption('[data-testid="fe-trigger-select"]', "@");
+  await component.locator('[data-testid="fe-remove-mention"]').click();
+  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
+    "#C"
+  );
+});
+
+test("should rename a mention", async ({ mount, page }) => {
+  const component = await mount(
+    <TestComponent autoFocus initialValue="@Hello #World" />
+  );
+  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
+    "@Hello #World"
+  );
+  await page.selectOption('[data-testid="fe-trigger-select"]', "#");
+  await component
+    .locator('[data-testid="fe-mention-to-rename-filter"]')
+    .type("World");
+  await component
+    .locator('[data-testid="fe-mention-to-rename-value"]')
+    .type("Test");
+  await component.locator('[data-testid="fe-rename-mentions"]').click();
+  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
+    "@Hello #Test"
+  );
+});
+
+test("should add a mention when focus is lost", async ({ mount, page }) => {
+  const component = await mount(<TestComponent autoFocus />);
+  await component.locator("data-testid=fe").type("@www");
+  await component.locator("data-testid=fe").evaluate((e) => e.blur());
+  await expect(page.locator('[data-testid="mention-www"]')).toContainText(
+    "@www"
+  );
+});
+
+test("should automatically insert a space after a mention", async ({
+  mount,
+  page,
+}) => {
+  const component = await mount(
+    <TestComponent autoFocus initialValue="@Hello" />
+  );
+  await component.locator("data-testid=fe").type("World");
+  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
+    "@Hello World"
   );
 });
