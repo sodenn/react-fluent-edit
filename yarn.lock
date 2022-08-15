@@ -13452,13 +13452,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-organize-imports@npm:2.3.4":
-  version: 2.3.4
-  resolution: "prettier-plugin-organize-imports@npm:2.3.4"
+"prettier-plugin-organize-imports@npm:3.0.3":
+  version: 3.0.3
+  resolution: "prettier-plugin-organize-imports@npm:3.0.3"
   peerDependencies:
+    "@volar/vue-typescript": ">=0.39.0"
     prettier: ">=2.0"
     typescript: ">=2.9"
-  checksum: 2298fcae0f16fd1a095cc3a33ba5d51b679b291518d404ad5eaca56fdcfbd55d35e26c5adffcb8664bfb45c2339b551b385cf03f48888c46d0348843d96024e1
+  peerDependenciesMeta:
+    "@volar/vue-typescript":
+      optional: true
+  checksum: f4cd51d6fac1cee419bd53bc364e0769f38fbcc9d6fe9cdc01b85c5832996ba83e9e3d2d6c4da904c0660cb7da0ea841839d6bee63b3c6157d9d3b9fad9afb7d
   languageName: node
   linkType: hard
 
@@ -14479,7 +14483,7 @@ __metadata:
     jest: 28.1.3
     jest-environment-jsdom: 28.1.3
     prettier: 2.7.1
-    prettier-plugin-organize-imports: 2.3.4
+    prettier-plugin-organize-imports: 3.0.3
     react: 18.2.0
     react-dom: 18.2.0
     rimraf: 3.0.2
