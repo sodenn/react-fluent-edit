@@ -190,11 +190,7 @@ const MentionToolbar = ({ triggers }: MentionToolbarProps) => {
             onChange={(e) => handelChangeTrigger(e.target.value)}
           >
             {triggers.map((t) => (
-              <option
-                key={t}
-                value={t}
-                data-testid={`fe-trigger-option-${trigger}`}
-              >
+              <option key={t} value={t} data-testid={`fe-trigger-option-${t}`}>
                 {t}
               </option>
             ))}
