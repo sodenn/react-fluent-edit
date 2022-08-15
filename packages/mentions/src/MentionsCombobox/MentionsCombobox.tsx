@@ -9,7 +9,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { Range } from "slate";
-import { ReactEditor, useSlate } from "slate-react";
+import { ReactEditor, useSlateStatic } from "slate-react";
 import ClickAwayListener from "../ClickAwayListener";
 import {
   Mention,
@@ -72,7 +72,7 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
   const [mention, setMention] = useState<Mention | null>(null);
   const plugins = useMentionPlugins();
   const mentions = plugins.flatMap((p) => p.options.mentions);
-  const editor = useSlate();
+  const editor = useSlateStatic();
   const mentionsContext = useMentionsInternal();
 
   const showAddMenuItem =
