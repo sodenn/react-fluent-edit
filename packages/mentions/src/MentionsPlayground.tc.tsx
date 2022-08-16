@@ -2,6 +2,7 @@ import {
   FluentEdit,
   FluentEditProps,
   FluentEditProvider,
+  WithChildrenProp,
 } from "@react-fluent-edit/core";
 import { ChangeEvent, useMemo, useState } from "react";
 import createMentionsPlugin from "./createMentionsPlugin";
@@ -29,6 +30,60 @@ interface EditorProps extends FluentEditProps {
   items: MentionItem[];
 }
 
+const Section = ({ title, children }: { title: string } & WithChildrenProp) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ minWidth: 450 }}>
+      <h3
+        style={{
+          margin: "4px 0",
+          cursor: "pointer",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+        onClick={() => setOpen(!open)}
+      >
+        {title}
+        <span>{open ? "⬆️" : "⬇️"}</span>
+      </h3>
+      {open && (
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const Fieldset = ({ children }: WithChildrenProp) => {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      {children}
+    </div>
+  );
+};
+
+const List = ({ children }: WithChildrenProp) => {
+  return (
+    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>{children}</ul>
+  );
+};
+
+const ListItem = ({ children }: WithChildrenProp) => {
+  return (
+    <li
+      style={{
+        padding: "4px 0",
+        display: "flex",
+        gap: 8,
+        alignItems: "center",
+      }}
+    >
+      {children}
+    </li>
+  );
+};
+
 const PluginConfiguration = ({
   onChange,
   mentions,
@@ -50,56 +105,123 @@ const PluginConfiguration = ({
   };
 
   return (
-    <>
-      <h3 style={{ margin: 0 }}>Plugin Configuration</h3>
+    <Section title="Plugin Configuration">
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label htmlFor="trigger">Trigger</label>
-            <input
-              data-testid="fe-trigger"
-              id="trigger"
-              placeholder="e.g. @,#,+"
-              value={trigger}
-              onChange={(e) => setTrigger(e.target.value)}
-            />
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label htmlFor="style">Style</label>
-            <input
-              id="style"
-              data-testid="fe-style"
-              placeholder={`{"color": "", "backgroundColor": ""}`}
-              value={style}
-              onChange={(e) => setStyle(e.target.value)}
-            />
-          </div>
-          <button data-testid="fe-add-to-plugin" onClick={handleAddMention}>
-            Add
-          </button>
-        </div>
-        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-          {mentions.map((mention, index) => (
-            <li style={{ padding: "4px 0" }} key={index}>
-              <button
-                data-testid={`fe-remove-${mention.trigger}-to-plugin`}
-                disabled={mentions.length === 1}
-                onClick={() => handleRemoveMention(index)}
-              >
-                🗑️
-              </button>
-              <span style={{ marginLeft: 8 }}>
-                <strong>Trigger:</strong> {mention.trigger}
-              </span>
-              <span style={{ marginLeft: 8 }}>
-                <strong>Style:</strong>{" "}
-                <code>{JSON.stringify(mention.style)}</code>
-              </span>
-            </li>
-          ))}
-        </ul>
+        <Fieldset>
+          <label htmlFor="trigger">Trigger</label>
+          <input
+            data-testid="fe-trigger"
+            id="trigger"
+            placeholder="e.g. @,#,+"
+            value={trigger}
+            onChange={(e) => setTrigger(e.target.value)}
+          />
+        </Fieldset>
+        <Fieldset>
+          <label htmlFor="style">Style</label>
+          <input
+            id="style"
+            data-testid="fe-style"
+            placeholder={`{"color": "", "backgroundColor": ""}`}
+            value={style}
+            onChange={(e) => setStyle(e.target.value)}
+          />
+        </Fieldset>
+        <button data-testid="fe-add-to-plugin" onClick={handleAddMention}>
+          Add
+        </button>
       </div>
-    </>
+      <List>
+        {mentions.map((mention, index) => (
+          <ListItem key={index}>
+            <button
+              data-testid={`fe-remove-${mention.trigger}-from-plugin`}
+              disabled={mentions.length === 1}
+              onClick={() => handleRemoveMention(index)}
+            >
+              🗑️
+            </button>
+            <span>
+              <strong>Trigger:</strong> {mention.trigger}
+            </span>
+          </ListItem>
+        ))}
+      </List>
+    </Section>
+  );
+};
+
+const MentionItems = ({ triggers, items, onChange }: MentionItemsProps) => {
+  const [text, setText] = useState("");
+  const [trigger, setTrigger] = useState<string>(
+    triggers.length > 0 ? triggers[0] : ""
+  );
+
+  const handelChangeTrigger = (t: string) => {
+    setTrigger(t);
+  };
+
+  const handleAddMentionItem = () => {
+    onChange([...items, { trigger, text }]);
+    setTrigger("");
+    setText("");
+  };
+
+  const handleRemoveMentionItem = (index: number) => {
+    onChange(items.filter((_, i) => i !== index));
+  };
+
+  return (
+    <Section title="Mention Items">
+      <div style={{ gap: 8, display: "flex" }}>
+        <select
+          data-testid={`fe-mention-item-trigger`}
+          value={trigger}
+          onChange={(e) => handelChangeTrigger(e.target.value)}
+        >
+          {triggers.map((t) => (
+            <option
+              key={t}
+              value={t}
+              data-testid={`fe-trigger-option-${trigger}`}
+            >
+              {t}
+            </option>
+          ))}
+        </select>
+        <input
+          style={{ flex: 1 }}
+          data-testid="fe-mention-item-text"
+          onChange={(event) => setText(event.target.value)}
+          value={text}
+        />
+        <button
+          data-testid="fe-add-mention-item"
+          disabled={!text}
+          onClick={handleAddMentionItem}
+        >
+          Add Mention
+        </button>
+      </div>
+      <List>
+        {items.map((item, index) => (
+          <ListItem key={index}>
+            <button
+              data-testid={`fe-remove-${item.trigger}-mention-item`}
+              onClick={() => handleRemoveMentionItem(index)}
+            >
+              🗑️
+            </button>
+            <span>
+              <strong>Trigger:</strong> {item.trigger}
+            </span>
+            <span>
+              <strong>Text:</strong> {item.text}
+            </span>
+          </ListItem>
+        ))}
+      </List>
+    </Section>
   );
 };
 
@@ -174,165 +296,74 @@ const MentionToolbar = ({ triggers }: MentionToolbarProps) => {
   };
 
   return (
-    <>
-      <h3 style={{ margin: 0 }}>Mentions Toolbar</h3>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 8,
-        }}
-      >
-        <div>
-          <select
-            data-testid={`fe-trigger-select`}
-            value={trigger}
-            onChange={(e) => handelChangeTrigger(e.target.value)}
-          >
-            {triggers.map((t) => (
-              <option key={t} value={t} data-testid={`fe-trigger-option-${t}`}>
-                {t}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <button
-            data-testid="fe-open-mentions"
-            onClick={() => openMentionsCombobox(trigger)}
-          >
-            Open Mentions
-          </button>
-        </div>
-        <div style={{ gap: 4, display: "flex" }}>
-          <button
-            data-testid="fe-add-mention"
-            disabled={!mentionToAdd}
-            onClick={handleAddMention}
-          >
-            Add Mention
-          </button>
-          <input
-            data-testid="fe-mention-to-add"
-            onChange={handleChangeMentionToAdd}
-            value={mentionToAdd}
-          />
-        </div>
-        <div style={{ gap: 4, display: "flex" }}>
-          <button data-testid="fe-remove-mention" onClick={handleRemoveMention}>
-            Remove Mentions
-          </button>
-          <input
-            data-testid="fe-mention-to-remove"
-            placeholder="Filter or remove all"
-            onChange={handleChangeMentionToRemove}
-            value={mentionToRemove}
-          />
-        </div>
-        <div style={{ gap: 4, display: "flex" }}>
-          <button
-            data-testid="fe-rename-mentions"
-            disabled={!mentionToRenameNew}
-            onClick={handleRenameMention}
-          >
-            Rename Mentions
-          </button>
-          <input
-            data-testid="fe-mention-to-rename-filter"
-            placeholder="Filter or rename all"
-            onChange={handleChangeMentionToRenameOld}
-            value={mentionToRenameOld}
-          />
-          <input
-            data-testid="fe-mention-to-rename-value"
-            onChange={handleChangeMentionToRenameNew}
-            value={mentionToRenameNew}
-          />
-        </div>
+    <Section title="Mentions Toolbar">
+      <div>
+        <select
+          data-testid={`fe-trigger-select`}
+          value={trigger}
+          onChange={(e) => handelChangeTrigger(e.target.value)}
+        >
+          {triggers.map((t) => (
+            <option key={t} value={t} data-testid={`fe-trigger-option-${t}`}>
+              {t}
+            </option>
+          ))}
+        </select>
       </div>
-    </>
-  );
-};
-
-const MentionItems = ({ triggers, items, onChange }: MentionItemsProps) => {
-  const [text, setText] = useState("");
-  const [trigger, setTrigger] = useState<string>(
-    triggers.length > 0 ? triggers[0] : ""
-  );
-
-  const handelChangeTrigger = (t: string) => {
-    setTrigger(t);
-  };
-
-  const handleAddMentionItem = () => {
-    onChange([...items, { trigger, text }]);
-    setTrigger("");
-    setText("");
-  };
-
-  const handleRemoveMentionItem = (index: number) => {
-    onChange(items.filter((_, i) => i !== index));
-  };
-
-  return (
-    <>
-      <h3 style={{ margin: 0 }}>Mention Items</h3>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 8,
-        }}
-      >
-        <div style={{ gap: 4, display: "flex" }}>
-          <select
-            data-testid={`fe-mention-item-trigger`}
-            value={trigger}
-            onChange={(e) => handelChangeTrigger(e.target.value)}
-          >
-            {triggers.map((t) => (
-              <option
-                key={t}
-                value={t}
-                data-testid={`fe-trigger-option-${trigger}`}
-              >
-                {t}
-              </option>
-            ))}
-          </select>
-          <input
-            data-testid="fe-mention-item-text"
-            onChange={(event) => setText(event.target.value)}
-            value={text}
-          />
-          <button
-            data-testid="fe-add-mention-item"
-            disabled={!text}
-            onClick={handleAddMentionItem}
-          >
-            Add Mention
-          </button>
-        </div>
+      <div>
+        <button
+          data-testid="fe-open-mentions"
+          onClick={() => openMentionsCombobox(trigger)}
+        >
+          Open Mentions
+        </button>
       </div>
-      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-        {items.map((item, index) => (
-          <li style={{ padding: "4px 0" }} key={index}>
-            <button
-              data-testid={`fe-remove-${item.trigger}-mention-item`}
-              onClick={() => handleRemoveMentionItem(index)}
-            >
-              🗑️
-            </button>
-            <span style={{ marginLeft: 8 }}>
-              <strong>Trigger:</strong> {item.trigger}
-            </span>
-            <span style={{ marginLeft: 8 }}>
-              <strong>Text:</strong> {item.text}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </>
+      <div style={{ gap: 4, display: "flex" }}>
+        <button
+          data-testid="fe-add-mention"
+          disabled={!mentionToAdd}
+          onClick={handleAddMention}
+        >
+          Add Mention
+        </button>
+        <input
+          data-testid="fe-mention-to-add"
+          onChange={handleChangeMentionToAdd}
+          value={mentionToAdd}
+        />
+      </div>
+      <div style={{ gap: 4, display: "flex" }}>
+        <button data-testid="fe-remove-mention" onClick={handleRemoveMention}>
+          Remove Mentions
+        </button>
+        <input
+          data-testid="fe-mention-to-remove"
+          placeholder="Filter or remove all"
+          onChange={handleChangeMentionToRemove}
+          value={mentionToRemove}
+        />
+      </div>
+      <div style={{ gap: 4, display: "flex" }}>
+        <button
+          data-testid="fe-rename-mentions"
+          disabled={!mentionToRenameNew}
+          onClick={handleRenameMention}
+        >
+          Rename Mentions
+        </button>
+        <input
+          data-testid="fe-mention-to-rename-filter"
+          placeholder="Filter or rename all"
+          onChange={handleChangeMentionToRenameOld}
+          value={mentionToRenameOld}
+        />
+        <input
+          data-testid="fe-mention-to-rename-value"
+          onChange={handleChangeMentionToRenameNew}
+          value={mentionToRenameNew}
+        />
+      </div>
+    </Section>
   );
 };
 
@@ -343,10 +374,10 @@ const Editor = ({ items, ...props }: EditorProps) => {
       style={{
         display: "flex",
         flexDirection: "column",
+        marginTop: 8,
         gap: 8,
       }}
     >
-      <h3 style={{ margin: 0 }}>Editor</h3>
       <div style={{ border: "1px solid #aaa", borderRadius: 4, padding: 8 }}>
         <FluentEdit {...props} onChange={setEditorValue}>
           <MentionsCombobox items={items} />
