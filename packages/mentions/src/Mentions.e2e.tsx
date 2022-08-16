@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/experimental-ct-react";
-import TestComponent from "./MentionsPlayground.tc";
+import { TestComponent } from "./MentionsPlayground.tc";
 
 test.use({ viewport: { width: 500, height: 500 } });
 
@@ -54,7 +54,7 @@ test("should select a mention when pressing the enter key", async ({
   const component = await mount(<TestComponent autoFocus />);
   const editor = component.locator("data-testid=fe");
   await editor.type("@");
-  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowDown", { delay: 10 });
   await page.keyboard.press("Enter");
   await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
     "@Jane"

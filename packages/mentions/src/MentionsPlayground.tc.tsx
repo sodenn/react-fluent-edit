@@ -11,16 +11,26 @@ import MentionsProvider from "./MentionsProvider";
 import { Mention, MentionItem } from "./types";
 import useMentions from "./useMentions";
 
-interface PluginConfigurationProps {
+interface WithOpenSection {
+  openSections?: boolean;
+}
+
+interface SectionProps extends WithOpenSection, WithChildrenProp {
+  title: string;
+}
+
+interface MentionsPlaygroundProps extends FluentEditProps, WithOpenSection {}
+
+interface PluginConfigurationProps extends WithOpenSection {
   mentions: Mention[];
   onChange: (mentions: Mention[]) => void;
 }
 
-interface MentionToolbarProps {
+interface MentionToolbarProps extends WithOpenSection {
   triggers: string[];
 }
 
-interface MentionItemsProps {
+interface MentionItemsProps extends WithOpenSection {
   triggers: string[];
   items: MentionItem[];
   onChange: (items: MentionItem[]) => void;
@@ -30,7 +40,7 @@ interface EditorProps extends FluentEditProps {
   items: MentionItem[];
 }
 
-const Section = ({ title, children }: { title: string } & WithChildrenProp) => {
+const Section = ({ title, openSections, children }: SectionProps) => {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ minWidth: 450 }}>
@@ -46,7 +56,7 @@ const Section = ({ title, children }: { title: string } & WithChildrenProp) => {
         {title}
         <span>{open ? "⬆️" : "⬇️"}</span>
       </h3>
-      {open && (
+      {(open || openSections) && (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {children}
         </div>
@@ -87,6 +97,7 @@ const ListItem = ({ children }: WithChildrenProp) => {
 const PluginConfiguration = ({
   onChange,
   mentions,
+  openSections,
 }: PluginConfigurationProps) => {
   const [trigger, setTrigger] = useState("");
   const [style, setStyle] = useState("");
@@ -105,7 +116,7 @@ const PluginConfiguration = ({
   };
 
   return (
-    <Section title="Plugin Configuration">
+    <Section openSections={openSections} title="Plugin Configuration">
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <Fieldset>
           <label htmlFor="trigger">Trigger</label>
@@ -151,7 +162,12 @@ const PluginConfiguration = ({
   );
 };
 
-const MentionItems = ({ triggers, items, onChange }: MentionItemsProps) => {
+const MentionItems = ({
+  triggers,
+  items,
+  openSections,
+  onChange,
+}: MentionItemsProps) => {
   const [text, setText] = useState("");
   const [trigger, setTrigger] = useState<string>(
     triggers.length > 0 ? triggers[0] : ""
@@ -172,7 +188,7 @@ const MentionItems = ({ triggers, items, onChange }: MentionItemsProps) => {
   };
 
   return (
-    <Section title="Mention Items">
+    <Section openSections={openSections} title="Mention Items">
       <div style={{ gap: 8, display: "flex" }}>
         <select
           data-testid={`fe-mention-item-trigger`}
@@ -225,7 +241,7 @@ const MentionItems = ({ triggers, items, onChange }: MentionItemsProps) => {
   );
 };
 
-const MentionToolbar = ({ triggers }: MentionToolbarProps) => {
+const MentionToolbar = ({ triggers, openSections }: MentionToolbarProps) => {
   const [trigger, setTrigger] = useState<string>(
     triggers.length > 0 ? triggers[0] : ""
   );
@@ -296,7 +312,7 @@ const MentionToolbar = ({ triggers }: MentionToolbarProps) => {
   };
 
   return (
-    <Section title="Mentions Toolbar">
+    <Section openSections={openSections} title="Mentions Toolbar">
       <div>
         <select
           data-testid={`fe-trigger-select`}
@@ -400,7 +416,9 @@ const Editor = ({ items, ...props }: EditorProps) => {
   );
 };
 
-const MentionsPlaygroundInternal = (props: FluentEditProps) => {
+const MentionsPlaygroundInternal = (props: MentionsPlaygroundProps) => {
+  const { openSections } = props;
+
   const [mentions, setMentions] = useState<Mention[]>([
     {
       trigger: "@",
@@ -442,15 +460,24 @@ const MentionsPlaygroundInternal = (props: FluentEditProps) => {
         gap: 12,
       }}
     >
-      <PluginConfiguration onChange={setMentions} mentions={mentions} />
-      <MentionItems triggers={triggers} items={items} onChange={setItems} />
-      <MentionToolbar triggers={triggers} />
+      <PluginConfiguration
+        openSections={openSections}
+        onChange={setMentions}
+        mentions={mentions}
+      />
+      <MentionItems
+        openSections={openSections}
+        triggers={triggers}
+        items={items}
+        onChange={setItems}
+      />
+      <MentionToolbar openSections={openSections} triggers={triggers} />
       <Editor plugins={plugins} items={items} {...props} />
     </div>
   );
 };
 
-const MentionsPlayground = (props: FluentEditProps) => {
+const MentionsPlayground = (props: MentionsPlaygroundProps) => {
   return (
     <FluentEditProvider providers={[<MentionsProvider />]}>
       <MentionsPlaygroundInternal {...props} />
@@ -458,4 +485,8 @@ const MentionsPlayground = (props: FluentEditProps) => {
   );
 };
 
-export default MentionsPlayground;
+const TestComponent = (props: MentionsPlaygroundProps) => {
+  return <MentionsPlayground {...props} openSections />;
+};
+
+export { MentionsPlayground, TestComponent, MentionsPlaygroundProps };

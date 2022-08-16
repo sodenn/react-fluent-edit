@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import MentionsPlayground from "./MentionsPlayground.tc";
+import { MentionsPlayground } from "./MentionsPlayground.tc";
 
 export default {
   title: "FluentEdit",
