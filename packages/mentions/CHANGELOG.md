@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/sodenn/react-fluent-edit/compare/mentions-v1.0.2...mentions-v1.0.3) (2022-08-16)
+
+
+### Bug Fixes
+
+* **MentionCombobox:** avoid unnecessary re-rendering by using the useSlateStatic hook ([#33](https://github.com/sodenn/react-fluent-edit/issues/33)) ([44ac169](https://github.com/sodenn/react-fluent-edit/commit/44ac16968d4a25beaeb4ec82e1bf7601957a0149))
+
 ## [1.0.2](https://github.com/sodenn/react-fluent-edit/compare/mentions-v1.0.1...mentions-v1.0.2) (2022-08-14)
 
 
