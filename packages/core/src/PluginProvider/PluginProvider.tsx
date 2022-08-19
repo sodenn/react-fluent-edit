@@ -1,9 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import { Descendant } from "slate";
-import { Plugin } from "../types";
+import { Decorate, Plugin } from "../types";
 import { PluginProviderProps } from "./PluginProviderProps";
 
 const defaultSerializer = (node: Descendant[]) => node;
+
+const defaultDecorate: Decorate = () => [];
 
 // @ts-ignore
 const PluginCtx = createContext<Required<Plugin>[]>(undefined);
@@ -17,6 +19,7 @@ const normalizePlugins = (plugins: Plugin[] = []): Required<Plugin>[] =>
     beforeSerialize: p.beforeSerialize ?? { handler: defaultSerializer },
     afterDeserialize: p.afterDeserialize ?? { handler: defaultSerializer },
     overrides: p.overrides ?? [],
+    decorate: p.decorate ?? defaultDecorate,
     options: p.options ?? {},
   }));
 

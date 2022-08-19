@@ -16,6 +16,7 @@ export type {
   MentionElement,
   ParagraphElement,
   Plugin,
+  Root,
   WithAlign,
   WithChildrenProp,
 } from "./types";
@@ -23,4 +24,9 @@ export * from "./useFluentEdit";
 export { default as useFluentEdit } from "./useFluentEdit";
 export * from "./usePlugins";
 export { default as usePlugins } from "./usePlugins";
-export { cloneChildren, focusEditor, unwrapElement } from "./utils";
+export {
+  cloneChildren,
+  focusEditor,
+  hasChildren,
+  unwrapElement,
+} from "./utils";

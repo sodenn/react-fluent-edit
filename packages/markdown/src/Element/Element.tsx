@@ -68,11 +68,8 @@ const Element = (props: RenderElementProps) => {
       </li>
     );
   } else {
-    return (
-      <p style={{ margin: 0, padding: 0, ...style }} {...attributes}>
-        {children}
-      </p>
-    );
+    console.warn("Unknown element", element);
+    return null;
   }
 };
 

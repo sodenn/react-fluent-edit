@@ -8,7 +8,7 @@ import {
   MouseEvent,
   ReactNode,
 } from "react";
-import { BaseEditor, Descendant, Editor } from "slate";
+import { BaseEditor, BaseRange, Descendant, Editor, NodeEntry } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";
 
@@ -81,6 +81,8 @@ interface Override {
   priority?: number;
 }
 
+type Decorate = (entry: NodeEntry) => BaseRange[];
+
 interface Plugin<T = {}> {
   /**
    * Name of the plugin. Must be unique.
@@ -106,6 +108,11 @@ interface Plugin<T = {}> {
   afterDeserialize?: Deserialize;
 
   /**
+   *
+   */
+  decorate?: Decorate;
+
+  /**
    * Modify the original behavior of the editor.
    */
   overrides?: Override[];
@@ -118,6 +125,10 @@ interface Plugin<T = {}> {
 
 interface WithChildrenProp {
   children?: ReactNode;
+}
+
+interface WithChildren {
+  children: Descendant[];
 }
 
 interface WithAlign {
@@ -146,11 +157,12 @@ interface CustomText {
   text: string;
   strong?: boolean;
   emphasis?: boolean;
-  code?: boolean;
-  underline?: boolean;
+  delete?: boolean;
+  inlineCode?: boolean;
 }
 
 type CustomElement =
+  | Root
   | ParagraphElement
   | MentionElement
   | Blockquote
@@ -176,7 +188,9 @@ export type {
   Leaf,
   Element,
   Plugin,
+  Decorate,
   WithChildrenProp,
+  WithChildren,
   Root,
   ParagraphElement,
   CustomText,

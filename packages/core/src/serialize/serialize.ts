@@ -1,15 +1,12 @@
 import { useCallback } from "react";
 import { Descendant } from "slate";
-import { markdown2slate, slate2markdown } from "../markdown";
 import usePlugins from "../usePlugins";
 import { addRoot, cloneChildren, slate2text, text2slate } from "../utils";
 
 /**
  * Converts the given data structure into a string.
- *
- * @param markdown If `true`, a markdown string is returned.
  */
-function useSerialize(markdown: boolean) {
+function useSerialize() {
   const plugins = usePlugins();
   return useCallback(
     (nodes: Descendant[]): string => {
@@ -19,7 +16,7 @@ function useSerialize(markdown: boolean) {
         .sort((d1, d2) => (d2.priority || 0) - (d1.priority || 0))
         .map((d) => d.handler)
         .reduce<Descendant[]>((prev, curr) => curr(nodes), nodes);
-      return markdown ? slate2markdown(nodes) : slate2text(nodes);
+      return slate2text(nodes);
     },
     [plugins]
   );
@@ -27,10 +24,8 @@ function useSerialize(markdown: boolean) {
 
 /**
  * Converts the given string into a data structure.
- *
- * @param markdown
  */
-function useDeserialize(markdown: boolean) {
+function useDeserialize() {
   const plugins = usePlugins();
   return useCallback(
     (
@@ -39,9 +34,7 @@ function useDeserialize(markdown: boolean) {
       options: { [key: string]: unknown }
     ): Descendant[] => {
       text = singleLine ? text.replace("\n", " ") : text;
-      let nodes: Descendant[] = markdown
-        ? markdown2slate(text)
-        : text2slate(text);
+      let nodes: Descendant[] = text2slate(text);
       nodes = plugins
         .sort(
           (s1, s2) =>

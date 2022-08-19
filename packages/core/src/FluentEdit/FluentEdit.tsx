@@ -18,6 +18,7 @@ import {
   Slate,
   withReact,
 } from "slate-react";
+import useDecorate from "../decorate";
 import ElementRenderer from "../ElementRenderer";
 import LeafRenderer from "../LeafRenderer";
 import useOverrides from "../overrides";
@@ -45,10 +46,10 @@ function createSlateEditor(singleLine: boolean) {
 }
 
 const FluentEdit = (props: FluentEditProps) => {
-  const { singleLine = false, markdown = false, plugins } = props;
+  const { singleLine = false, plugins } = props;
   const [key, setKey] = useState(0);
 
-  const { setEditor } = useFluentEditInternal();
+  const ctx = useFluentEditInternal();
 
   useEffect(() => setKey((v) => v + 1), [singleLine, JSON.stringify(plugins)]);
 
@@ -58,8 +59,7 @@ const FluentEdit = (props: FluentEditProps) => {
         key={key}
         {...props}
         singleLine={singleLine}
-        markdown={markdown}
-        onCreateEditor={setEditor}
+        onCreateEditor={ctx?.setEditor}
       />
     </PluginProvider>
   );
@@ -68,7 +68,6 @@ const FluentEdit = (props: FluentEditProps) => {
 const FluentEditInternal = (props: FluentEditInternalProps) => {
   const {
     singleLine,
-    markdown,
     autoFocus,
     placeholder,
     initialValue: initialTextValue = "",
@@ -84,8 +83,9 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   const editor = useMemo(() => overrides(createSlateEditor(singleLine)), []);
 
   const { onPaste, onKeyDown, ...eventProps } = useEventHandler(editor);
-  const serializer = useSerialize(markdown);
-  const deserializer = useDeserialize(markdown);
+  const serializer = useSerialize();
+  const deserializer = useDeserialize();
+  const decorate = useDecorate();
 
   const renderElement = useCallback(
     (props: RenderElementProps) => <ElementRenderer {...props} />,
@@ -162,7 +162,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   );
 
   useLayoutEffect(() => {
-    onCreateEditor(editor);
+    onCreateEditor?.(editor);
   }, []);
 
   useEffect(() => {
@@ -177,6 +177,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
         renderLeaf={renderLeaf}
         renderElement={renderElement}
         renderPlaceholder={renderPlaceholder}
+        decorate={decorate}
         onKeyDown={handleKeyDown}
         onPaste={handlePaste}
         placeholder={placeholder}

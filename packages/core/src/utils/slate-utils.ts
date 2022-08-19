@@ -1,7 +1,7 @@
 import type { List } from "mdast";
 import { Descendant, Editor, Element, Node, Text, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { CustomElement, ParagraphElement } from "../types";
+import { CustomElement, ParagraphElement, Root, WithChildren } from "../types";
 
 function unwrapElement<T>(element: any): T | undefined {
   return Array.isArray(element) && element.length > 0 ? element[0] : element;
@@ -15,6 +15,11 @@ function isBlock(element: any): element is ParagraphElement | List {
 function isParagraph(element: any): element is ParagraphElement {
   const elem = unwrapElement<ParagraphElement>(element);
   return elem?.type === "paragraph";
+}
+
+function hasChildren(element: any): element is WithChildren {
+  const elem = unwrapElement<WithChildren>(element);
+  return !!elem?.children && elem?.children.length > 0;
 }
 
 function withoutTab(editor: Editor) {
@@ -68,7 +73,7 @@ function removeRoot(nodes: Descendant[]) {
 }
 
 function slate2text(nodes: Descendant[]): string {
-  const root: any = { type: "root", children: nodes };
+  const root: Root = { type: "root", children: nodes };
   let text = Array.from(Node.nodes(root)).reduce((prev, [node]) => {
     if (isParagraph(node)) {
       return prev + "\n";
@@ -128,5 +133,6 @@ export {
   slate2text,
   text2slate,
   cloneChildren,
+  hasChildren,
   unwrapElement,
 };

@@ -5,7 +5,7 @@ const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
     children = <strong>{children}</strong>;
   }
 
-  if (leaf.code) {
+  if (leaf.inlineCode) {
     children = <code>{children}</code>;
   }
 
@@ -13,8 +13,8 @@ const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
     children = <em>{children}</em>;
   }
 
-  if (leaf.underline) {
-    children = <u>{children}</u>;
+  if (leaf.delete) {
+    children = <s>{children}</s>;
   }
 
   return <span {...attributes}>{children}</span>;

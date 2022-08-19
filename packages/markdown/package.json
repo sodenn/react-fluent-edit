@@ -1,8 +1,8 @@
 {
-  "name": "@react-fluent-edit/rich-text",
+  "name": "@react-fluent-edit/markdown",
   "private": true,
   "license": "MIT",
-  "description": "Rich Text Plugin for React FluentEdit",
+  "description": "Markdown Plugin for React FluentEdit",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
@@ -12,7 +12,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/sodenn/react-fluent-edit.git",
-    "directory": "packages/rich-text"
+    "directory": "packages/markdown"
   },
   "homepage": "https://github.com/sodenn/react-fluent-edit",
   "author": {
@@ -27,7 +27,8 @@
     "build:cjs": "tsc --project tsconfig.cjs.json"
   },
   "dependencies": {
-    "@react-fluent-edit/core": "workspace:*"
+    "@react-fluent-edit/core": "workspace:*",
+    "marked": "^4.0.18"
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
@@ -35,5 +36,8 @@
     "slate": "^0.81.3",
     "slate-history": "^0.66.0",
     "slate-react": "^0.81.0"
+  },
+  "devDependencies": {
+    "@types/marked": "^4.0.5"
   }
 }
