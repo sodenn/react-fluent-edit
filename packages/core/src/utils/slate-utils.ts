@@ -55,7 +55,7 @@ function withSingleLine(editor: Editor) {
 }
 
 function addRoot(nodes: Descendant[]): Descendant[] {
-  if (nodes.every((n) => !isParagraph(n))) {
+  if (nodes.every((n) => !hasChildren(n))) {
     return [
       {
         type: "paragraph",
@@ -67,7 +67,7 @@ function addRoot(nodes: Descendant[]): Descendant[] {
 }
 
 function removeRoot(nodes: Descendant[]) {
-  if (nodes.length === 1 && isParagraph(nodes[0])) {
+  if (nodes.length === 1 && hasChildren(nodes[0])) {
     return nodes[0].children;
   } else {
     return nodes;
