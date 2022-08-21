@@ -33,7 +33,9 @@ const Internal = (props: FluentEditProps) => {
           {...props}
         />
       </div>
-      <div data-testid="fe-value">{value}</div>
+      <div style={{ whiteSpace: "pre-wrap" }} data-testid="fe-value">
+        {value}
+      </div>
     </div>
   );
 };

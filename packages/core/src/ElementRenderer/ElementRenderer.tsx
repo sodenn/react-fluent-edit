@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { RenderElementProps } from "slate-react";
 import usePlugins from "../usePlugins";
 
@@ -17,10 +16,8 @@ const ElementRenderer = (props: RenderElementProps) => {
     return <Component {...props} />;
   }
 
-  const style = useMemo(() => ({ margin: 0, padding: 0 }), []);
-
   return (
-    <p style={style} {...attributes}>
+    <p style={{ margin: 0, padding: 0 }} {...attributes}>
       {children}
     </p>
   );

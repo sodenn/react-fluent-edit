@@ -4272,7 +4272,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mdast@npm:3.0.10, @types/mdast@npm:^3.0.0":
+"@types/mdast@npm:^3.0.0":
   version: 3.0.10
   resolution: "@types/mdast@npm:3.0.10"
   dependencies:
@@ -14488,7 +14488,6 @@ __metadata:
     "@storybook/testing-library": 0.0.13
     "@testing-library/react": 13.3.0
     "@types/jest": 28.1.7
-    "@types/mdast": 3.0.10
     "@types/react": 18.0.15
     "@types/react-dom": 18.0.6
     "@typescript-eslint/eslint-plugin": 5.33.1

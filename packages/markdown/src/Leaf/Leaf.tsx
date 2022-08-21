@@ -1,23 +1,40 @@
+import { Plugin, usePlugins } from "@react-fluent-edit/core";
+import { CSSProperties } from "react";
 import { RenderLeafProps } from "slate-react";
+import { MarkdownPluginOptions } from "../types";
 
 const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
+  let style: CSSProperties = {};
+
+  const plugin = usePlugins().find(
+    (p): p is Required<Plugin<MarkdownPluginOptions>> => p.name === "markdown"
+  );
+
   if (leaf.strong) {
-    children = <strong>{children}</strong>;
+    style.fontWeight = "bold";
   }
 
-  if (leaf.inlineCode) {
-    children = <code>{children}</code>;
+  if (leaf.codespan) {
+    style.fontFamily = "monospace";
   }
 
-  if (leaf.emphasis) {
-    children = <em>{children}</em>;
+  if (leaf.em) {
+    style.fontStyle = "italic";
   }
 
-  if (leaf.delete) {
-    children = <s>{children}</s>;
+  if (leaf.del) {
+    style.textDecoration = "line-through";
   }
 
-  return <span {...attributes}>{children}</span>;
+  if (leaf.marker && plugin) {
+    style = plugin.options.markerStyle || { color: "#777" };
+  }
+
+  return (
+    <span {...attributes} style={style}>
+      {children}
+    </span>
+  );
 };
 
 export default Leaf;

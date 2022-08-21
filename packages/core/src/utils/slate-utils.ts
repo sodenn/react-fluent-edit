@@ -1,19 +1,21 @@
-import type { List } from "mdast";
-import { Descendant, Editor, Element, Node, Text, Transforms } from "slate";
+import {
+  Descendant,
+  Editor,
+  Element,
+  Node,
+  NodeEntry,
+  Text,
+  Transforms,
+} from "slate";
 import { ReactEditor } from "slate-react";
-import { CustomElement, ParagraphElement, Root, WithChildren } from "../types";
+import { CustomElement, Paragraph, Root, WithChildren } from "../types";
 
 function unwrapElement<T>(element: any): T | undefined {
   return Array.isArray(element) && element.length > 0 ? element[0] : element;
 }
 
-function isBlock(element: any): element is ParagraphElement | List {
-  const elem = unwrapElement<ParagraphElement | List>(element);
-  return !!elem && (elem.type === "paragraph" || elem.type === "list");
-}
-
-function isParagraph(element: any): element is ParagraphElement {
-  const elem = unwrapElement<ParagraphElement>(element);
+function isParagraph(element: any): element is Paragraph {
+  const elem = unwrapElement<Paragraph>(element);
   return elem?.type === "paragraph";
 }
 
@@ -53,7 +55,7 @@ function withSingleLine(editor: Editor) {
 }
 
 function addRoot(nodes: Descendant[]): Descendant[] {
-  if (nodes.every((i) => !isBlock(i))) {
+  if (nodes.every((n) => !isParagraph(n))) {
     return [
       {
         type: "paragraph",
@@ -82,7 +84,7 @@ function slate2text(nodes: Descendant[]): string {
     }
     return prev;
   }, "");
-  text = text.replace(/\n/, "");
+  text = text.replace(/^[\r\n]+/, "");
   return text;
 }
 
@@ -123,6 +125,20 @@ function cloneChildren(children: Descendant[]): Descendant[] {
   });
 }
 
+function walkNodes(
+  nodes: Descendant[],
+  fn: (prev: NodeEntry | [undefined, undefined], curr: NodeEntry) => void
+) {
+  const root: Root = { type: "root", children: nodes };
+  let prev: NodeEntry | [undefined, undefined] = [undefined, undefined];
+  return Array.from(Node.nodes(root))
+    .filter(([n]) => !(Element.isElement(n) && n.type === "root"))
+    .forEach((entry) => {
+      fn(prev, entry);
+      prev = entry;
+    });
+}
+
 export {
   isParagraph,
   withoutTab,
@@ -135,4 +151,5 @@ export {
   cloneChildren,
   hasChildren,
   unwrapElement,
+  walkNodes,
 };

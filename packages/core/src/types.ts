@@ -1,4 +1,3 @@
-import { Blockquote, Heading, List, ListItem } from "mdast";
 import {
   ClipboardEvent,
   CSSProperties,
@@ -131,16 +130,12 @@ interface WithChildren {
   children: Descendant[];
 }
 
-interface WithAlign {
-  align?: any;
-}
-
 interface Root {
   type: "root";
   children: Descendant[];
 }
 
-interface ParagraphElement extends WithAlign {
+interface Paragraph {
   type: "paragraph";
   children: Descendant[];
 }
@@ -155,20 +150,46 @@ interface MentionElement {
 
 interface CustomText {
   text: string;
+  marker?: boolean;
   strong?: boolean;
-  emphasis?: boolean;
-  delete?: boolean;
-  inlineCode?: boolean;
+  em?: boolean;
+  codespan?: boolean;
+  del?: boolean;
+  // link
+  link?: boolean;
+  href?: string;
+  title?: string;
+}
+
+interface Heading {
+  type: "heading";
+  depth: 1 | 2 | 3 | 4 | 5 | 6;
+  children: Descendant[];
+}
+
+interface List {
+  type: "list";
+  ordered: boolean;
+  start: number | "";
+  loose: boolean;
+  children: ListItem[];
+}
+
+interface ListItem {
+  type: "list_item";
+  task: boolean;
+  checked?: boolean | undefined;
+  loose: boolean;
+  children: Descendant[];
 }
 
 type CustomElement =
   | Root
-  | ParagraphElement
+  | Paragraph
   | MentionElement
-  | Blockquote
+  | Heading
   | List
-  | ListItem
-  | Heading;
+  | ListItem;
 
 type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 
@@ -192,9 +213,9 @@ export type {
   WithChildrenProp,
   WithChildren,
   Root,
-  ParagraphElement,
+  Paragraph,
+  Heading,
   CustomText,
   CustomElement,
   MentionElement,
-  WithAlign,
 };

@@ -1,13 +1,10 @@
 import { CSSProperties } from "react";
 import { RenderElementProps } from "slate-react";
-import { hasAlign } from "../utils";
 
 const Element = (props: RenderElementProps) => {
   const { attributes, children, element } = props;
 
-  const style: CSSProperties = {
-    ...(hasAlign(element) && { textAlign: element.align }),
-  };
+  const style: CSSProperties = {};
 
   if (element.type === "heading" && element.depth === 1) {
     return (
@@ -61,7 +58,7 @@ const Element = (props: RenderElementProps) => {
         </ul>
       </div>
     );
-  } else if (element.type === "listItem") {
+  } else if (element.type === "list_item") {
     return (
       <li style={style} {...attributes}>
         {children}

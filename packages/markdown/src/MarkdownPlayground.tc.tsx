@@ -7,7 +7,7 @@ const plugins = [createMarkdownPlugin()];
 const MarkdownPlayground = (props: FluentEditProps) => {
   const [value, setValue] = useState("");
   return (
-    <div style={{ maxWidth: 400 }}>
+    <div style={{ minWidth: 500 }}>
       <div style={{ border: "1px solid #aaa", borderRadius: 4, padding: 8 }}>
         <FluentEdit
           autoCorrect="off"
@@ -20,7 +20,20 @@ const MarkdownPlayground = (props: FluentEditProps) => {
           {...props}
         />
       </div>
-      <div data-testid="fe-value">{value}</div>
+      {value && (
+        <div
+          data-testid="fe-value"
+          style={{
+            padding: 8,
+            borderRadius: 4,
+            marginTop: 12,
+            whiteSpace: "pre-wrap",
+            backgroundColor: "#efefef",
+          }}
+        >
+          {value}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,76 +1,98 @@
-import { unwrapElement, WithAlign } from "@react-fluent-edit/core";
-import { marked } from "marked";
-import { BaseRange, NodeEntry, Text } from "slate";
+import {
+  CustomText,
+  Heading,
+  isParagraph,
+  unwrapElement,
+  walkNodes,
+} from "@react-fluent-edit/core";
+import { BaseRange, Descendant, NodeEntry, Text } from "slate";
+import { getTokens, Token, walkTokens } from "./tokenizer";
 
-function hasAlign(element: any): element is Required<WithAlign> {
-  const elem = unwrapElement<WithAlign>(element);
-  return !!elem?.align;
+function isHeading(element: any): element is Heading {
+  const elem = unwrapElement<Heading>(element);
+  return elem?.type === "heading";
 }
-
-interface WithTokens {
-  tokens?: marked.Token[];
-  items?: marked.Token[];
-  raw: string;
-}
-
-interface WithPosition {
-  _start: number;
-  _end: number;
-}
-
-type CustomToken = marked.Token & WithPosition & WithTokens;
-
-function addPositions(token: CustomToken) {
-  const subs = token.tokens || token.items;
-  if (subs) {
-    const start = token._start || 0;
-    let subpos = 0;
-    subs.forEach((sub: CustomToken) => {
-      const substart = token.raw.indexOf(sub.raw, subpos);
-      const sublen = sub.raw.length;
-      sub._start = substart + start;
-      sub._end = sub._start + sublen;
-      subpos = substart + sublen;
-    });
-  }
-}
-
-const markdownTypes = {
-  strong: "strong",
-  em: "emphasis",
-  del: "delete",
-  code: "inlineCode",
-};
 
 function decorateMarkdown(entry: NodeEntry): BaseRange[] {
   const [node, path] = entry;
-  const ranges: BaseRange[] = [];
+  const ranges: (BaseRange & Omit<CustomText, "text">)[] = [];
 
   if (!Text.isText(node)) {
     return ranges;
   }
 
-  const tokens = marked.lexer(node.text);
-  marked.walkTokens(tokens, addPositions);
-  marked.walkTokens(tokens, (token: CustomToken) => {
-    if (["strong", "em", "del", "code"].includes(token.type)) {
+  const tokens = getTokens(node.text);
+  walkTokens(tokens, (token: Token) => {
+    let markers: { prefix?: number; suffix?: number } | undefined = undefined;
+    if (
+      token.type === "strong" ||
+      token.type === "em" ||
+      token.type === "del" ||
+      token.type === "codespan"
+    ) {
       ranges.push({
-        [markdownTypes[token.type]]: true,
+        [token.type]: true,
         anchor: { path, offset: token._start },
         focus: { path, offset: token._end },
       });
+      const [prefix, suffix] = token.raw.split(token.text);
+      markers = { prefix: prefix.length, suffix: suffix.length };
+    } else if (token.type === "link") {
+      const [prefix, suffix] = token.raw.split(token.text);
+      markers = { prefix: prefix.length, suffix: suffix.length };
+    } else if (token.type === "heading") {
+      markers = { prefix: token.depth };
     }
-    if (token.type === "heading") {
-      // ranges.push({
-      //   heading: true,
-      //   depth: 1,
-      //   anchor: { path, offset: token._start },
-      //   focus: { path, offset: token._end },
-      // });
+    if (markers) {
+      const { prefix, suffix } = markers;
+      if (prefix) {
+        ranges.push({
+          marker: true,
+          anchor: { path, offset: token._start },
+          focus: { path, offset: token._start + prefix },
+        });
+      }
+      if (suffix) {
+        ranges.push({
+          marker: true,
+          anchor: { path, offset: token._end - suffix },
+          focus: { path, offset: token._end },
+        });
+      }
     }
   });
 
   return ranges;
 }
 
-export { hasAlign, decorateMarkdown };
+function withMarkdownNodes(nodes: Descendant[]): Descendant[] {
+  walkNodes(nodes, ([prev], [curr]) => {
+    if (isParagraph(prev) && Text.isText(curr)) {
+      const tokens = getTokens(curr.text);
+      const firstToken = tokens.length > 0 && tokens[0];
+      if (firstToken && firstToken.type === "heading") {
+        Object.assign(prev, {
+          type: "heading",
+          depth: firstToken.depth,
+          children: prev.children,
+        });
+      }
+    }
+  });
+  return nodes;
+}
+
+function withoutMarkdownNodes(nodes: Descendant[]): Descendant[] {
+  walkNodes(nodes, ([prev], [curr]) => {
+    if (isHeading(curr)) {
+      // @ts-ignore
+      delete curr.depth;
+      Object.assign(curr, {
+        type: "paragraph",
+      });
+    }
+  });
+  return nodes;
+}
+
+export { decorateMarkdown, withMarkdownNodes, withoutMarkdownNodes, isHeading };

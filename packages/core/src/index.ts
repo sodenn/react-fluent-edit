@@ -10,14 +10,14 @@ export type {
   Element,
   EventHandler,
   EventHandlers,
+  Heading,
   Leaf,
   LeafComponent,
   LeafStyle,
   MentionElement,
-  ParagraphElement,
+  Paragraph,
   Plugin,
   Root,
-  WithAlign,
   WithChildrenProp,
 } from "./types";
 export * from "./useFluentEdit";
@@ -28,5 +28,7 @@ export {
   cloneChildren,
   focusEditor,
   hasChildren,
+  isParagraph,
   unwrapElement,
+  walkNodes,
 } from "./utils";
