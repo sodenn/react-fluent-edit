@@ -33,7 +33,7 @@ function useDeserialize() {
       singleLine: boolean,
       options: { [key: string]: unknown }
     ): Descendant[] => {
-      text = singleLine ? text.replace("\n", " ") : text;
+      text = singleLine ? text.replace(/\n|<br>/g, " ") : text;
       let nodes: Descendant[] = text2slate(text);
       nodes = plugins
         .sort(
