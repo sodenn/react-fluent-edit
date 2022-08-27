@@ -16,7 +16,6 @@ jobs:
           node-version: v16.13.0
       - run: corepack enable
       - run: yarn install --immutable --immutable-cache
-      - run: yarn build
       - run: yarn test
   e2e:
     runs-on: ubuntu-latest
@@ -27,7 +26,6 @@ jobs:
           node-version: v16.13.0
       - run: corepack enable
       - run: yarn install --immutable --immutable-cache
-      - run: yarn build
       - run: npx playwright install --with-deps
       - run: yarn test:e2e
       - uses: actions/upload-artifact@v3

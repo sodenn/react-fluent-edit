@@ -26,6 +26,14 @@
       "version": "detect"
     }
   },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ],
   "rules": {
     "no-debugger": "warn",
     "no-empty": "warn",

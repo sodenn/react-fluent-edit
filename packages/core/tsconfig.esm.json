@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
     "module": "esnext",
-    "outDir": "lib/esm",
-    "declarationDir": "lib/types",
+    "outDir": "lib",
     "target": "es6"
   }
 }

@@ -3,21 +3,7 @@
   "version": "1.0.3",
   "license": "MIT",
   "description": "Mentions Plugin for React FluentEdit",
-  "type": "module",
-  "sideEffects": false,
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/index.js",
-  "types": "./lib/types/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./lib/types/index.d.ts",
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
-    }
-  },
-  "files": [
-    "lib"
-  ],
+  "main": "./src/index.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -32,9 +18,10 @@
     "email": "mail@sodenn.dev"
   },
   "scripts": {
-    "build": "yarn clean && yarn build:esm & yarn build:cjs && yarn fixup",
+    "build": "run-s clean build:all copy",
     "clean": "rimraf lib",
-    "fixup": "../../scripts/patch-package-json",
+    "copy": "node ../../scripts/copy-files.js",
+    "build:all": "run-p build:esm build:cjs",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:cjs": "tsc --project tsconfig.cjs.json"
   },
