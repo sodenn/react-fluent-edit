@@ -3,6 +3,8 @@
   "version": "1.0.3",
   "license": "MIT",
   "description": "Bindings for using React FluentEdit with MUI",
+  "type": "module",
+  "sideEffects": false,
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/types/index.d.ts",

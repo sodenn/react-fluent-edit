@@ -3,6 +3,8 @@
   "version": "1.0.3",
   "license": "MIT",
   "description": "Mentions Plugin for React FluentEdit",
+  "type": "module",
+  "sideEffects": false,
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/types/index.d.ts",

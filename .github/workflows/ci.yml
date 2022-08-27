@@ -50,6 +50,7 @@ jobs:
   prerelease:
     runs-on: ubuntu-latest
     needs: [test, e2e, hygiene]
+    if: !contains(github.event.pull_request.head.ref, 'renovate')
     steps:
       - uses: actions/checkout@v3
         with:
