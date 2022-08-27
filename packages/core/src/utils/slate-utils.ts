@@ -1,4 +1,5 @@
 import {
+  createEditor,
   Descendant,
   Editor,
   Element,
@@ -9,6 +10,20 @@ import {
 } from "slate";
 import { ReactEditor } from "slate-react";
 import { CustomElement, Paragraph, Root, WithChildren } from "../types";
+
+type WalkEntry = NodeEntry | [null, null];
+
+interface WalkItem {
+  prevEntry: WalkEntry;
+  currEntry: NodeEntry;
+  nextEntry: WalkEntry;
+}
+
+interface WalkOptions {
+  nodes: Descendant[];
+  match?: (node: NodeEntry) => boolean;
+  callback: (item: WalkItem) => void;
+}
 
 function unwrapElement<T>(element: any): T | undefined {
   return Array.isArray(element) && element.length > 0 ? element[0] : element;
@@ -125,18 +140,92 @@ function cloneChildren(children: Descendant[]): Descendant[] {
   });
 }
 
-function walkNodes(
-  nodes: Descendant[],
-  fn: (prev: NodeEntry | [undefined, undefined], curr: NodeEntry) => void
-) {
+function walkNodes(opt: WalkOptions) {
+  const { nodes, match, callback } = opt;
+
   const root: Root = { type: "root", children: nodes };
-  let prev: NodeEntry | [undefined, undefined] = [undefined, undefined];
-  return Array.from(Node.nodes(root))
-    .filter(([n]) => !(Element.isElement(n) && n.type === "root"))
-    .forEach((entry) => {
-      fn(prev, entry);
-      prev = entry;
+  const allNodes = Array.from(Node.nodes(root)).filter(
+    (entry) => !match || match(entry)
+  );
+
+  for (let idx = 0; idx < allNodes.length; idx++) {
+    const prevEntry: WalkEntry = idx > 0 ? allNodes[idx - 1] : [null, null];
+    const currEntry = allNodes[idx];
+    const nextEntry: WalkEntry =
+      idx + 1 < allNodes.length ? allNodes[idx + 1] : [null, null];
+    callback({ prevEntry, currEntry, nextEntry });
+  }
+}
+
+function removeNodes(nodes: Node[], nodesToRemove: Node[]) {
+  let i = nodes.length;
+  while (i--) {
+    const node = nodes[i];
+    if (nodesToRemove.includes(node)) {
+      nodes.splice(i, 1);
+    } else if (hasChildren(node)) {
+      removeNodes(node.children, nodesToRemove);
+    }
+  }
+}
+
+function getNodeParent(nodes: Node[], node: Node) {
+  for (let idx = 0; idx <= nodes.length; idx++) {
+    const n = nodes[idx];
+    if (n === node) {
+      return { nodes, index: idx };
+    } else if (hasChildren(n)) {
+      getNodeParent(n.children, node);
+    }
+  }
+}
+
+const editor = createEditor();
+
+function unwrapNodes(nodes: Descendant[], match: (node: Node) => boolean) {
+  Editor.withoutNormalizing(editor, () => {
+    editor.children = [{ type: "root", children: nodes }];
+    Transforms.liftNodes(editor, {
+      at: [0],
+      mode: "all",
+      match: (n: any) =>
+        !Editor.isEditor(n) && Element.isElement(n) && n.type === "list",
     });
+    Transforms.unwrapNodes(editor, {
+      split: true,
+      mode: "all",
+      at: [0],
+      match: (n: any) =>
+        !Editor.isEditor(n) && Element.isElement(n) && n.type === "list",
+    });
+  });
+  return editor.children;
+}
+
+function setNodes(
+  nodes: Descendant[],
+  props: Partial<Node>,
+  match: (node: Node) => boolean
+) {
+  Editor.withoutNormalizing(editor, () => {
+    editor.children = [{ type: "root", children: nodes }];
+    Transforms.setNodes(editor, props, { match, at: [0] });
+  });
+  const root = editor.children[0] as Root;
+  return root.children;
+}
+
+function unsetNodes(
+  nodes: Descendant[],
+  props: string | string[],
+  match: (node: Node) => boolean
+) {
+  Editor.withoutNormalizing(editor, () => {
+    editor.children = [{ type: "root", children: nodes }];
+    Transforms.unsetNodes(editor, props, { match, at: [0] });
+  });
+  const root = editor.children[0] as Root;
+  return root.children;
 }
 
 export {
@@ -152,4 +241,9 @@ export {
   hasChildren,
   unwrapElement,
   walkNodes,
+  setNodes,
+  unsetNodes,
+  removeNodes,
+  getNodeParent,
+  unwrapNodes,
 };

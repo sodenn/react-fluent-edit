@@ -14,6 +14,8 @@ export type {
   Leaf,
   LeafComponent,
   LeafStyle,
+  List,
+  ListItem,
   MentionElement,
   Paragraph,
   Plugin,
@@ -27,8 +29,13 @@ export { default as usePlugins } from "./usePlugins";
 export {
   cloneChildren,
   focusEditor,
+  getNodeParent,
   hasChildren,
   isParagraph,
+  removeNodes,
+  setNodes,
+  unsetNodes,
   unwrapElement,
+  unwrapNodes,
   walkNodes,
 } from "./utils";

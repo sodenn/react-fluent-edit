@@ -7,7 +7,79 @@ import {
 } from "./markdown-utils";
 
 describe("markdown-utils", () => {
-  test("should add markdown nodes", () => {
+  test("should add ordered list elements", () => {
+    const nodes: CustomElement[] = [
+      { type: "paragraph", children: [{ text: "1. aaa" }] },
+      { type: "paragraph", children: [{ text: "   - bbb" }] },
+      { type: "paragraph", children: [{ text: "   - ccc" }] },
+      { type: "paragraph", children: [{ text: "2. ddd" }] },
+    ];
+    const nodesWithMarkdown = withMarkdownNodes(nodes);
+    expect(nodesWithMarkdown).toStrictEqual([
+      {
+        type: "list",
+        start: 1,
+        ordered: true,
+        loose: false,
+        children: [
+          {
+            type: "list_item",
+            task: false,
+            loose: false,
+            checked: undefined,
+            children: [
+              {
+                text: "aaa",
+              },
+              {
+                type: "list",
+                ordered: false,
+                start: "",
+                loose: false,
+                children: [
+                  {
+                    type: "list_item",
+                    task: false,
+                    loose: false,
+                    checked: undefined,
+                    children: [
+                      {
+                        text: "bbb",
+                      },
+                    ],
+                  },
+                  {
+                    type: "list_item",
+                    task: false,
+                    loose: false,
+                    checked: undefined,
+                    children: [
+                      {
+                        text: "ccc",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "list_item",
+            task: false,
+            loose: false,
+            checked: undefined,
+            children: [
+              {
+                text: "ddd",
+              },
+            ],
+          },
+        ],
+      },
+    ]);
+  });
+
+  test("should add heading element", () => {
     const nodes: CustomElement[] = [
       { type: "paragraph", children: [{ text: "# Test" }] },
     ];
@@ -17,7 +89,7 @@ describe("markdown-utils", () => {
     ]);
   });
 
-  test("should remove markdown nodes", () => {
+  test("should remove heading element", () => {
     const nodesWithMarkdown: CustomElement[] = [
       { type: "heading", depth: 1, children: [{ text: "# Test" }] },
     ];

@@ -11,6 +11,10 @@ function hasTokens(token: any): token is { tokens?: Token[]; items?: Token[] } {
 
 type Token = marked.Token & WithPosition;
 
+type ListToken = marked.Tokens.List & WithPosition;
+
+type ListItemToken = marked.Tokens.ListItem & WithPosition;
+
 const rules = {
   heading: /^(#{1,6})(\s+)(.+)(?:\n+|$)/,
 };
@@ -58,4 +62,4 @@ function walkTokens(tokens: Token[], fn: (token: Token) => void) {
   marked.walkTokens(tokens, fn);
 }
 
-export { getTokens, walkTokens, Token, rules };
+export { getTokens, walkTokens, Token, ListToken, ListItemToken, rules };

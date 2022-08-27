@@ -215,6 +215,8 @@ export type {
   Root,
   Paragraph,
   Heading,
+  List,
+  ListItem,
   CustomText,
   CustomElement,
   MentionElement,
