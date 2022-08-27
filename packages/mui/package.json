@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "license": "MIT",
   "description": "Bindings for using React FluentEdit with MUI",
-  "main": "./src/index.ts",
+  "main": "./lib/index.js",
   "publishConfig": {
     "access": "public"
   },
