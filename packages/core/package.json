@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "license": "MIT",
   "description": "Slate based editor powered by plugins",
-  "main": "./lib/index.js",
+  "main": "./src/index.ts",
   "publishConfig": {
     "access": "public"
   },

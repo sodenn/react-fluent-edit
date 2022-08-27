@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "build": "yarn workspaces foreach run build",
+    "clean": "yarn workspaces foreach run clean",
     "version:pre": "yarn workspaces foreach --no-private version ${PKG_VERSION}",
     "publish:pre": "yarn workspaces foreach --no-private npm publish lib --tolerate-republish --access public --tag ${TAG_NAME}",
     "test": "jest",
