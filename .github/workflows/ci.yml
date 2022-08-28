@@ -16,7 +16,6 @@ jobs:
           node-version: v16.13.0
       - run: corepack enable
       - run: yarn install --immutable --immutable-cache
-      - run: yarn build
       - run: yarn test
   e2e:
     runs-on: ubuntu-latest
@@ -27,7 +26,6 @@ jobs:
           node-version: v16.13.0
       - run: corepack enable
       - run: yarn install --immutable --immutable-cache
-      - run: yarn build
       - run: npx playwright install --with-deps
       - run: yarn test:e2e
       - uses: actions/upload-artifact@v3
@@ -50,6 +48,7 @@ jobs:
   prerelease:
     runs-on: ubuntu-latest
     needs: [test, e2e, hygiene]
+    if: startsWith(github.event.pull_request.head.ref, 'renovate') != true
     steps:
       - uses: actions/checkout@v3
         with:
@@ -60,12 +59,10 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: corepack enable
       - run: yarn install --immutable --immutable-cache
-      - run: yarn build
       - run: echo "PKG_VERSION=$(node ./scripts/get-version.js ${{ github.event.pull_request.head.ref }})" >> $GITHUB_ENV
       - run: echo "TAG_NAME=$(node ./scripts/get-tag.js ${{ github.event.pull_request.head.ref }})" >> $GITHUB_ENV
       - run: PKG_VERSION=$PKG_VERSION yarn version:pre
-      - run: |
-          echo npmAuthToken: "$NODE_AUTH_TOKEN" >> ./.yarnrc.yml
+      - run: yarn build
+      - run: TAG_NAME=$TAG_NAME yarn publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      - run: TAG_NAME=$TAG_NAME yarn publish:pre
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

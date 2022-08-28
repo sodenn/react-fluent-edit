@@ -11,11 +11,7 @@ import { createPortal } from "react-dom";
 import { Range } from "slate";
 import { ReactEditor, useSlateStatic } from "slate-react";
 import ClickAwayListener from "../ClickAwayListener";
-import {
-  Mention,
-  MentionComboboxItemProps,
-  MentionComboboxProps,
-} from "../types";
+import { Mention } from "../types";
 import useMentionsInternal from "../useMentionsInternal";
 import {
   addMentionNodes,
@@ -25,6 +21,10 @@ import {
   setSuggestionComboboxPosition,
   useMentionPlugins,
 } from "../utils";
+import {
+  MentionComboboxItemProps,
+  MentionComboboxProps,
+} from "./MentionsComboboxProps";
 
 const Portal = ({ children }: WithChildrenProp) => {
   return typeof document === "object"
