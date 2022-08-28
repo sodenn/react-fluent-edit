@@ -7,8 +7,8 @@ const libPath = path.join(packagePath, "./lib");
 function publish() {
   const tagName = process.env.TAG_NAME;
   const cmd = tagName
-    ? `yarn npm publish --tolerate-republish --access public --tag ${tagName}`
-    : "yarn npm publish --tolerate-republish --access public";
+    ? `npm publish --access public --tag ${tagName}`
+    : "npm publish --access public";
   exec(cmd, { cwd: libPath }, (error, stdout) => {
     if (error) {
       console.error(`exec error: ${error}`);
