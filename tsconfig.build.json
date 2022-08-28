@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
+  },
+  "exclude": [
+    "node_modules",
+    "**/node_modules",
+    "packages/**/src/**/*.stories.ts",
+    "packages/**/src/**/*.stories.tsx",
+    "packages/**/src/**/*.test.ts",
+    "packages/**/src/**/*.test.tsx",
+    "packages/**/src/**/*.e2e.ts",
+    "packages/**/src/**/*.e2e.tsx",
+    "packages/**/src/**/*.tc.ts",
+    "packages/**/src/**/*.tc.tsx",
+    "packages/**/lib"
+  ]
+}

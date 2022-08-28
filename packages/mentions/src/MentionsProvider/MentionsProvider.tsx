@@ -6,15 +6,14 @@ import {
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { Editor, Element, Range, Text, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
+import { Mention, MentionItem } from "../types";
+import { escapeRegExp, getMentionNodes, isMentionElement } from "../utils";
 import {
   FindMentionsOptions,
   InsertOperation,
-  Mention,
-  MentionItem,
   MentionsContext,
   RenameMentionsOptions,
-} from "../types";
-import { escapeRegExp, getMentionNodes, isMentionElement } from "../utils";
+} from "./MentionsProviderProps";
 
 // @ts-ignore
 const MentionsCtx = createContext<MentionsContext>(undefined);

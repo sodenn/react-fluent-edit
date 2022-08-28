@@ -19,8 +19,14 @@ import {
   Transforms,
 } from "slate";
 import { ReactEditor } from "slate-react";
-import { InsertMentionOptions, Mention, MentionsPluginOptions } from "../types";
+import { Mention, MentionsPluginOptions } from "../types";
 import withMentions from "../withMentions";
+
+interface InsertMentionOptions extends Omit<Mention, "suggestions"> {
+  editor: Editor;
+  value: string;
+  target: BaseRange;
+}
 
 function isMentionElement(element: any): element is MentionElement {
   const elem = unwrapElement<MentionElement>(element);
@@ -317,6 +323,7 @@ function getMentionNodes(editor: Editor) {
 }
 
 export {
+  InsertMentionOptions,
   isMentionElement,
   insertMention,
   getUserInputAtSelection,

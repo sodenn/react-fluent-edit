@@ -3,12 +3,7 @@
   "version": "1.0.3",
   "license": "MIT",
   "description": "Slate based editor powered by plugins",
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/index.js",
-  "types": "./lib/esm/index.d.ts",
-  "files": [
-    "lib"
-  ],
+  "main": "./src/index.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -23,11 +18,13 @@
     "email": "mail@sodenn.dev"
   },
   "scripts": {
-    "build": "yarn clean && yarn build:esm & yarn build:cjs && yarn fixup",
+    "build": "run-s clean build:all copy",
     "clean": "rimraf lib",
-    "fixup": "../../scripts/patch-package-json",
+    "copy": "node ../../scripts/copy-files.js",
+    "build:all": "run-p build:esm build:cjs",
     "build:esm": "tsc --project tsconfig.esm.json",
-    "build:cjs": "tsc --project tsconfig.cjs.json"
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "publish": "node ../../scripts/publish.js"
   },
   "dependencies": {
     "remark-parse": "10.0.1",
