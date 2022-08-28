@@ -67,4 +67,4 @@ jobs:
           echo npmAuthToken: "$NODE_AUTH_TOKEN" >> ./.yarnrc.yml
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      - run: TAG_NAME=$TAG_NAME yarn publish:pre
+      - run: TAG_NAME=$TAG_NAME yarn publish

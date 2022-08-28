@@ -23,7 +23,8 @@
     "copy": "node ../../scripts/copy-files.js",
     "build:all": "run-p build:esm build:cjs",
     "build:esm": "tsc --project tsconfig.esm.json",
-    "build:cjs": "tsc --project tsconfig.cjs.json"
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "publish": "node ../../scripts/publish.js"
   },
   "dependencies": {
     "remark-parse": "10.0.1",
