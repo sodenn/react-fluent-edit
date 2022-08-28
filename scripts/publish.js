@@ -9,12 +9,10 @@ function publish() {
   const cmd = tagName
     ? `npm publish --access public --tag ${tagName}`
     : "npm publish --access public";
-  exec(cmd, { cwd: libPath }, (error, stdout) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-    } else {
-      console.log(`stdout: ${stdout}`);
-    }
+  exec(cmd, { cwd: libPath }, (error, stdout, stderr) => {
+    console.log(`stdout: ${stdout}`);
+    console.error(`error: ${error}`);
+    console.error(`stderr: ${stderr}`);
   });
 }
 

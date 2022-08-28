@@ -63,8 +63,6 @@ jobs:
       - run: echo "PKG_VERSION=$(node ./scripts/get-version.js ${{ github.event.pull_request.head.ref }})" >> $GITHUB_ENV
       - run: echo "TAG_NAME=$(node ./scripts/get-tag.js ${{ github.event.pull_request.head.ref }})" >> $GITHUB_ENV
       - run: PKG_VERSION=$PKG_VERSION yarn version:pre
-      - run: |
-          echo npmAuthToken: "$NODE_AUTH_TOKEN" >> ./.yarnrc.yml
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - run: TAG_NAME=$TAG_NAME yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
