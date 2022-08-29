@@ -140,7 +140,7 @@ interface Paragraph {
   children: Descendant[];
 }
 
-interface MentionElement {
+interface Mention {
   type: "mention";
   value: string;
   trigger: string;
@@ -183,13 +183,7 @@ interface ListItem {
   children: Descendant[];
 }
 
-type CustomElement =
-  | Root
-  | Paragraph
-  | MentionElement
-  | Heading
-  | List
-  | ListItem;
+type CustomElement = Root | Paragraph | Mention | Heading | List | ListItem;
 
 type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 
@@ -219,5 +213,5 @@ export type {
   ListItem,
   CustomText,
   CustomElement,
-  MentionElement,
+  Mention,
 };

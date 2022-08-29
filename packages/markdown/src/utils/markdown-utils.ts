@@ -1,22 +1,23 @@
 import {
+  cloneChildren,
   CustomText,
-  getNodeParent,
+  hasChildren,
   Heading,
   isParagraph,
   List,
   ListItem,
+  Paragraph,
+  Root,
   setNodes,
   unsetNodes,
   unwrapElement,
   unwrapNodes,
-  walkNodes,
 } from "@react-fluent-edit/core";
-import { removeNodes } from "@react-fluent-edit/core/src";
-import { BaseRange, Descendant, Node, NodeEntry, Text } from "slate";
+import { BaseRange, Descendant, Element, Node, NodeEntry, Text } from "slate";
 import {
   getTokens,
+  isListToken,
   ListItemToken,
-  ListToken,
   Token,
   walkTokens,
 } from "./tokenizer";
@@ -89,98 +90,73 @@ function decorateMarkdown(entry: NodeEntry): BaseRange[] {
 }
 
 function withMarkdownNodes(nodes: Descendant[]): Descendant[] {
-  let listText = "";
-  let listNodes: Node[] = [];
-  const tokenList: { listNodes: Node[]; listToken: ListToken }[] = [];
-  let nextFirstToken: Token | undefined = undefined;
+  let text = "";
+  const paragraphsToBeDeleted: number[] = [];
+  const root: Root = { type: "root", children: cloneChildren(nodes) };
+  const paragraphs = Array.from(Node.nodes(root))
+    .filter(([n]) => Element.isElement(n) && n.type !== "root")
+    .filter((entry): entry is NodeEntry<Paragraph> => isParagraph(entry));
 
-  walkNodes({
-    nodes,
-    match: (entry) => isParagraph(entry),
-    callback: ({ currEntry, nextEntry: [next] }) => {
-      const [curr] = currEntry;
-      if (!isParagraph(curr)) {
-        return;
-      }
+  for (let idx = 0; idx < paragraphs.length; idx++) {
+    const [node] = paragraphs[idx];
+    const [nextNode] =
+      idx + 1 < paragraphs.length ? paragraphs[idx + 1] : [undefined];
 
-      const textNode = Node.child(curr, 0);
-      if (!textNode || !Text.isText(textNode)) {
-        return;
-      }
-      const src = listText ? listText + "\n" + textNode.text : textNode.text;
-      const tokens = getTokens(src);
+    const str = Node.string(node);
+    text = text ? `${text}\n${str}` : str;
+    const [token] = getTokens(text);
 
-      const firstToken = tokens.length > 0 ? tokens[0] : undefined;
-      if (!firstToken) {
-        return;
-      }
+    const nextStr = nextNode ? Node.string(nextNode) : undefined;
+    const nextText = nextStr ? `${text}\n${nextStr}` : undefined;
+    const [nextToken] = nextText ? getTokens(nextText) : [undefined];
 
-      if (firstToken.type === "heading") {
-        Object.assign(curr, {
-          type: "heading",
-          depth: firstToken.depth,
-          children: curr.children,
-        });
-        return;
-      }
-
-      const nextTextNode = next && Node.child(next, 0);
-      const nextSrc = Text.isText(nextTextNode)
-        ? src + "\n" + nextTextNode.text
-        : undefined;
-      const nextTokens = nextSrc ? getTokens(nextSrc) : undefined;
-      if (nextTokens && nextTokens.length > 0) {
-        nextFirstToken = nextTokens[0];
-      }
-
-      if (
-        firstToken.type === "list" &&
-        JSON.stringify(firstToken) === JSON.stringify(nextFirstToken)
-      ) {
-        listNodes.push(currEntry[0]);
-        tokenList.push({ listNodes, listToken: firstToken });
-        listText = "";
-        listNodes = [];
-        nextFirstToken = undefined;
-      } else if (firstToken.type === "list") {
-        listText = listText
-          ? listText + "\n" + textNode.text
-          : listText + textNode.text;
-        listNodes.push(currEntry[0]);
-      }
-    },
-  });
-
-  for (const { listNodes, listToken } of tokenList) {
-    const nodeToReplace = listNodes[0];
-    if (!nodeToReplace) {
+    if (isHeading(token)) {
+      Object.assign(node, {
+        type: "heading",
+        depth: token.depth,
+        children: node.children,
+      });
       continue;
     }
 
-    const parent = getNodeParent(nodes, nodeToReplace);
-    if (!parent) {
-      continue;
+    if (
+      isListToken(token) &&
+      (JSON.stringify(token) === JSON.stringify(nextToken) || !nextToken)
+    ) {
+      const list: List = {
+        type: "list",
+        start: token.start,
+        ordered: token.ordered,
+        loose: token.loose,
+        children: [],
+      };
+
+      const { value: lines } = setListContent(list, token.items);
+      const replaceIndex = idx - lines + 1;
+      const startDelete = replaceIndex + 1;
+      const deleteCount = lines - 1;
+      for (let i = 0; i < deleteCount; i++) {
+        paragraphsToBeDeleted.push(startDelete + i);
+      }
+
+      const paragraphToReplace = paragraphs[replaceIndex];
+      Object.assign(paragraphToReplace[0], list);
+      break;
     }
-
-    const list: List = {
-      type: "list",
-      start: listToken.start,
-      ordered: listToken.ordered,
-      loose: listToken.loose,
-      children: [],
-    };
-
-    setListContent(list, listToken.items as ListItemToken[]);
-
-    parent.nodes.splice(parent.index, 0, list);
-
-    removeNodes(nodes, listNodes);
   }
 
-  return nodes;
+  paragraphsToBeDeleted.reverse().forEach((i) => {
+    paragraphs.splice(i, 1);
+  });
+
+  return paragraphs.map(([p]) => p);
 }
 
-function setListContent(list: List, items: ListItemToken[]) {
+function setListContent(
+  list: List,
+  items: ListItemToken[],
+  lines = { value: 0 }
+) {
   items.forEach((item) => {
     const { raw, text, _start, _end, tokens, ...rest } = item;
 
@@ -190,27 +166,78 @@ function setListContent(list: List, items: ListItemToken[]) {
     };
 
     tokens.forEach((token) => {
-      if (token.type === "list") {
-        const { items, _start, _end, raw, ...rest } = token as ListToken;
+      if (isListToken(token)) {
+        const { items, _start, _end, raw, ...rest } = token;
         const subList: List = { ...rest, children: [] };
-        setListContent(subList, items as ListItemToken[]);
+        setListContent(subList, items, lines);
         listItem.children = [...listItem.children, subList];
       } else if (token.type === "text") {
         listItem.children = [...listItem.children, { text: token.text }];
       }
     });
 
+    lines.value++;
     list.children.push(listItem);
   });
+  return lines;
 }
 
 function withoutMarkdownNodes(nodes: Descendant[]): Descendant[] {
-  nodes = unsetNodes(nodes, "depth", (n) => isHeading(n));
-  nodes = setNodes(nodes, { type: "paragraph" }, (n) => isHeading(n));
-  nodes = unwrapNodes(nodes, (node) => isList(node));
-  nodes = unsetNodes(nodes, ["task", "checked", "loose"], (n) => isListItem(n));
-  nodes = setNodes(nodes, { type: "paragraph" }, (n) => isListItem(n));
-  return nodes;
+  let newNodes = cloneChildren(nodes);
+  unsetNodes(newNodes, ["depth"], (n) => isHeading(n));
+  setNodes(newNodes, { type: "paragraph" }, (n) => isHeading(n));
+  list2Text(newNodes);
+  newNodes = unwrapNodes(newNodes, (node) => isList(node));
+  unsetNodes(newNodes, ["task", "checked", "loose"], (n) => isListItem(n));
+  setNodes(newNodes, { type: "paragraph" }, (n) => isListItem(n));
+  return newNodes;
+}
+
+type NodeWithParent = Descendant & { _parent?: Descendant };
+
+function list2Text(nodes: NodeWithParent[], parent?: NodeWithParent) {
+  for (const node of nodes) {
+    node._parent = parent;
+    if (isListItem(node)) {
+      const depth = getDepth(node);
+      const whitespaces = getWhitespaces(depth);
+      const position = getPosition(node);
+      node.children.forEach((child) => {
+        if (Text.isText(child)) {
+          if (position) {
+            child.text = `${position}. ${child.text}`;
+          } else {
+            child.text = `- ${child.text}`;
+          }
+          child.text = whitespaces + child.text;
+        }
+      });
+    }
+    if (hasChildren(node)) {
+      list2Text(node.children, node);
+    }
+  }
+}
+
+function getPosition(node: NodeWithParent) {
+  const parent = node._parent;
+  if (isList(parent) && parent.ordered) {
+    return parent.children.indexOf(node as any) + 1;
+  } else {
+    return 0;
+  }
+}
+
+function getDepth(node: NodeWithParent, depth = { value: -1 }) {
+  if (isList(node._parent) || isListItem(node._parent)) {
+    depth.value++;
+    getDepth(node._parent, depth);
+  }
+  return depth.value;
+}
+
+function getWhitespaces(depth: number) {
+  return depth ? " ".repeat(depth * 2) : "";
 }
 
 export { decorateMarkdown, withMarkdownNodes, withoutMarkdownNodes, isHeading };

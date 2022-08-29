@@ -3,12 +3,10 @@
   "private": true,
   "license": "MIT",
   "description": "Markdown Plugin for React FluentEdit",
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/index.js",
-  "types": "./lib/esm/index.d.ts",
-  "files": [
-    "lib"
-  ],
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sodenn/react-fluent-edit.git",
@@ -22,8 +20,11 @@
   "scripts": {
     "build": "yarn clean && yarn build:esm & yarn build:cjs",
     "clean": "rimraf lib",
+    "copy": "node ../../scripts/copy-files.js",
+    "build:all": "run-p build:esm build:cjs",
     "build:esm": "tsc --project tsconfig.esm.json",
-    "build:cjs": "tsc --project tsconfig.cjs.json"
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "publish": "node ../../scripts/publish.js"
   },
   "dependencies": {
     "@react-fluent-edit/core": "workspace:*",

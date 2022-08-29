@@ -5,15 +5,31 @@ interface WithPosition {
   _end: number;
 }
 
-function hasTokens(token: any): token is { tokens?: Token[]; items?: Token[] } {
-  return !!token.tokens || !!token.items;
+interface WithTokens {
+  tokens: Token[];
+}
+
+interface WithListItem {
+  items: ListItemToken[];
 }
 
 type Token = marked.Token & WithPosition;
 
-type ListToken = marked.Tokens.List & WithPosition;
+type ListToken = Omit<marked.Tokens.List, "items"> &
+  WithPosition &
+  WithListItem;
 
-type ListItemToken = marked.Tokens.ListItem & WithPosition;
+type ListItemToken = Omit<marked.Tokens.ListItem, "tokens"> &
+  WithPosition &
+  WithTokens;
+
+function hasTokens(token: any): token is { tokens?: Token[]; items?: Token[] } {
+  return !!token.tokens || !!token.items;
+}
+
+function isListToken(token: any): token is ListToken {
+  return token.type === "list";
+}
 
 const rules = {
   heading: /^(#{1,6})(\s+)(.+)(?:\n+|$)/,
@@ -25,7 +41,7 @@ function addPositions(token: Token) {
     if (subs) {
       const start = token._start || 0;
       let subpos = 0;
-      subs.forEach((sub: Token) => {
+      subs.forEach((sub) => {
         const substart = token.raw.indexOf(sub.raw, subpos);
         const sublen = sub.raw.length;
         sub._start = substart + start;
@@ -62,4 +78,12 @@ function walkTokens(tokens: Token[], fn: (token: Token) => void) {
   marked.walkTokens(tokens, fn);
 }
 
-export { getTokens, walkTokens, Token, ListToken, ListItemToken, rules };
+export {
+  getTokens,
+  walkTokens,
+  Token,
+  ListToken,
+  ListItemToken,
+  isListToken,
+  rules,
+};

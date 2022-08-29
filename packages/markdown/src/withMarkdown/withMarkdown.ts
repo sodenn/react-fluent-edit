@@ -1,4 +1,4 @@
-import { isParagraph } from "@react-fluent-edit/core/src";
+import { isParagraph } from "@react-fluent-edit/core";
 import { Editor, Range, Transforms } from "slate";
 import { isHeading } from "../utils";
 import { rules } from "../utils/tokenizer";

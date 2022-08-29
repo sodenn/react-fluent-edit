@@ -7,8 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { createEditor, Descendant, Transforms } from "slate";
-import { withHistory } from "slate-history";
+import { Descendant, Transforms } from "slate";
 import {
   Editable,
   ReactEditor,
@@ -16,7 +15,6 @@ import {
   RenderLeafProps,
   RenderPlaceholderProps,
   Slate,
-  withReact,
 } from "slate-react";
 import useDecorate from "../decorate";
 import ElementRenderer from "../ElementRenderer";
@@ -27,23 +25,9 @@ import PluginProvider from "../PluginProvider";
 import { useDeserialize, useSerialize } from "../serialize";
 import useEventHandler from "../useEventHandlerProps";
 import useFluentEditInternal from "../useFluentEditInternal";
-import {
-  addRoot,
-  focusEditor,
-  isParagraph,
-  removeRoot,
-  withoutTab,
-  withSingleLine,
-} from "../utils";
+import { addRoot, focusEditor, isParagraph, removeRoot } from "../utils";
+import createSlateEditor from "./createSlateEditor";
 import { FluentEditInternalProps, FluentEditProps } from "./FluentEditProps";
-
-function createSlateEditor(singleLine: boolean) {
-  let editor = withoutTab(withReact(withHistory(createEditor())));
-  if (singleLine) {
-    editor = withSingleLine(editor);
-  }
-  return editor;
-}
 
 const FluentEdit = (props: FluentEditProps) => {
   const { singleLine = false, plugins } = props;

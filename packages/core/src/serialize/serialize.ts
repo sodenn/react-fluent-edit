@@ -1,7 +1,38 @@
 import { useCallback } from "react";
-import { Descendant } from "slate";
+import { Descendant, Node, Text } from "slate";
+import { Root } from "../types";
 import usePlugins from "../usePlugins";
-import { addRoot, cloneChildren, slate2text, text2slate } from "../utils";
+import { addRoot, cloneChildren, isParagraph } from "../utils";
+
+function slate2text(nodes: Descendant[]): string {
+  const root: Root = { type: "root", children: nodes };
+  let text = Array.from(Node.nodes(root)).reduce((prev, [node]) => {
+    if (isParagraph(node)) {
+      return prev + "\n";
+    } else if (Text.isText(node)) {
+      return prev + node.text;
+    }
+    return prev;
+  }, "");
+  text = text.replace(/^[\r\n]+/, "");
+  return text;
+}
+
+function text2slate(text: string): Descendant[] {
+  text = text.replace(/<br>/g, "\n");
+  if (!/\n/.test(text)) {
+    return [
+      {
+        type: "paragraph",
+        children: [{ text }],
+      },
+    ];
+  }
+  return text.split(/\n/g).map((line) => ({
+    type: "paragraph",
+    children: [{ text: line }],
+  }));
+}
 
 /**
  * Converts the given data structure into a string.
