@@ -80,7 +80,7 @@ interface Override {
   priority?: number;
 }
 
-type Decorate = (entry: NodeEntry) => BaseRange[];
+type Decorate = (entry: NodeEntry, editor: Editor) => BaseRange[];
 
 interface Plugin<T = {}> {
   /**

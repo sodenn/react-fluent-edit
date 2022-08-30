@@ -4,7 +4,24 @@ import { isHeading } from "../utils";
 import { rules } from "../utils/tokenizer";
 
 function withMarkdown(editor: Editor) {
-  const { normalizeNode, insertText, deleteBackward } = editor;
+  const { normalizeNode, insertText, deleteBackward, apply } = editor;
+
+  // editor.apply = (op) => {
+  //   if (op.type === "split_node" && isParagraph(op.properties)) {
+  //     const prev = Editor.node(editor, op.path);
+  //     if (prev) {
+  //       const [node] = prev;
+  //       if (isParagraph(node)) {
+  //         const str = Node.string(node);
+  //         const match = str.match(rules.list);
+  //         if (match) {
+  //           console.log(match);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   apply(op);
+  // };
 
   // Text Completion: Automatically inserts a second char (*_`~)
   // and places the cursor between them.

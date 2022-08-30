@@ -69,7 +69,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   const { onPaste, onKeyDown, ...eventProps } = useEventHandler(editor);
   const serializer = useSerialize();
   const deserializer = useDeserialize();
-  const decorate = useDecorate();
+  const decorate = useDecorate(editor);
 
   const renderElement = useCallback(
     (props: RenderElementProps) => <ElementRenderer {...props} />,

@@ -5,51 +5,48 @@ interface WithPosition {
   _end: number;
 }
 
-interface WithTokens {
-  tokens: Token[];
-}
-
-interface WithListItem {
-  items: ListItemToken[];
-}
-
 type Token = marked.Token & WithPosition;
-
-type ListToken = Omit<marked.Tokens.List, "items"> &
-  WithPosition &
-  WithListItem;
-
-type ListItemToken = Omit<marked.Tokens.ListItem, "tokens"> &
-  WithPosition &
-  WithTokens;
 
 function hasTokens(token: any): token is { tokens?: Token[]; items?: Token[] } {
   return !!token.tokens || !!token.items;
 }
 
-function isListToken(token: any): token is ListToken {
-  return token.type === "list";
-}
-
 const rules = {
   heading: /^(#{1,6})(\s+)(.+)(?:\n+|$)/,
+  list: / *(?:[*+-]|\d+[.)]) /,
 };
 
-function addPositions(token: Token) {
-  if (hasTokens(token)) {
-    const subs = token.tokens || token.items;
-    if (subs) {
-      const start = token._start || 0;
-      let subpos = 0;
-      subs.forEach((sub) => {
-        const substart = token.raw.indexOf(sub.raw, subpos);
-        const sublen = sub.raw.length;
-        sub._start = substart + start;
-        sub._end = sub._start + sublen;
-        subpos = substart + sublen;
-      });
+function addPositions(src: string) {
+  return (token: Token) => {
+    if (hasTokens(token)) {
+      const subs = token.tokens || token.items;
+      if (subs) {
+        const start = token._start || 0;
+        let subpos = 0;
+        subs.forEach((sub) => {
+          const substart = token.raw.indexOf(sub.raw, subpos);
+          const sublen = sub.raw.length;
+          sub._start = substart + start;
+          sub._end = sub._start + sublen;
+
+          // const lines = src.substring(0, sub._start).split("\n");
+          // const lineNumber = lines.length;
+          // const startFromBeginningOfLine = lines.reduce((prev, curr, index) => {
+          //   if (index + 1 < lines.length) {
+          //     prev += curr.length;
+          //   }
+          //   return prev;
+          // }, 0);
+          // const p1 = lines.length - 1;
+          // const p2 = sub._start - startFromBeginningOfLine;
+          // const position = [p1, p2];
+          // console.log(position);
+
+          subpos = substart + sublen;
+        });
+      }
     }
-  }
+  };
 }
 
 function getTokens(src: string): Token[] {
@@ -69,7 +66,7 @@ function getTokens(src: string): Token[] {
       tokens,
     },
   ];
-  marked.walkTokens(root, addPositions);
+  marked.walkTokens(root, addPositions(src));
 
   return tokens as any;
 }
@@ -78,12 +75,4 @@ function walkTokens(tokens: Token[], fn: (token: Token) => void) {
   marked.walkTokens(tokens, fn);
 }
 
-export {
-  getTokens,
-  walkTokens,
-  Token,
-  ListToken,
-  ListItemToken,
-  isListToken,
-  rules,
-};
+export { getTokens, walkTokens, Token, rules };

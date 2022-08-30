@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { CustomElement, CustomText } from "@react-fluent-edit/core";
+import { createEditor } from "slate";
 import {
   decorateMarkdown,
   withMarkdownNodes,
@@ -104,8 +105,10 @@ describe("markdown-utils", () => {
       text: "Lorem *ipsum **dolor** sit amet*",
     };
     const path = [0, 0];
+    const editor = createEditor();
+    editor.children = [{ type: "paragraph", children: [entry] }];
 
-    const ranges = decorateMarkdown([entry, path]);
+    const ranges = decorateMarkdown([entry, path], editor);
 
     expect(ranges).toStrictEqual([
       {

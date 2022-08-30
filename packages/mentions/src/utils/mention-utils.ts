@@ -1,7 +1,7 @@
 import {
   cloneChildren,
   CustomText,
-  MentionElement,
+  Mention as MentionElement,
   Plugin,
   unwrapElement,
   usePlugins,
