@@ -10,21 +10,27 @@ test("should render a heading element", async ({ mount }) => {
     <MarkdownPlayground initialValue="# Heading" />
   );
 
-  const heading = component.locator("h1");
-  await expect(heading).toContainText("# Heading");
-
-  const marker = heading.locator('span:has-text("#") >> nth=1');
-  const text = heading.locator('span:has-text("Heading") >> nth=1');
+  const marker = component.locator(
+    '[data-slate-leaf="true"] > span:has-text("#")'
+  );
+  const heading = component.locator(
+    '[data-slate-leaf="true"] > span:has-text("Heading")'
+  );
 
   await expect(marker).toHaveCSS("color", markerColor);
-  await expect(text).not.toHaveCSS("color", markerColor);
+  await expect(heading).not.toHaveCSS("color", markerColor);
+  await expect(heading).toHaveCSS("font-weight", "700");
 });
 
 test("should remove heading element", async ({ mount, page }) => {
   const component = await mount(<MarkdownPlayground initialValue="# x" />);
 
-  const marker = component.locator('span:has-text("#") >> nth=1');
-  const heading = component.locator("h1");
+  const marker = component.locator(
+    '[data-slate-leaf="true"] > span:has-text("#")'
+  );
+  const heading = component.locator(
+    '[data-slate-leaf="true"] > span:has-text("X")'
+  );
 
   await expect(marker).toHaveCSS("color", markerColor);
   await expect(heading).toBeVisible();
@@ -40,8 +46,12 @@ test("should add heading element", async ({ mount }) => {
 
   await component.type("# x");
 
-  const marker = component.locator('span:has-text("#") >> nth=1');
-  const heading = component.locator("h1");
+  const marker = component.locator(
+    '[data-slate-leaf="true"] > span:has-text("#")'
+  );
+  const heading = component.locator(
+    '[data-slate-leaf="true"] > span:has-text("x")'
+  );
 
   await expect(marker).toHaveCSS("color", markerColor);
   await expect(heading).toBeVisible();
@@ -57,6 +67,8 @@ test("should not render multiline heading element", async ({ mount, page }) => {
   const component = await mount(<MarkdownPlayground initialValue="# x" />);
   await page.keyboard.press("Enter");
   await component.type("x");
-  const heading = component.locator("h1");
+  const heading = component.locator(
+    '[data-slate-leaf="true"] > span:has-text("x")'
+  );
   await expect(heading).toHaveCount(1);
 });

@@ -7,27 +7,25 @@ import withMarkdown from "../withMarkdown";
 function createMarkdownPlugin(options?: MarkdownPluginOptions): Plugin {
   return {
     name: "markdown",
-    leaves: [
-      {
-        match: ({ leaf }) =>
-          [
-            "strong",
-            "em",
-            "del",
-            "codespan",
-            "link",
-            "h1",
-            "h2",
-            "h3",
-            "h4",
-            "h5",
-            "h6",
-            "marker",
-          ].some((key) => leaf[key]),
-        component: Leaf,
-      },
-    ],
-    overrides: [{ handler: withMarkdown }],
+    leave: {
+      match: ({ leaf }) =>
+        [
+          "strong",
+          "em",
+          "del",
+          "codespan",
+          "link",
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "marker",
+        ].some((key) => leaf[key]),
+      component: Leaf,
+    },
+    override: withMarkdown,
     decorate: decorateMarkdown,
     options,
   };

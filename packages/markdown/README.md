@@ -1,4 +1,4 @@
-# @react-fluent-edit/rich-text
+# @react-fluent-edit/markdown
 
 ## WIP
 

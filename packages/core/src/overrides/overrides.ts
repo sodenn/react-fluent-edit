@@ -7,9 +7,7 @@ function useOverrides() {
   return useCallback(
     (editor: Editor) => {
       return plugins
-        .flatMap((p) => p.overrides)
-        .sort((s1, s2) => (s2.priority || 0) - (s1.priority || 0))
-        .map((o) => o.handler)
+        .map((p) => p.override)
         .reduce((prev, curr) => curr(editor), editor);
     },
     [plugins]

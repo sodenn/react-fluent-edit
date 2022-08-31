@@ -7,8 +7,7 @@ const ElementRenderer = (props: RenderElementProps) => {
   const plugins = usePlugins();
 
   const plugin = plugins
-    .flatMap((plugin) => plugin.elements)
-    .sort((e1, e2) => (e2.priority || 0) - (e1.priority || 0))
+    .map((plugin) => plugin.element)
     .find(({ match }) => match(props));
 
   if (plugin) {

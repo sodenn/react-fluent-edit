@@ -14,13 +14,11 @@ import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";
 interface LeafComponent {
   match: (props: RenderLeafProps) => boolean;
   component: FunctionComponent<RenderLeafProps>;
-  priority?: number;
 }
 
 interface LeafStyle {
   match: (props: RenderLeafProps) => boolean;
   style: CSSProperties;
-  priority?: number;
 }
 
 type Leaf = LeafComponent | LeafStyle;
@@ -28,7 +26,6 @@ type Leaf = LeafComponent | LeafStyle;
 interface Element {
   match: (props: RenderElementProps) => boolean;
   component: FunctionComponent<RenderElementProps>;
-  priority?: number;
 }
 
 interface EventHandler<E> {
@@ -68,17 +65,7 @@ interface Deserialize {
   priority?: number;
 }
 
-interface Override {
-  /**
-   * Called when creating the editor.
-   */
-  handler: (editor: Editor) => Editor;
-
-  /**
-   * A high value results in earlier execution.
-   */
-  priority?: number;
-}
+type Override = (editor: Editor) => Editor;
 
 type Decorate = (entry: NodeEntry, editor: Editor) => BaseRange[];
 
@@ -88,12 +75,16 @@ interface Plugin<T = {}> {
    */
   name: string;
 
-  leaves?: Leaf[];
+  /**
+   * Register a custom Leaf.
+   */
+  leave?: Leaf;
 
   /**
-   * Register custom Elements.
+   * Register a custom Element.
    */
-  elements?: Element[];
+  element?: Element;
+
   handlers?: EventHandlers;
 
   /**
@@ -114,7 +105,7 @@ interface Plugin<T = {}> {
   /**
    * Modify the original behavior of the editor.
    */
-  overrides?: Override[];
+  override?: Override;
 
   /**
    * Custom options of the plugin.
