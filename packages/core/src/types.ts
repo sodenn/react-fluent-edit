@@ -155,35 +155,19 @@ interface CustomText {
   em?: boolean;
   codespan?: boolean;
   del?: boolean;
+  h1?: boolean;
+  h2?: boolean;
+  h3?: boolean;
+  h4?: boolean;
+  h5?: boolean;
+  h6?: boolean;
   // link
   link?: boolean;
   href?: string;
   title?: string;
 }
 
-interface Heading {
-  type: "heading";
-  depth: 1 | 2 | 3 | 4 | 5 | 6;
-  children: Descendant[];
-}
-
-interface List {
-  type: "list";
-  ordered: boolean;
-  start: number | "";
-  loose: boolean;
-  children: ListItem[];
-}
-
-interface ListItem {
-  type: "list_item";
-  task: boolean;
-  checked?: boolean | undefined;
-  loose: boolean;
-  children: Descendant[];
-}
-
-type CustomElement = Root | Paragraph | Mention | Heading | List | ListItem;
+type CustomElement = Root | Paragraph | Mention;
 
 type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 
@@ -208,9 +192,6 @@ export type {
   WithChildren,
   Root,
   Paragraph,
-  Heading,
-  List,
-  ListItem,
   CustomText,
   CustomElement,
   Mention,

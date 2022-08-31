@@ -1,5 +1,5 @@
 import {
-  MentionElement,
+  Mention as MentionElement,
   useFluentEdit,
   WithChildrenProp,
 } from "@react-fluent-edit/core";
@@ -43,11 +43,13 @@ function MentionsProvider({ children }: WithChildrenProp) {
 
       const charBefore = Editor.before(editor, start, { unit: "character" });
       const beforeRange = charBefore && Editor.range(editor, charBefore, start);
-      const beforeText = beforeRange && Editor.string(editor, beforeRange);
+      const beforeText =
+        beforeRange && Editor.string(editor, beforeRange, { voids: true });
 
       const charAfter = Editor.after(editor, start, { unit: "character" });
       const afterRange = charAfter && Editor.range(editor, charAfter, start);
-      const afterText = afterRange && Editor.string(editor, afterRange);
+      const afterText =
+        afterRange && Editor.string(editor, afterRange, { voids: true });
 
       const triggers = mentions
         .map((m) => escapeRegExp(m.trigger))

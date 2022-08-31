@@ -1,24 +1,9 @@
 import { useCallback } from "react";
-import { Descendant, Node, Text } from "slate";
-import { Root } from "../types";
+import { Descendant } from "slate";
 import usePlugins from "../usePlugins";
-import { addRoot, cloneChildren, isParagraph } from "../utils";
+import { addRoot, cloneChildren, nodesToText } from "../utils";
 
-function slate2text(nodes: Descendant[]): string {
-  const root: Root = { type: "root", children: nodes };
-  let text = Array.from(Node.nodes(root)).reduce((prev, [node]) => {
-    if (isParagraph(node)) {
-      return prev + "\n";
-    } else if (Text.isText(node)) {
-      return prev + node.text;
-    }
-    return prev;
-  }, "");
-  text = text.replace(/^[\r\n]+/, "");
-  return text;
-}
-
-function text2slate(text: string): Descendant[] {
+function textToNodes(text: string): Descendant[] {
   text = text.replace(/<br>/g, "\n");
   if (!/\n/.test(text)) {
     return [
@@ -47,7 +32,7 @@ function useSerialize() {
         .sort((d1, d2) => (d2.priority || 0) - (d1.priority || 0))
         .map((d) => d.handler)
         .reduce<Descendant[]>((prev, curr) => curr(nodes), nodes);
-      return slate2text(nodes);
+      return nodesToText(nodes);
     },
     [plugins]
   );
@@ -65,7 +50,7 @@ function useDeserialize() {
       options: { [key: string]: unknown }
     ): Descendant[] => {
       text = singleLine ? text.replace(/\n|<br>/g, " ") : text;
-      let nodes: Descendant[] = text2slate(text);
+      let nodes: Descendant[] = textToNodes(text);
       nodes = plugins
         .sort(
           (s1, s2) =>

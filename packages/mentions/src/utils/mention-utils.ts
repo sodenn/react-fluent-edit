@@ -3,7 +3,6 @@ import {
   CustomText,
   Mention as MentionElement,
   Plugin,
-  unwrapElement,
   usePlugins,
 } from "@react-fluent-edit/core";
 import {
@@ -29,8 +28,7 @@ interface InsertMentionOptions extends Omit<Mention, "suggestions"> {
 }
 
 function isMentionElement(element: any): element is MentionElement {
-  const elem = unwrapElement<MentionElement>(element);
-  return elem?.type === "mention";
+  return element?.type === "mention";
 }
 
 function insertMention(opt: InsertMentionOptions) {
@@ -52,7 +50,11 @@ function getUserInputAtSelection(editor: Editor, mentions: Mention[]) {
 
   if (selection && Range.isCollapsed(selection)) {
     const [start] = Range.edges(selection);
-    let textBefore = Editor.string(editor, Editor.range(editor, [0, 0], start));
+    let textBefore = Editor.string(
+      editor,
+      Editor.range(editor, [0, 0], start),
+      { voids: true }
+    );
     textBefore = textBefore.substring(textBefore.length - start.offset); // only the current line
     const escapedTriggers = mentions
       .map((m) => m.trigger)
@@ -82,7 +84,7 @@ function getUserInputAtSelection(editor: Editor, mentions: Mention[]) {
 
     const after = Editor.after(editor, start);
     const afterRange = Editor.range(editor, start, after);
-    const afterText = Editor.string(editor, afterRange);
+    const afterText = Editor.string(editor, afterRange, { voids: true });
     const afterMatch = afterText.match(/^(\s|$)/);
 
     if (beforeMatch && afterMatch && beforeRange && mention) {

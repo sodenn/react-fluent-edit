@@ -1,26 +1,13 @@
-import {
-  createEditor,
-  Descendant,
-  Editor,
-  Element,
-  Node,
-  Transforms,
-} from "slate";
+import { Descendant, Editor, Element, Node, Text, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { CustomElement, Paragraph, WithChildren } from "../types";
-
-function unwrapElement<T>(element: any): T | undefined {
-  return Array.isArray(element) && element.length > 0 ? element[0] : element;
-}
+import { CustomElement, Paragraph, Root, WithChildren } from "../types";
 
 function isParagraph(element: any): element is Paragraph {
-  const elem = unwrapElement<Paragraph>(element);
-  return elem?.type === "paragraph";
+  return element?.type === "paragraph";
 }
 
 function hasChildren(element: any): element is WithChildren {
-  const elem = unwrapElement<WithChildren>(element);
-  return !!elem?.children && elem?.children.length > 0;
+  return !!element?.children && element?.children.length > 0;
 }
 
 function addRoot(nodes: Descendant[]): Descendant[] {
@@ -52,6 +39,20 @@ function focusEditor(editor: Editor) {
   }
 }
 
+function nodesToText(nodes: Descendant[]): string {
+  const root: Root = { type: "root", children: nodes };
+  let text = Array.from(Node.nodes(root)).reduce((prev, [node]) => {
+    if (isParagraph(node)) {
+      return prev + "\n";
+    } else if (Text.isText(node)) {
+      return prev + node.text;
+    }
+    return prev;
+  }, "");
+  text = text.replace(/^[\r\n]+/, "");
+  return text;
+}
+
 function cloneChildren(children: Descendant[]): Descendant[] {
   return children.map((node) => {
     if (Element.isElement(node)) {
@@ -64,67 +65,6 @@ function cloneChildren(children: Descendant[]): Descendant[] {
   });
 }
 
-function removeNodes(nodes: Node[], nodesToRemove: Node[]) {
-  let i = nodes.length;
-  while (i--) {
-    const node = nodes[i];
-    if (nodesToRemove.includes(node)) {
-      nodes.splice(i, 1);
-    } else if (hasChildren(node)) {
-      removeNodes(node.children, nodesToRemove);
-    }
-  }
-}
-
-const editor = createEditor();
-function unwrapNodes(nodes: Descendant[], match: (node: Node) => boolean) {
-  Editor.withoutNormalizing(editor, () => {
-    editor.children = [{ type: "root", children: nodes }];
-    Transforms.liftNodes(editor, {
-      at: [0],
-      mode: "all",
-      match: match,
-    });
-    Transforms.unwrapNodes(editor, {
-      split: true,
-      mode: "all",
-      at: [0],
-      match: match,
-    });
-  });
-  return cloneChildren(editor.children);
-}
-
-function setNodes(
-  nodes: Descendant[],
-  props: Partial<Node>,
-  match: (node: Node) => boolean
-) {
-  nodes.forEach((node) => {
-    if (match(node)) {
-      Object.assign(node, props);
-    } else if (hasChildren(node)) {
-      setNodes(node.children, props, match);
-    }
-  });
-}
-
-function unsetNodes(
-  nodes: Descendant[],
-  props: string[],
-  match: (node: Node) => boolean
-) {
-  nodes.forEach((node) => {
-    if (match(node)) {
-      props.forEach((prop) => {
-        delete node[prop];
-      });
-    } else if (hasChildren(node)) {
-      unsetNodes(node.children, props, match);
-    }
-  });
-}
-
 export {
   isParagraph,
   addRoot,
@@ -132,9 +72,5 @@ export {
   focusEditor,
   cloneChildren,
   hasChildren,
-  unwrapElement,
-  removeNodes,
-  unwrapNodes,
-  setNodes,
-  unsetNodes,
+  nodesToText,
 };
