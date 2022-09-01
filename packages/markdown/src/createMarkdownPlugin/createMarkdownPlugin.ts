@@ -1,7 +1,7 @@
 import { Plugin } from "@react-fluent-edit/core";
 import Leaf from "../Leaf";
 import { MarkdownPluginOptions } from "../types";
-import { decorateMarkdown } from "../utils";
+import { decorateMarkdown, moveListItem } from "../utils";
 import withMarkdown from "../withMarkdown";
 
 function createMarkdownPlugin(options?: MarkdownPluginOptions): Plugin {
@@ -27,6 +27,7 @@ function createMarkdownPlugin(options?: MarkdownPluginOptions): Plugin {
     },
     override: withMarkdown,
     decorate: decorateMarkdown,
+    handlers: { onKeyDown: { handler: moveListItem } },
     options,
   };
 }

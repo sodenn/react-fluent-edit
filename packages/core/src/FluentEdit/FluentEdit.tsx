@@ -23,7 +23,7 @@ import useOverrides from "../overrides";
 import Placeholder from "../Placeholder";
 import PluginProvider from "../PluginProvider";
 import { useDeserialize, useSerialize } from "../serialize";
-import useEventHandler from "../useEventHandlerProps";
+import useEventHandler from "../useEventHandler";
 import useFluentEditInternal from "../useFluentEditInternal";
 import { addRoot, focusEditor, isParagraph, removeRoot } from "../utils";
 import createSlateEditor from "./createSlateEditor";

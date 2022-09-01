@@ -1,6 +1,7 @@
 import { CustomText } from "@react-fluent-edit/core";
-import { BaseRange, Editor, NodeEntry, Text } from "slate";
-import { getTokens, HeadingToken, Token, walkTokens } from "./tokenizer";
+import { KeyboardEvent } from "react";
+import { BaseRange, Editor, NodeEntry, Range, Text } from "slate";
+import { getTokens, HeadingToken, rules, Token, walkTokens } from "./tokenizer";
 
 function getHeadingType(token: HeadingToken) {
   switch (token.depth) {
@@ -79,8 +80,28 @@ function decorateMarkdown(entry: NodeEntry): BaseRange[] {
   return ranges;
 }
 
-function arrangeListItem(event: any, editor: Editor) {
-  console.log(event);
+function moveListItem(ev: KeyboardEvent<HTMLDivElement>, editor: Editor) {
+  const { selection } = editor;
+  if (ev.key === "Tab" && selection && Range.isCollapsed(selection)) {
+    const [start] = Range.edges(selection);
+    const beforeLine = Editor.before(editor, start, { unit: "line" });
+    const beforeLineRange =
+      beforeLine && Editor.range(editor, beforeLine, start);
+    const beforeText =
+      beforeLineRange && Editor.string(editor, beforeLineRange);
+    const listMatch = beforeText && beforeText.match(rules.listItem);
+    const moveListItem = listMatch && listMatch[0] === beforeText;
+    if (moveListItem && ev.shiftKey) {
+      console.log("backward");
+      ev.preventDefault();
+      return true;
+    } else if (moveListItem) {
+      console.log("forward");
+      ev.preventDefault();
+      return true;
+    }
+  }
+  return false;
 }
 
-export { decorateMarkdown, arrangeListItem };
+export { decorateMarkdown, moveListItem };

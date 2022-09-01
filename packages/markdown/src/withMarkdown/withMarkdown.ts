@@ -13,7 +13,7 @@ function withMarkdown(editor: Editor) {
         const [prevNode, prevPath] = prev;
         if (isParagraph(prevNode)) {
           const prevStr = Node.string(prevNode);
-          const listMatch = prevStr.match(rules.list);
+          const listMatch = prevStr.match(rules.listItemStart);
           if (listMatch) {
             if (listMatch[0] === prevStr) {
               Transforms.insertText(editor, "", { at: prevPath });
@@ -71,7 +71,7 @@ function withMarkdown(editor: Editor) {
       const afterChar = Editor.string(editor, afterRange);
       const removeSpan =
         ["*", "_", "`", "~"].includes(beforeChar) && beforeChar == afterChar;
-      const listMatch = beforeText && beforeText.match(rules.list);
+      const listMatch = beforeText && beforeText.match(rules.listItemStart);
       const removeBulletPoint = listMatch && listMatch[0] === beforeText;
       if (removeSpan) {
         Transforms.delete(editor, { at: afterRange });

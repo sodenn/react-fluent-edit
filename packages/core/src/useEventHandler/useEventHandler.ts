@@ -26,7 +26,6 @@ function useEventHandler(editor: Editor): Partial<UseEventHandlersProps> {
             prev[name] = (ev: any) => {
               const handled = prevListener(ev);
               if (!handled) {
-                // @ts-ignore
                 return handler(ev, editor);
               }
               return handled;
@@ -35,13 +34,13 @@ function useEventHandler(editor: Editor): Partial<UseEventHandlersProps> {
           } else {
             return {
               ...prev,
-              [name]: handler,
+              [name]: (ev: any) => handler(ev, editor),
             };
           }
         },
         {}
       ),
-    [plugins]
+    [plugins, editor]
   );
 }
 
