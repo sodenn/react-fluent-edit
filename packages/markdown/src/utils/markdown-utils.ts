@@ -1,5 +1,5 @@
 import { CustomText } from "@react-fluent-edit/core";
-import { BaseRange, NodeEntry, Text } from "slate";
+import { BaseRange, Editor, NodeEntry, Text } from "slate";
 import { getTokens, HeadingToken, Token, walkTokens } from "./tokenizer";
 
 function getHeadingType(token: HeadingToken) {
@@ -79,4 +79,8 @@ function decorateMarkdown(entry: NodeEntry): BaseRange[] {
   return ranges;
 }
 
-export { decorateMarkdown };
+function arrangeListItem(event: any, editor: Editor) {
+  console.log(event);
+}
+
+export { decorateMarkdown, arrangeListItem };

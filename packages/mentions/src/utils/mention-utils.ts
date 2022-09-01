@@ -50,18 +50,15 @@ function getUserInputAtSelection(editor: Editor, mentions: Mention[]) {
 
   if (selection && Range.isCollapsed(selection)) {
     const [start] = Range.edges(selection);
-    let textBefore = Editor.string(
-      editor,
-      Editor.range(editor, [0, 0], start),
-      { voids: true }
-    );
-    textBefore = textBefore.substring(textBefore.length - start.offset); // only the current line
+    const lineBefore = Editor.before(editor, start, { unit: "line" });
+    const lineRange = lineBefore && Editor.range(editor, lineBefore, start);
+    const textBefore = lineRange && Editor.string(editor, lineRange);
     const escapedTriggers = mentions
       .map((m) => m.trigger)
       .map(escapeRegExp)
       .join("|");
     const pattern = `(^|\\s)(${escapedTriggers})(|\\S+)$`;
-    const beforeMatch = textBefore.match(new RegExp(pattern));
+    const beforeMatch = textBefore && textBefore.match(new RegExp(pattern));
     const beforeMatchExists =
       !!beforeMatch && beforeMatch.length > 2 && !!beforeMatch[0];
     const offset = beforeMatchExists
@@ -84,7 +81,7 @@ function getUserInputAtSelection(editor: Editor, mentions: Mention[]) {
 
     const after = Editor.after(editor, start);
     const afterRange = Editor.range(editor, start, after);
-    const afterText = Editor.string(editor, afterRange, { voids: true });
+    const afterText = Editor.string(editor, afterRange);
     const afterMatch = afterText.match(/^(\s|$)/);
 
     if (beforeMatch && afterMatch && beforeRange && mention) {

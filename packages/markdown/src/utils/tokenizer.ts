@@ -14,7 +14,7 @@ function hasTokens(token: any): token is { tokens?: Token[]; items?: Token[] } {
 
 const rules = {
   heading: /^(#{1,6})(\s+)(.+)(?:\n+|$)/,
-  list: / *(?:[*+-]|\d+[.)]) /,
+  list: /^ *(?:[*+-]|\d+[.)]) /,
 };
 
 function addPositions(token: Token) {

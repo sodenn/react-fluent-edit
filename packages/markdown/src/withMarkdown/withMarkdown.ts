@@ -13,13 +13,13 @@ function withMarkdown(editor: Editor) {
         const [prevNode, prevPath] = prev;
         if (isParagraph(prevNode)) {
           const prevStr = Node.string(prevNode);
-          const match = prevStr.match(rules.list);
-          if (match) {
-            if (match[0] === prevStr) {
+          const listMatch = prevStr.match(rules.list);
+          if (listMatch) {
+            if (listMatch[0] === prevStr) {
               Transforms.insertText(editor, "", { at: prevPath });
               return;
             } else {
-              const prevSign = match[0].trim().replace(".", "");
+              const prevSign = listMatch[0].trim().replace(".", "");
               const num = parseInt(prevSign);
               const sign = isNaN(num) ? prevSign + " " : num + 1 + ". ";
               Transforms.insertText(editor, sign);
@@ -53,22 +53,34 @@ function withMarkdown(editor: Editor) {
     insertText(text);
   };
 
-  // Text completion: automatically deletes the following char
+  // Automatically deletes markdown chars
   editor.deleteBackward = (unit) => {
     const { selection } = editor;
     if (selection && Range.isCollapsed(selection)) {
       const [start] = Range.edges(selection);
       const before = Editor.before(editor, start);
       const beforeRange = Editor.range(editor, start, before);
-      const beforeText = Editor.string(editor, beforeRange, { voids: true });
+      const beforeChar = Editor.string(editor, beforeRange);
+      const beforeLine = Editor.before(editor, start, { unit: "line" });
+      const beforeLineRange =
+        beforeLine && Editor.range(editor, beforeLine, start);
+      const beforeText =
+        beforeLineRange && Editor.string(editor, beforeLineRange);
       const after = Editor.after(editor, start);
       const afterRange = Editor.range(editor, start, after);
-      const afterText = Editor.string(editor, afterRange, { voids: true });
-      if (
-        ["*", "_", "`", "~"].includes(beforeText) &&
-        beforeText == afterText
-      ) {
+      const afterChar = Editor.string(editor, afterRange);
+      const removeSpan =
+        ["*", "_", "`", "~"].includes(beforeChar) && beforeChar == afterChar;
+      const listMatch = beforeText && beforeText.match(rules.list);
+      const removeBulletPoint = listMatch && listMatch[0] === beforeText;
+      if (removeSpan) {
         Transforms.delete(editor, { at: afterRange });
+      } else if (removeBulletPoint) {
+        Transforms.delete(editor, { at: beforeLineRange });
+        Transforms.insertNodes(editor, {
+          type: "paragraph",
+          children: [{ text: "" }],
+        });
       }
     }
     deleteBackward(unit);

@@ -5,6 +5,16 @@ test.use({ viewport: { width: 500, height: 500 } });
 
 const markerColor = "rgb(119, 119, 119)";
 
+test("should not render multiline heading element", async ({ mount, page }) => {
+  const component = await mount(<MarkdownPlayground initialValue="# x" />);
+  await page.keyboard.press("Enter");
+  await component.type("x");
+  const heading = component.locator(
+    '[data-slate-leaf="true"] > span:has-text("x")'
+  );
+  await expect(heading).toHaveCount(1);
+});
+
 test("should render a heading element", async ({ mount }) => {
   const component = await mount(
     <MarkdownPlayground initialValue="# Heading" />
@@ -61,14 +71,4 @@ test("should combine heading element with bold text", async ({ mount }) => {
   const component = await mount(<MarkdownPlayground initialValue="# **x**" />);
   const boldText = component.locator('span:has-text("**x**") >> nth=1');
   await expect(boldText).toBeVisible();
-});
-
-test("should not render multiline heading element", async ({ mount, page }) => {
-  const component = await mount(<MarkdownPlayground initialValue="# x" />);
-  await page.keyboard.press("Enter");
-  await component.type("x");
-  const heading = component.locator(
-    '[data-slate-leaf="true"] > span:has-text("x")'
-  );
-  await expect(heading).toHaveCount(1);
 });
