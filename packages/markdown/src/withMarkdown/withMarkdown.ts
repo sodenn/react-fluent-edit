@@ -1,40 +1,8 @@
-import { isParagraph } from "@react-fluent-edit/core";
-import { Editor, Node, Range, Transforms } from "slate";
+import { Editor, Range, Transforms } from "slate";
 import { rules } from "../utils/tokenizer";
 
 function withMarkdown(editor: Editor) {
   const { insertText, deleteBackward, apply } = editor;
-
-  // Text Completion: Automatically inserts the next bullet point
-  editor.apply = (op) => {
-    if (op.type === "split_node" && isParagraph(op.properties)) {
-      const prev = Editor.node(editor, op.path);
-      if (prev) {
-        const [prevNode, prevPath] = prev;
-        if (isParagraph(prevNode)) {
-          const prevStr = Node.string(prevNode);
-          const listMatch = prevStr.match(rules.listItemStart);
-          if (listMatch) {
-            if (listMatch[0] === prevStr) {
-              Transforms.insertText(editor, "", { at: prevPath });
-              return;
-            } else {
-              const prevSymbol = listMatch[0].trim().replace(".", "");
-              const whitespacesMatch = listMatch[0].match(/^ */);
-              const whitespaces = whitespacesMatch ? whitespacesMatch[0] : "";
-              const num = parseInt(prevSymbol);
-              const symbol = isNaN(num)
-                ? whitespaces + prevSymbol + " "
-                : whitespaces + (num + 1) + ". ";
-              Transforms.insertText(editor, symbol);
-              Transforms.move(editor);
-            }
-          }
-        }
-      }
-    }
-    apply(op);
-  };
 
   // Text Completion: Automatically inserts a second char (*_`~)
   // and places the cursor between them.

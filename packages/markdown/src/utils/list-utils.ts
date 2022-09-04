@@ -18,6 +18,48 @@ function moveListItem(editor: Editor, location: Location, shiftKey = false) {
   return !!listItemLocation;
 }
 
+function addListSymbolToNewLine(editor: Editor, location: Location) {
+  const entry = Editor.node(editor, location);
+
+  if (!entry || !Text.isText(entry[0])) {
+    return false;
+  }
+
+  const [textNode, textPath] = entry;
+  const listMatch = textNode.text.match(rules.listItemStart);
+
+  if (!listMatch) {
+    return false;
+  }
+
+  const matchStr = listMatch[0];
+
+  if (matchStr === textNode.text) {
+    Transforms.insertText(editor, "", { at: textPath });
+    return true;
+  }
+
+  const symbol = matchStr.trim().replace(".", "");
+  const whitespacesMatch = matchStr.match(/^ */);
+  const whitespaces = whitespacesMatch ? whitespacesMatch[0] : "";
+  const num = parseInt(symbol);
+  const nextSymbol = isNaN(num)
+    ? whitespaces + symbol + " "
+    : whitespaces + (num + 1) + ". ";
+  Transforms.insertNodes(editor, {
+    type: "paragraph",
+    children: [{ text: nextSymbol }],
+  });
+
+  const selection = editor.selection;
+  if (selection) {
+    renumberFollowingListItems(editor, selection);
+    Transforms.select(editor, selection);
+  }
+
+  return true;
+}
+
 function renumberFollowingListItems(editor: Editor, location: Location) {
   const nextSymbol = getNextListSymbol(editor, location);
   if (nextSymbol) {
@@ -152,13 +194,18 @@ function getDepth(str: string) {
 }
 
 function getListSymbol(str: string) {
-  const listMatch = str.match(rules.listItem);
+  let listMatch = str.match(rules.listItem);
   if (!listMatch) {
-    return;
+    const listStartMatch = str.match(rules.listItemStart);
+    if (listStartMatch) {
+      listMatch = [listStartMatch[0], ""];
+    } else {
+      return false;
+    }
   }
 
   const text = listMatch[1];
-  let [symbol] = listMatch[0].split(text);
+  let symbol = listMatch[0].substring(0, listMatch[0].lastIndexOf(text));
 
   symbol = symbol.trim().replace(".", "");
   const num = parseInt(symbol);
@@ -280,4 +327,4 @@ function getNewWhitespaces(
   return "";
 }
 
-export { moveListItem };
+export { moveListItem, addListSymbolToNewLine };

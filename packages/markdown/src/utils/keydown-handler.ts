@@ -1,24 +1,34 @@
 import { KeyboardEvent } from "react";
 import { Editor, Location, Range, Transforms } from "slate";
-import { moveListItem } from "./list-utils";
+import { addListSymbolToNewLine, moveListItem } from "./list-utils";
 
 function handleKeydown(ev: KeyboardEvent<HTMLDivElement>, editor: Editor) {
   const { selection } = editor;
-  if (selection && Range.isCollapsed(selection)) {
-    const [start] = Range.edges(selection);
-    if (ev.key === "Tab") {
-      let handled = moveCursor(editor, start);
-      if (handled) {
-        ev.preventDefault();
-        return true;
-      }
-      handled = moveListItem(editor, start, ev.shiftKey);
-      if (handled) {
-        ev.preventDefault();
-        return true;
-      }
+
+  if (!selection || !Range.isCollapsed(selection)) {
+    return false;
+  }
+
+  const [start] = Range.edges(selection);
+
+  if (ev.key === "Tab") {
+    if (moveCursor(editor, start)) {
+      ev.preventDefault();
+      return true;
+    }
+    if (moveListItem(editor, start, ev.shiftKey)) {
+      ev.preventDefault();
+      return true;
     }
   }
+
+  if (ev.key === "Enter") {
+    if (addListSymbolToNewLine(editor, start)) {
+      ev.preventDefault();
+      return true;
+    }
+  }
+
   return false;
 }
 
