@@ -19,7 +19,7 @@ const Template: ComponentStory<typeof MarkdownPlayground> = (args) => (
 
 export const Markdown = Template.bind({});
 Markdown.args = {
-  initialValue: "# Heading\nLorem *ipsum **dolor** sit amet*",
+  initialValue: "1. aaa\n2. bbb\n3. ccc\n4. ddd",
   placeholder: "Start typing",
   autoCorrect: "off",
   autoCapitalize: "off",

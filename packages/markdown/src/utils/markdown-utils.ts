@@ -1,6 +1,5 @@
 import { CustomText } from "@react-fluent-edit/core";
-import { KeyboardEvent } from "react";
-import { BaseRange, Editor, NodeEntry, Range, Text } from "slate";
+import { BaseRange, NodeEntry, Text } from "slate";
 import { getTokens, HeadingToken, rules, Token, walkTokens } from "./tokenizer";
 
 function getHeadingType(token: HeadingToken) {
@@ -45,8 +44,15 @@ function decorateMarkdown(entry: NodeEntry): BaseRange[] {
       const [prefix, suffix] = token.raw.split(token.text);
       markers = { prefix: prefix.length, suffix: suffix.length };
     } else if (token.type === "link") {
-      const [prefix, suffix] = token.raw.split(token.text);
-      markers = { prefix: prefix.length, suffix: suffix.length };
+      const match = token.raw.match(rules.link);
+      if (match) {
+        markers = { prefix: 1, suffix: match[2].length + 1 };
+      }
+    } else if (token.type === "list_item") {
+      const match = token.raw.match(rules.listItemStart);
+      if (match) {
+        markers = { prefix: match[0].length };
+      }
     } else if (token.type === "heading") {
       const type = getHeadingType(token);
       if (type) {
@@ -80,28 +86,4 @@ function decorateMarkdown(entry: NodeEntry): BaseRange[] {
   return ranges;
 }
 
-function moveListItem(ev: KeyboardEvent<HTMLDivElement>, editor: Editor) {
-  const { selection } = editor;
-  if (ev.key === "Tab" && selection && Range.isCollapsed(selection)) {
-    const [start] = Range.edges(selection);
-    const beforeLine = Editor.before(editor, start, { unit: "line" });
-    const beforeLineRange =
-      beforeLine && Editor.range(editor, beforeLine, start);
-    const beforeText =
-      beforeLineRange && Editor.string(editor, beforeLineRange);
-    const listMatch = beforeText && beforeText.match(rules.listItem);
-    const moveListItem = listMatch && listMatch[0] === beforeText;
-    if (moveListItem && ev.shiftKey) {
-      console.log("backward");
-      ev.preventDefault();
-      return true;
-    } else if (moveListItem) {
-      console.log("forward");
-      ev.preventDefault();
-      return true;
-    }
-  }
-  return false;
-}
-
-export { decorateMarkdown, moveListItem };
+export { decorateMarkdown };

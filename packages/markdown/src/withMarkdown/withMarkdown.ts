@@ -19,10 +19,14 @@ function withMarkdown(editor: Editor) {
               Transforms.insertText(editor, "", { at: prevPath });
               return;
             } else {
-              const prevSign = listMatch[0].trim().replace(".", "");
-              const num = parseInt(prevSign);
-              const sign = isNaN(num) ? prevSign + " " : num + 1 + ". ";
-              Transforms.insertText(editor, sign);
+              const prevSymbol = listMatch[0].trim().replace(".", "");
+              const whitespacesMatch = listMatch[0].match(/^ */);
+              const whitespaces = whitespacesMatch ? whitespacesMatch[0] : "";
+              const num = parseInt(prevSymbol);
+              const symbol = isNaN(num)
+                ? whitespaces + prevSymbol + " "
+                : whitespaces + (num + 1) + ". ";
+              Transforms.insertText(editor, symbol);
               Transforms.move(editor);
             }
           }
@@ -72,10 +76,10 @@ function withMarkdown(editor: Editor) {
       const removeSpan =
         ["*", "_", "`", "~"].includes(beforeChar) && beforeChar == afterChar;
       const listMatch = beforeText && beforeText.match(rules.listItemStart);
-      const removeBulletPoint = listMatch && listMatch[0] === beforeText;
+      const removeSymbol = listMatch && listMatch[0] === beforeText;
       if (removeSpan) {
         Transforms.delete(editor, { at: afterRange });
-      } else if (removeBulletPoint) {
+      } else if (removeSymbol) {
         Transforms.delete(editor, { at: beforeLineRange });
         Transforms.insertNodes(editor, {
           type: "paragraph",
