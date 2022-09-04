@@ -1,30 +1,21 @@
 import { CustomText } from "@react-fluent-edit/core";
-import { KeyboardEvent } from "react";
-import { Editor, Location, NodeEntry, Range, Text, Transforms } from "slate";
+import { Editor, Location, NodeEntry, Text, Transforms } from "slate";
 import { rules } from "./tokenizer";
 
 type Direction = "forward" | "backward";
 
-function moveListItem(ev: KeyboardEvent<HTMLDivElement>, editor: Editor) {
-  let handled: Location | undefined = undefined;
-  const { selection } = editor;
-  if (ev.key === "Tab" && selection && Range.isCollapsed(selection)) {
-    const [start] = Range.edges(selection);
-    const backward = ev.shiftKey;
-    if (backward) {
-      handled = moveCurrentListItem(editor, start, "backward");
-    } else {
-      handled = moveCurrentListItem(editor, start, "forward");
-    }
-    if (handled) {
-      renumberFollowingListItems(editor, start);
-      Transforms.select(editor, handled);
-    }
+function moveListItem(editor: Editor, location: Location, shiftKey = false) {
+  let listItemLocation: Location | undefined;
+  if (shiftKey) {
+    listItemLocation = moveCurrentListItem(editor, location, "backward");
+  } else {
+    listItemLocation = moveCurrentListItem(editor, location, "forward");
   }
-  if (handled) {
-    ev.preventDefault();
+  if (listItemLocation) {
+    renumberFollowingListItems(editor, location);
+    Transforms.select(editor, listItemLocation);
   }
-  return handled;
+  return !!listItemLocation;
 }
 
 function renumberFollowingListItems(editor: Editor, location: Location) {
