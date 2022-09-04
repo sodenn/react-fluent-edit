@@ -79,13 +79,25 @@ function getCurrentListItem(editor: Editor, location: Location) {
   }
 }
 
-function getPreviousListItem(editor: Editor, location: Location) {
+function getPreviousListItem(
+  editor: Editor,
+  location: Location,
+  depth?: number
+): NodeEntry<CustomText> | undefined {
   const [, parentPath] = Editor.parent(editor, location, { edge: "start" });
   const prev = Editor.previous(editor, {
     at: parentPath,
   });
   const textEntry = prev && getTextNode(editor, prev);
-  return textEntry && isListItem(textEntry[0]) ? textEntry : undefined;
+  const listItem =
+    textEntry && isListItem(textEntry[0]) ? textEntry : undefined;
+  const listItemDepth = listItem && getDepth(listItem[0].text);
+
+  if (listItem && typeof depth !== "undefined" && depth !== listItemDepth) {
+    return getPreviousListItem(editor, listItem[1], depth);
+  }
+
+  return listItem;
 }
 
 function getNextListItem(editor: Editor, location: Location) {
@@ -130,6 +142,15 @@ function getTextWithoutSymbol(str: string) {
   return listMatch[1].trimStart();
 }
 
+function getDepth(str: string) {
+  const depthMatch = str.match(/^ +/);
+  if (depthMatch) {
+    return Math.ceil(depthMatch[0].length / 3);
+  } else {
+    return 0;
+  }
+}
+
 function getListSymbol(str: string) {
   const listMatch = str.match(rules.listItem);
   if (!listMatch) {
@@ -146,19 +167,11 @@ function getListSymbol(str: string) {
     return symbol;
   }
 
-  const depthMatch = str.match(/^ +/);
-  if (!depthMatch) {
-    return {
-      depth: 0,
-      num,
-    };
-  } else {
-    const depth = Math.ceil(depthMatch[0].length / 3);
-    return {
-      depth,
-      num,
-    };
-  }
+  const depth = getDepth(str);
+  return {
+    depth,
+    num,
+  };
 }
 
 function getNewListSymbol(
@@ -168,23 +181,32 @@ function getNewListSymbol(
 ) {
   const curr = getCurrentListItem(editor, location);
   const currSymbol = curr && getListSymbol(curr[0].text);
+  const newDepth =
+    typeof currSymbol === "object"
+      ? direction === "forward"
+        ? currSymbol.depth + 1
+        : currSymbol.depth - 1
+      : undefined;
 
-  const prev = getPreviousListItem(editor, location);
+  const prev = getPreviousListItem(editor, location, newDepth);
   const prevSymbol = prev && getListSymbol(prev[0].text);
 
   if (
     typeof prevSymbol === "object" &&
     typeof currSymbol === "object" &&
-    ((direction === "forward" && prevSymbol.depth === currSymbol.depth + 1) ||
-      (direction === "backward" && prevSymbol.depth === currSymbol.depth - 1))
+    prevSymbol.depth === newDepth
   ) {
     return prevSymbol.num + 1;
-  } else if (
+  }
+
+  if (
     typeof currSymbol === "object" &&
     (direction === "forward" || currSymbol.depth > 0)
   ) {
     return 1;
-  } else if (typeof currSymbol === "string") {
+  }
+
+  if (typeof currSymbol === "string") {
     return currSymbol;
   }
 }
@@ -196,15 +218,37 @@ function getNextListSymbol(editor: Editor, location: Location) {
   const next = getNextListItem(editor, location);
   const nextSymbol = next && getListSymbol(next[0].text);
 
-  if (typeof nextSymbol === "object" && typeof currSymbol === "object") {
-    if (nextSymbol.depth === currSymbol.depth - 1) {
-      return nextSymbol.num - 1;
-    } else if (nextSymbol.depth === currSymbol.depth) {
-      return currSymbol.num + 1;
-    } else if (nextSymbol.depth === currSymbol.depth + 1) {
-      return currSymbol.num - 1;
-    }
-  } else if (typeof nextSymbol === "string") {
+  const prev =
+    next &&
+    typeof nextSymbol === "object" &&
+    getPreviousListItem(editor, next[1], nextSymbol.depth);
+  const prevSymbol = prev && getListSymbol(prev[0].text);
+
+  if (
+    typeof nextSymbol === "object" &&
+    typeof currSymbol === "object" &&
+    currSymbol.depth < nextSymbol.depth
+  ) {
+    return 1;
+  }
+
+  if (
+    typeof nextSymbol === "object" &&
+    typeof prevSymbol === "object" &&
+    nextSymbol.depth === prevSymbol.depth
+  ) {
+    return prevSymbol.num + 1;
+  }
+
+  if (
+    typeof nextSymbol === "object" &&
+    typeof currSymbol === "object" &&
+    nextSymbol.depth === currSymbol.depth
+  ) {
+    return currSymbol.num + 1;
+  }
+
+  if (typeof nextSymbol === "string") {
     return nextSymbol;
   }
 }
