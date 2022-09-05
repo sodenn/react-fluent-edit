@@ -17,7 +17,7 @@
     "build-storybook": "build-storybook"
   },
   "devDependencies": {
-    "@babel/core": "7.18.10",
+    "@babel/core": "7.19.0",
     "@playwright/experimental-ct-react": "1.25.0",
     "@playwright/test": "1.25.0",
     "@storybook/addon-actions": "6.5.10",
