@@ -44,10 +44,7 @@ function decorateMarkdown(entry: NodeEntry): BaseRange[] {
       const [prefix, suffix] = token.raw.split(token.text);
       markers = { prefix: prefix.length, suffix: suffix.length };
     } else if (token.type === "link") {
-      const match = token.raw.match(rules.link);
-      if (match) {
-        markers = { prefix: 1, suffix: match[2].length + 1 };
-      }
+      markers = { prefix: 1, suffix: token.href.length + 3 };
     } else if (token.type === "list_item") {
       const match = token.raw.match(rules.listItemStart);
       if (match) {

@@ -16,7 +16,20 @@ const rules = {
   heading: /^(#{1,6})(\s+)(.+)(?:\n+|$)/,
   listItem: /^ *(?:[*+-]|\d+[.)])( .+)/,
   listItemStart: /^ *(?:[*+-]|\d+[.)]) /,
-  link: /(\[\S+])(\(\S+\))/,
+};
+
+const tokenizer: any = {
+  list(src: string) {
+    const match = src.match(rules.listItemStart);
+    if (match) {
+      return {
+        type: "list_item",
+        raw: match[0],
+        text: "",
+      };
+    }
+    return false;
+  },
 };
 
 function addPositions(token: Token) {
@@ -37,12 +50,8 @@ function addPositions(token: Token) {
 }
 
 function getTokens(src: string): Token[] {
+  marked.use({ tokenizer });
   const lexer = new marked.Lexer();
-
-  // override rules
-  // @ts-ignore
-  const tokenizerRules = lexer.tokenizer.rules;
-  tokenizerRules.block.heading = rules.heading;
 
   const tokens = lexer.lex(src);
 
