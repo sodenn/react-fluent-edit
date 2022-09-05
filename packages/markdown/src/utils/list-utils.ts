@@ -69,15 +69,13 @@ function renumberFollowingListItems(editor: Editor, location: Location) {
       const whitespacesMatch = node.text.match(/^ */);
       const whitespaces = whitespacesMatch ? whitespacesMatch[0] : "";
       const text = getTextWithoutSymbol(node.text);
-      if (text) {
-        const newText =
-          typeof nextSymbol === "number"
-            ? `${whitespaces}${nextSymbol}. ${text}`
-            : `${whitespaces}${nextSymbol} ${text}`;
-        Transforms.insertText(editor, newText, {
-          at: path,
-        });
-      }
+      const newText =
+        typeof nextSymbol === "number"
+          ? `${whitespaces}${nextSymbol}. ${text}`
+          : `${whitespaces}${nextSymbol} ${text}`;
+      Transforms.insertText(editor, newText, {
+        at: path,
+      });
       renumberFollowingListItems(editor, path);
     }
   }
@@ -98,20 +96,18 @@ function moveCurrentListItem(
     return;
   }
   const whitespaces = getNewWhitespaces(curr, direction);
-  const currText = getTextWithoutSymbol(node.text);
-  if (currText) {
-    const newText =
-      typeof newSymbol === "number"
-        ? `${whitespaces}${newSymbol}. ${currText}`
-        : `${whitespaces}${newSymbol} ${currText}`;
-    Transforms.insertText(editor, newText, {
-      at: path,
-    });
-    return {
-      anchor: { path, offset: newText.length },
-      focus: { path, offset: newText.length },
-    };
-  }
+  const text = getTextWithoutSymbol(node.text);
+  const newText =
+    typeof newSymbol === "number"
+      ? `${whitespaces}${newSymbol}. ${text}`
+      : `${whitespaces}${newSymbol} ${text}`;
+  Transforms.insertText(editor, newText, {
+    at: path,
+  });
+  return {
+    anchor: { path, offset: newText.length },
+    focus: { path, offset: newText.length },
+  };
 }
 
 function getCurrentListItem(editor: Editor, location: Location) {
@@ -179,7 +175,7 @@ function getFirstChild(editor: Editor, entry: NodeEntry) {
 function getTextWithoutSymbol(str: string) {
   const listMatch = str.match(rules.listItem);
   if (!listMatch) {
-    return;
+    return "";
   }
   return listMatch[1].trimStart();
 }

@@ -10,13 +10,17 @@ function withMarkdown(editor: Editor) {
     const { selection } = editor;
     if (selection && Range.isCollapsed(selection)) {
       const [start] = Range.edges(selection);
-      const before = Editor.before(editor, start);
-      const beforeRange = Editor.range(editor, start, before);
-      const beforeText = Editor.string(editor, beforeRange, { voids: true });
+      const before = Editor.before(editor, start, { unit: "line" });
+      const beforeRange = before && Editor.range(editor, before, start);
+      const beforeText = beforeRange
+        ? Editor.string(editor, beforeRange, { voids: true })
+        : "";
+      const after = Editor.after(editor, start);
+      const afterRange = Editor.range(editor, start, after);
+      const afterChar = Editor.string(editor, afterRange);
       if (
-        ((!beforeText.trim() || ["_", "`", "~"].includes(text)) &&
-          ["_", "`", "~"].includes(text)) ||
-        (text === "*" && (beforeText === " " || beforeText === "*"))
+        (/[_`~]/.test(text) && /(^| |[_`~])$/.test(beforeText)) ||
+        (text === "*" && (beforeText.endsWith(" ") || afterChar === "*"))
       ) {
         Transforms.insertText(editor, text);
         Transforms.move(editor, { reverse: true });
