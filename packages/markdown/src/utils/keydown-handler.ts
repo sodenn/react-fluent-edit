@@ -46,7 +46,6 @@ function moveCursor(editor: Editor, location: Location) {
       Transforms.move(editor, { unit: "character", distance: i.length });
       if (afterText.endsWith(i)) {
         Transforms.insertText(editor, " ");
-        Transforms.move(editor, { unit: "character", distance: 1 });
       }
       return true;
     }
