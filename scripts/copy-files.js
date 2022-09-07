@@ -89,7 +89,7 @@ async function createPackageFile() {
   const { scripts, devDependencies, ...packageDataOther } =
     JSON.parse(packageData);
 
-  const dependencies = packageDataOther.dependencies;
+  const dependencies = packageDataOther.dependencies || {};
   Object.keys(dependencies).forEach((pkgName) => {
     const pkgVersion = dependencies[pkgName];
     if (pkgVersion === "workspace:*") {

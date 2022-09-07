@@ -80,7 +80,7 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
   const [search, setSearch] = useState("");
   const [mention, setMention] = useState<Mention | null>(null);
   const plugin = useMentionPlugin();
-  const mentions = plugin?.options.mentions || [];
+  const mentions = plugin ? [...plugin.options.mentions] : [];
   const editor = useSlateStatic();
   const mentionsContext = useMentionsInternal();
 

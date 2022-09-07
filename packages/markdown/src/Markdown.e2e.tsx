@@ -98,6 +98,7 @@ test("should correctly number a list item after indenting", async ({
     <MarkdownPlayground initialValue="1. Aaa\n2. Bbb" />
   );
   await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
   await expect(component.locator('[data-slate-editor="true"]')).toContainText(
     "1. Aaa   1. Bbb"
   );

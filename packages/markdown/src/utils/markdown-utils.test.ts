@@ -5,14 +5,18 @@ import { decorateMarkdown } from "./markdown-utils";
 
 describe("markdown-utils", () => {
   test("should decorate markdown entries", () => {
-    const entry: CustomText = {
+    const node: CustomText = {
       text: "Lorem *ipsum **dolor** sit amet*",
     };
     const path = [0, 0];
     const editor = createEditor();
-    editor.children = [{ type: "paragraph", children: [entry] }];
+    editor.children = [{ type: "paragraph", children: [node] }];
 
-    const ranges = decorateMarkdown([entry, path]);
+    const ranges = decorateMarkdown({
+      entry: [node, path],
+      editor,
+      options: {},
+    });
 
     expect(ranges).toStrictEqual([
       {
