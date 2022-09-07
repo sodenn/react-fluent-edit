@@ -2645,26 +2645,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/experimental-ct-react@npm:1.25.0":
-  version: 1.25.0
-  resolution: "@playwright/experimental-ct-react@npm:1.25.0"
+"@playwright/experimental-ct-react@npm:1.25.2":
+  version: 1.25.2
+  resolution: "@playwright/experimental-ct-react@npm:1.25.2"
   dependencies:
-    "@playwright/test": 1.25.0
+    "@playwright/test": 1.25.2
     "@vitejs/plugin-react": ^1.0.7
     vite: ^2.9.5
-  checksum: 3a6ce15735b8db3104bda4cc3bf9fce1e09a09f8dd1e11f9257ba6b25ce2b49049108dc5fbeedbba3c7f1c982100a4a75fcf5c04465ed15d252f4ba968d3b3ea
+  checksum: 33b3aa83e7adacf0a3d5055ec10d6cba32742abd21ce7a45949e672bc039ce3d1eff1332fc8aaaa04d7fbf4974061e04a6b9b30694177943a06df01c3b21ef0c
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.25.0":
-  version: 1.25.0
-  resolution: "@playwright/test@npm:1.25.0"
+"@playwright/test@npm:1.25.2":
+  version: 1.25.2
+  resolution: "@playwright/test@npm:1.25.2"
   dependencies:
     "@types/node": "*"
-    playwright-core: 1.25.0
+    playwright-core: 1.25.2
   bin:
     playwright: cli.js
-  checksum: 7694f2f342e5e24af2c4989d70c5e33385dcd56a253ee36b9cf317eb04d2f5b414f8f4d17d4e7f859b41ece8cd83ce88bf9dbb4f15dbebff8b0404f83202e6d2
+  checksum: 3c24027bd9b305a3985cae35a4046e656dd0ffb76ef4dfcfc864f6c8492a643fc21c79048ee8169c5c1562d3cae493e7223a5473b127fef3bda7c7c52795c17d
   languageName: node
   linkType: hard
 
@@ -13359,12 +13359,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.25.0":
-  version: 1.25.0
-  resolution: "playwright-core@npm:1.25.0"
+"playwright-core@npm:1.25.2":
+  version: 1.25.2
+  resolution: "playwright-core@npm:1.25.2"
   bin:
     playwright: cli.js
-  checksum: 78a9c8857428c8e9fe3a2061672a2e9ce0106afec473281d3a6389ec29918fd1d29c9d2792edde90bfd92c4477151fbd2d8f9f5061fbddaf8c6995a91c9cf2de
+  checksum: 24ada61e2132bd7278cf0aa0ef711280e1519c437efa0088a99c47ef994202f4c9880521d8c0c51ab854bef08806f372477d754aac1e790ea64f18cd346b5b2f
   languageName: node
   linkType: hard
 
@@ -14528,8 +14528,8 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@babel/core": 7.18.10
-    "@playwright/experimental-ct-react": 1.25.0
-    "@playwright/test": 1.25.0
+    "@playwright/experimental-ct-react": 1.25.2
+    "@playwright/test": 1.25.2
     "@storybook/addon-actions": 6.5.10
     "@storybook/addon-essentials": 6.5.10
     "@storybook/addon-interactions": 6.5.10
