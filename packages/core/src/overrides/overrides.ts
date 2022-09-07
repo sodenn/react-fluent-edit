@@ -6,9 +6,7 @@ function useOverrides() {
   const plugins = usePlugins();
   return useCallback(
     (editor: Editor) => {
-      return plugins
-        .map((p) => p.override)
-        .reduce((prev, curr) => curr(editor), editor);
+      return plugins.reduce((prev, p) => p.override(editor, p.options), editor);
     },
     [plugins]
   );

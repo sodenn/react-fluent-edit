@@ -1,5 +1,6 @@
-import { CustomText } from "@react-fluent-edit/core";
+import { CustomText, DecoratorProps } from "@react-fluent-edit/core";
 import { BaseRange, NodeEntry, Text } from "slate";
+import { MarkdownPluginOptions } from "../types";
 import { getTokens, HeadingToken, rules, Token, walkTokens } from "./tokenizer";
 
 function getHeadingType(token: HeadingToken) {
@@ -19,8 +20,11 @@ function getHeadingType(token: HeadingToken) {
   }
 }
 
-function decorateMarkdown(entry: NodeEntry): BaseRange[] {
-  const [node, path] = entry;
+function decorateMarkdown({
+  entry,
+  options: { disabled = {} },
+}: DecoratorProps<MarkdownPluginOptions>): BaseRange[] {
+  const [node] = entry;
   const ranges: (BaseRange & Omit<CustomText, "text">)[] = [];
 
   if (!Text.isText(node)) {
@@ -29,58 +33,129 @@ function decorateMarkdown(entry: NodeEntry): BaseRange[] {
 
   const tokens = getTokens(node.text);
   walkTokens(tokens, (token: Token) => {
-    let markers: { prefix?: number; suffix?: number } | undefined = undefined;
-    if (
-      token.type === "strong" ||
-      token.type === "em" ||
-      token.type === "del" ||
-      token.type === "codespan"
-    ) {
-      ranges.push({
-        [token.type]: true,
-        anchor: { path, offset: token._start },
-        focus: { path, offset: token._end },
-      });
-      const [prefix, suffix] = token.raw.split(token.text);
-      markers = { prefix: prefix.length, suffix: suffix.length };
-    } else if (token.type === "link") {
-      markers = { prefix: 1, suffix: token.href.length + 3 };
-    } else if (token.type === "list_item") {
-      const match = token.raw.match(rules.listItemStart);
-      if (match) {
-        markers = { prefix: match[0].length };
-      }
-    } else if (token.type === "heading") {
-      const type = getHeadingType(token);
-      if (type) {
-        ranges.push({
-          [type]: true,
-          anchor: { path, offset: token._start },
-          focus: { path, offset: token._end },
-        });
-        markers = { prefix: token.depth };
-      }
+    if (disabled[token.type]) {
+      return;
     }
-    if (markers) {
-      const { prefix, suffix } = markers;
-      if (prefix) {
-        ranges.push({
-          marker: true,
-          anchor: { path, offset: token._start },
-          focus: { path, offset: token._start + prefix },
-        });
-      }
-      if (suffix) {
-        ranges.push({
-          marker: true,
-          anchor: { path, offset: token._end - suffix },
-          focus: { path, offset: token._end },
-        });
-      }
+    const entryRanges = getRangeByToken(entry, token);
+    if (entryRanges) {
+      ranges.push(entryRanges);
+    }
+    const markerRanges = getMarkerRangeByToken(entry, token);
+    if (markerRanges) {
+      ranges.push(...markerRanges);
     }
   });
 
   return ranges;
+}
+
+function getRangeByToken(entry: NodeEntry, token: Token) {
+  const [, path] = entry;
+  switch (token.type) {
+    case "strong":
+    case "em":
+    case "del":
+    case "codespan":
+      return {
+        [token.type]: true,
+        anchor: { path, offset: token._start },
+        focus: { path, offset: token._end },
+      };
+    case "heading": {
+      const type = getHeadingType(token);
+      if (type) {
+        return {
+          [type]: true,
+          anchor: { path, offset: token._start },
+          focus: { path, offset: token._end },
+        };
+      }
+    }
+  }
+}
+
+function getMarkerRangeByToken(entry: NodeEntry, token: Token) {
+  const [, path] = entry;
+  switch (token.type) {
+    case "strong":
+    case "em":
+    case "del":
+    case "codespan": {
+      const [prefix, suffix] = token.raw.split(token.text);
+      if (prefix && suffix) {
+        return [
+          {
+            marker: true,
+            anchor: { path, offset: token._start },
+            focus: { path, offset: token._start + prefix.length },
+          },
+          {
+            marker: true,
+            anchor: { path, offset: token._end - suffix.length },
+            focus: { path, offset: token._end },
+          },
+        ];
+      }
+      if (prefix) {
+        return [
+          {
+            marker: true,
+            anchor: { path, offset: token._start },
+            focus: { path, offset: token._start + prefix.length },
+          },
+        ];
+      }
+      if (suffix) {
+        return [
+          {
+            marker: true,
+            anchor: { path, offset: token._end - suffix.length },
+            focus: { path, offset: token._end },
+          },
+        ];
+      }
+      break;
+    }
+    case "link": {
+      return [
+        {
+          marker: true,
+          anchor: { path, offset: token._start },
+          focus: { path, offset: token._start + 1 },
+        },
+        {
+          marker: true,
+          anchor: { path, offset: token._end - token.href.length + 3 },
+          focus: { path, offset: token._end },
+        },
+      ];
+    }
+    case "list_item": {
+      const match = token.raw.match(rules.listItemStart);
+      if (match) {
+        return [
+          {
+            marker: true,
+            anchor: { path, offset: token._start },
+            focus: { path, offset: token._start + match[0].length },
+          },
+        ];
+      }
+      break;
+    }
+    case "heading": {
+      const type = getHeadingType(token);
+      if (type) {
+        return [
+          {
+            marker: true,
+            anchor: { path, offset: token._start },
+            focus: { path, offset: token._start + token.depth },
+          },
+        ];
+      }
+    }
+  }
 }
 
 export { decorateMarkdown };

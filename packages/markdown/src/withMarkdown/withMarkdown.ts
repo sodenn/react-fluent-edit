@@ -1,14 +1,32 @@
 import { Editor, Range, Transforms } from "slate";
+import { MarkdownPluginOptions } from "../types";
 import { rules } from "../utils/tokenizer";
 
-function withMarkdown(editor: Editor) {
-  const { insertText, deleteBackward, apply } = editor;
+function isDisabled(char: string, options: MarkdownPluginOptions) {
+  const disabled = options.disabled || {};
+  if ((char === "*" || char === "_") && (disabled.strong || disabled.em)) {
+    return true;
+  } else if (char === "~" && disabled.del) {
+    return true;
+  } else if (char === "`" && disabled.codespan) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function withMarkdown(editor: Editor, options: MarkdownPluginOptions = {}) {
+  const { insertText, deleteBackward } = editor;
 
   // Text Completion: Automatically inserts a second char (*_`~)
   // and places the cursor between them.
   editor.insertText = (text) => {
     const { selection } = editor;
-    if (selection && Range.isCollapsed(selection)) {
+    if (
+      selection &&
+      Range.isCollapsed(selection) &&
+      !isDisabled(text, options)
+    ) {
       const [start] = Range.edges(selection);
       const before = Editor.before(editor, start, { unit: "line" });
       const beforeRange = before && Editor.range(editor, before, start);
@@ -49,9 +67,9 @@ function withMarkdown(editor: Editor) {
         ["*", "_", "`", "~"].includes(beforeChar) && beforeChar == afterChar;
       const listMatch = beforeText && beforeText.match(rules.listItemStart);
       const removeSymbol = listMatch && listMatch[0] === beforeText;
-      if (removeSpan) {
+      if (removeSpan && !isDisabled(beforeChar, options)) {
         Transforms.delete(editor, { at: afterRange });
-      } else if (removeSymbol) {
+      } else if (removeSymbol && !options.disabled?.list) {
         Transforms.delete(editor, { at: beforeLineRange });
         Transforms.insertNodes(editor, {
           type: "paragraph",

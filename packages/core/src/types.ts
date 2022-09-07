@@ -65,9 +65,15 @@ interface Deserialize {
   priority?: number;
 }
 
-type Override = (editor: Editor) => Editor;
+type Override<T = {}> = (editor: Editor, options: T) => Editor;
 
-type Decorate = (entry: NodeEntry, editor: Editor) => BaseRange[];
+interface DecoratorProps<T = {}> {
+  entry: NodeEntry;
+  editor: Editor;
+  options: T;
+}
+
+type Decorate = (props: DecoratorProps) => BaseRange[];
 
 interface Plugin<T = {}> {
   /**
@@ -178,6 +184,7 @@ export type {
   Leaf,
   Element,
   Plugin,
+  DecoratorProps,
   Decorate,
   WithChildrenProp,
   WithChildren,

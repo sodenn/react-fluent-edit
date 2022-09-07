@@ -2,7 +2,6 @@ import {
   cloneChildren,
   CustomText,
   Mention as MentionElement,
-  Plugin,
   usePlugins,
 } from "@react-fluent-edit/core";
 import {
@@ -304,11 +303,8 @@ function escapeRegExp(string: string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function useMentionPlugins() {
-  const plugins = usePlugins();
-  return plugins.filter(
-    (p): p is Required<Plugin<MentionsPluginOptions>> => p.name === "mentions"
-  );
+function useMentionPlugin() {
+  return usePlugins<MentionsPluginOptions>("mentions");
 }
 
 function getMentionNodes(editor: Editor) {
@@ -333,6 +329,6 @@ export {
   withoutMentionNodes,
   getMentionItems,
   escapeRegExp,
-  useMentionPlugins,
+  useMentionPlugin,
   getMentionNodes,
 };

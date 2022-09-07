@@ -1,16 +1,44 @@
+import { CustomText } from "@react-fluent-edit/core";
 import { CSSProperties } from "react";
 
+type MarkdownToken = keyof Pick<
+  CustomText,
+  | "strong"
+  | "em"
+  | "del"
+  | "codespan"
+  | "link"
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "marker"
+>;
+
+type MarkdownDisabledKey = MarkdownToken | "list";
+
+type MarkdownDisabled = {
+  [key in MarkdownDisabledKey]?: boolean;
+};
+
+type MarkdownStyles = {
+  [key in Exclude<
+    MarkdownToken,
+    "link" | "strong" | "em" | "del"
+  >]?: CSSProperties;
+};
+
 interface MarkdownPluginOptions {
-  styles: {
-    h1: CSSProperties;
-    h2: CSSProperties;
-    h3: CSSProperties;
-    h4: CSSProperties;
-    h5: CSSProperties;
-    h6: CSSProperties;
-    codespan: CSSProperties;
-    marker: CSSProperties;
-  };
+  disabled?: MarkdownDisabled;
+  styles?: MarkdownStyles;
 }
 
-export { MarkdownPluginOptions };
+export type {
+  MarkdownPluginOptions,
+  MarkdownToken,
+  MarkdownDisabledKey,
+  MarkdownDisabled,
+  MarkdownStyles,
+};
