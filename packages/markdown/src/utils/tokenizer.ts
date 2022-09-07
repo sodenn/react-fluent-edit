@@ -19,6 +19,7 @@ const rules = {
 };
 
 const tokenizer: any = {
+  code() {},
   list(src: string) {
     const match = src.split("\n").shift()?.match(rules.listItem);
     if (match) {

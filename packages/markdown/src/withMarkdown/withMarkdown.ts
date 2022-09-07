@@ -66,10 +66,10 @@ function withMarkdown(editor: Editor, options: MarkdownPluginOptions = {}) {
       const removeSpan =
         ["*", "_", "`", "~"].includes(beforeChar) && beforeChar == afterChar;
       const listMatch = beforeText && beforeText.match(rules.listItemStart);
-      const removeSymbol = listMatch && listMatch[0] === beforeText;
+      const removeListSymbol = listMatch && listMatch[0] === beforeText;
       if (removeSpan && !isDisabled(beforeChar, options)) {
         Transforms.delete(editor, { at: afterRange });
-      } else if (removeSymbol && !options.disabled?.list) {
+      } else if (removeListSymbol && !options.disabled?.list) {
         Transforms.delete(editor, { at: beforeLineRange });
         Transforms.insertNodes(editor, {
           type: "paragraph",
