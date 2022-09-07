@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { FluentEditCtx } from "../FluentEditProvider";
+import { FluentEditContext, FluentEditCtx } from "../FluentEditProvider";
 
-function useFluentEditInternal() {
+function useFluentEditInternal(): FluentEditContext | undefined {
   return useContext(FluentEditCtx);
 }
 

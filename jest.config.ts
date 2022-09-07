@@ -182,9 +182,9 @@ export default {
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: [
-    "node_modules/(?!remark-parse|mdast-util-from-markdown|mdast-util-to-string|micromark|decode-named-character-reference|character-entities|unist-util-stringify-position|remark-stringify|mdast-util-to-markdown|zwitch|longest-streak|unist-util-visit|unist-util-is|unified|bail|is-plain-obj|trough|vfile)",
-  ],
+  // transformIgnorePatterns: [
+  //   "node_modules/(?!aaa|bbb)",
+  // ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,

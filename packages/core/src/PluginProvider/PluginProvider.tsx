@@ -1,9 +1,23 @@
 import { createContext, useEffect, useState } from "react";
-import { Descendant } from "slate";
-import { Plugin } from "../types";
+import { Descendant, Editor } from "slate";
+import { Decorate, Element, LeafStyle, Plugin } from "../types";
 import { PluginProviderProps } from "./PluginProviderProps";
 
-const defaultSerializer = (node: Descendant[]) => node;
+const defaultSerializer = { handler: (node: Descendant[]) => node };
+
+const defaultDecorate: Decorate = () => [];
+
+const defaultElement: Element = {
+  match: () => false,
+  component: () => <span />,
+};
+
+const defaultLeaf: LeafStyle = {
+  match: () => false,
+  style: {},
+};
+
+const defaultOverride = (editor: Editor) => editor;
 
 // @ts-ignore
 const PluginCtx = createContext<Required<Plugin>[]>(undefined);
@@ -11,12 +25,13 @@ const PluginCtx = createContext<Required<Plugin>[]>(undefined);
 const normalizePlugins = (plugins: Plugin[] = []): Required<Plugin>[] =>
   plugins.map((p) => ({
     name: p.name,
-    leaves: p.leaves ?? [],
-    elements: p.elements ?? [],
+    leave: p.leave ?? defaultLeaf,
+    element: p.element ?? defaultElement,
     handlers: p.handlers ?? {},
-    beforeSerialize: p.beforeSerialize ?? { handler: defaultSerializer },
-    afterDeserialize: p.afterDeserialize ?? { handler: defaultSerializer },
-    overrides: p.overrides ?? [],
+    beforeSerialize: p.beforeSerialize ?? defaultSerializer,
+    afterDeserialize: p.afterDeserialize ?? defaultSerializer,
+    override: p.override ?? defaultOverride,
+    decorate: p.decorate ?? defaultDecorate,
     options: p.options ?? {},
   }));
 

@@ -26,5 +26,4 @@ Mentions.args = {
   spellCheck: false,
   autoFocus: true,
   singleLine: false,
-  markdown: false,
 };

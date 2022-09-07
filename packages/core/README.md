@@ -45,21 +45,17 @@ import { Plugin } from "@react-fluent-edit"
 
 const plugin: Plugin = {
   name: "mentions",
-  leaves: [
-    { 
-      match: ({ leaf }) => ["bold", "italic", "underline"]
-        .some(prop => leaf[prop]), 
-      component: Leaf,
-    }
-  ],
-  elements: [
-    { 
-      match: ({ element: { type } }) => ["list", "heading"]
-        .some(item => type === item), 
-      component: Element,
-    }
-  ],
-  overrides: [{ handler: (editor) => withRichText(editor) }],
+  leave: {
+    match: ({ leaf }) => ["bold", "italic", "underline"]
+      .some(prop => leaf[prop]),
+    component: Leaf,
+  },
+  element: {
+    match: ({ element: { type } }) => ["list", "heading"]
+      .some(item => type === item),
+    component: Element,
+  },
+  override: (editor) => withRichText(editor),
   beforeSerialize: {
     handler: (nodes) => replaceTextNodesWithRichTextNodes(nodes),
   },
@@ -68,7 +64,7 @@ const plugin: Plugin = {
   },
   handlers: {
     onClick: (event, editor) => { ... }
-  }
+  },
   options,
 }
 ```

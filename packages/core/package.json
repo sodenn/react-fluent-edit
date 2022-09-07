@@ -26,12 +26,6 @@
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "publish": "node ../../scripts/publish.js"
   },
-  "dependencies": {
-    "remark-parse": "10.0.1",
-    "remark-slate-transformer": "0.7.0",
-    "remark-stringify": "10.0.2",
-    "unified": "10.1.2"
-  },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",

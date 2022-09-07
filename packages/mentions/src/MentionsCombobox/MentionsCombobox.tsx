@@ -19,7 +19,7 @@ import {
   getUserInputAtSelection,
   insertMention,
   setSuggestionComboboxPosition,
-  useMentionPlugins,
+  useMentionPlugin,
 } from "../utils";
 import {
   MentionComboboxItemProps,
@@ -79,8 +79,8 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
   const [index, setIndex] = useState(0);
   const [search, setSearch] = useState("");
   const [mention, setMention] = useState<Mention | null>(null);
-  const plugins = useMentionPlugins();
-  const mentions = plugins.flatMap((p) => p.options.mentions);
+  const plugin = useMentionPlugin();
+  const mentions = plugin ? [...plugin.options.mentions] : [];
   const editor = useSlateStatic();
   const mentionsContext = useMentionsInternal();
 

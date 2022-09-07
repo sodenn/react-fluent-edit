@@ -1,4 +1,3 @@
-import { Blockquote, Heading, List, ListItem } from "mdast";
 import {
   ClipboardEvent,
   CSSProperties,
@@ -8,20 +7,18 @@ import {
   MouseEvent,
   ReactNode,
 } from "react";
-import { BaseEditor, Descendant, Editor } from "slate";
+import { BaseEditor, BaseRange, Descendant, Editor, NodeEntry } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";
 
 interface LeafComponent {
   match: (props: RenderLeafProps) => boolean;
   component: FunctionComponent<RenderLeafProps>;
-  priority?: number;
 }
 
 interface LeafStyle {
   match: (props: RenderLeafProps) => boolean;
   style: CSSProperties;
-  priority?: number;
 }
 
 type Leaf = LeafComponent | LeafStyle;
@@ -29,7 +26,6 @@ type Leaf = LeafComponent | LeafStyle;
 interface Element {
   match: (props: RenderElementProps) => boolean;
   component: FunctionComponent<RenderElementProps>;
-  priority?: number;
 }
 
 interface EventHandler<E> {
@@ -69,17 +65,15 @@ interface Deserialize {
   priority?: number;
 }
 
-interface Override {
-  /**
-   * Called when creating the editor.
-   */
-  handler: (editor: Editor) => Editor;
+type Override<T = {}> = (editor: Editor, options: T) => Editor;
 
-  /**
-   * A high value results in earlier execution.
-   */
-  priority?: number;
+interface DecoratorProps<T = {}> {
+  entry: NodeEntry;
+  editor: Editor;
+  options: T;
 }
+
+type Decorate = (props: DecoratorProps) => BaseRange[];
 
 interface Plugin<T = {}> {
   /**
@@ -87,12 +81,16 @@ interface Plugin<T = {}> {
    */
   name: string;
 
-  leaves?: Leaf[];
+  /**
+   * Register a custom Leaf.
+   */
+  leave?: Leaf;
 
   /**
-   * Register custom Elements.
+   * Register a custom Element.
    */
-  elements?: Element[];
+  element?: Element;
+
   handlers?: EventHandlers;
 
   /**
@@ -106,9 +104,14 @@ interface Plugin<T = {}> {
   afterDeserialize?: Deserialize;
 
   /**
+   *
+   */
+  decorate?: Decorate;
+
+  /**
    * Modify the original behavior of the editor.
    */
-  overrides?: Override[];
+  override?: Override;
 
   /**
    * Custom options of the plugin.
@@ -120,8 +123,8 @@ interface WithChildrenProp {
   children?: ReactNode;
 }
 
-interface WithAlign {
-  align?: any;
+interface WithChildren {
+  children: Descendant[];
 }
 
 interface Root {
@@ -129,12 +132,12 @@ interface Root {
   children: Descendant[];
 }
 
-interface ParagraphElement extends WithAlign {
+interface Paragraph {
   type: "paragraph";
   children: Descendant[];
 }
 
-interface MentionElement {
+interface Mention {
   type: "mention";
   value: string;
   trigger: string;
@@ -144,19 +147,24 @@ interface MentionElement {
 
 interface CustomText {
   text: string;
+  marker?: boolean;
   strong?: boolean;
-  emphasis?: boolean;
-  code?: boolean;
-  underline?: boolean;
+  em?: boolean;
+  codespan?: boolean;
+  del?: boolean;
+  h1?: boolean;
+  h2?: boolean;
+  h3?: boolean;
+  h4?: boolean;
+  h5?: boolean;
+  h6?: boolean;
+  // link
+  link?: boolean;
+  href?: string;
+  title?: string;
 }
 
-type CustomElement =
-  | ParagraphElement
-  | MentionElement
-  | Blockquote
-  | List
-  | ListItem
-  | Heading;
+type CustomElement = Root | Paragraph | Mention;
 
 type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 
@@ -176,11 +184,13 @@ export type {
   Leaf,
   Element,
   Plugin,
+  DecoratorProps,
+  Decorate,
   WithChildrenProp,
+  WithChildren,
   Root,
-  ParagraphElement,
+  Paragraph,
   CustomText,
   CustomElement,
-  MentionElement,
-  WithAlign,
+  Mention,
 };

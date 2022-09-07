@@ -1,15 +1,28 @@
 import { useCallback } from "react";
 import { Descendant } from "slate";
-import { markdown2slate, slate2markdown } from "../markdown";
 import usePlugins from "../usePlugins";
-import { addRoot, cloneChildren, slate2text, text2slate } from "../utils";
+import { addRoot, cloneChildren, nodesToText } from "../utils";
+
+function textToNodes(text: string): Descendant[] {
+  text = text.replace(/<br>/g, "\n");
+  if (!/\n/.test(text)) {
+    return [
+      {
+        type: "paragraph",
+        children: [{ text }],
+      },
+    ];
+  }
+  return text.split(/\n/g).map((line) => ({
+    type: "paragraph",
+    children: [{ text: line }],
+  }));
+}
 
 /**
  * Converts the given data structure into a string.
- *
- * @param markdown If `true`, a markdown string is returned.
  */
-function useSerialize(markdown: boolean) {
+function useSerialize() {
   const plugins = usePlugins();
   return useCallback(
     (nodes: Descendant[]): string => {
@@ -19,7 +32,7 @@ function useSerialize(markdown: boolean) {
         .sort((d1, d2) => (d2.priority || 0) - (d1.priority || 0))
         .map((d) => d.handler)
         .reduce<Descendant[]>((prev, curr) => curr(nodes), nodes);
-      return markdown ? slate2markdown(nodes) : slate2text(nodes);
+      return nodesToText(nodes);
     },
     [plugins]
   );
@@ -27,10 +40,8 @@ function useSerialize(markdown: boolean) {
 
 /**
  * Converts the given string into a data structure.
- *
- * @param markdown
  */
-function useDeserialize(markdown: boolean) {
+function useDeserialize() {
   const plugins = usePlugins();
   return useCallback(
     (
@@ -38,10 +49,8 @@ function useDeserialize(markdown: boolean) {
       singleLine: boolean,
       options: { [key: string]: unknown }
     ): Descendant[] => {
-      text = singleLine ? text.replace("\n", " ") : text;
-      let nodes: Descendant[] = markdown
-        ? markdown2slate(text)
-        : text2slate(text);
+      text = singleLine ? text.replace(/\n|<br>/g, " ") : text;
+      let nodes: Descendant[] = textToNodes(text);
       nodes = plugins
         .sort(
           (s1, s2) =>

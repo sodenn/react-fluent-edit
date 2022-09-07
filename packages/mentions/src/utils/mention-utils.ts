@@ -1,9 +1,7 @@
 import {
   cloneChildren,
   CustomText,
-  MentionElement,
-  Plugin,
-  unwrapElement,
+  Mention as MentionElement,
   usePlugins,
 } from "@react-fluent-edit/core";
 import {
@@ -29,8 +27,7 @@ interface InsertMentionOptions extends Omit<Mention, "suggestions"> {
 }
 
 function isMentionElement(element: any): element is MentionElement {
-  const elem = unwrapElement<MentionElement>(element);
-  return elem?.type === "mention";
+  return element?.type === "mention";
 }
 
 function insertMention(opt: InsertMentionOptions) {
@@ -52,14 +49,15 @@ function getUserInputAtSelection(editor: Editor, mentions: Mention[]) {
 
   if (selection && Range.isCollapsed(selection)) {
     const [start] = Range.edges(selection);
-    let textBefore = Editor.string(editor, Editor.range(editor, [0, 0], start));
-    textBefore = textBefore.substring(textBefore.length - start.offset); // only the current line
+    const lineBefore = Editor.before(editor, start, { unit: "line" });
+    const lineRange = lineBefore && Editor.range(editor, lineBefore, start);
+    const textBefore = lineRange && Editor.string(editor, lineRange);
     const escapedTriggers = mentions
       .map((m) => m.trigger)
       .map(escapeRegExp)
       .join("|");
     const pattern = `(^|\\s)(${escapedTriggers})(|\\S+)$`;
-    const beforeMatch = textBefore.match(new RegExp(pattern));
+    const beforeMatch = textBefore && textBefore.match(new RegExp(pattern));
     const beforeMatchExists =
       !!beforeMatch && beforeMatch.length > 2 && !!beforeMatch[0];
     const offset = beforeMatchExists
@@ -305,11 +303,8 @@ function escapeRegExp(string: string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function useMentionPlugins() {
-  const plugins = usePlugins();
-  return plugins.filter(
-    (p): p is Required<Plugin<MentionsPluginOptions>> => p.name === "mentions"
-  );
+function useMentionPlugin() {
+  return usePlugins<MentionsPluginOptions>("mentions");
 }
 
 function getMentionNodes(editor: Editor) {
@@ -334,6 +329,6 @@ export {
   withoutMentionNodes,
   getMentionItems,
   escapeRegExp,
-  useMentionPlugins,
+  useMentionPlugin,
   getMentionNodes,
 };

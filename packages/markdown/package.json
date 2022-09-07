@@ -1,0 +1,43 @@
+{
+  "name": "@react-fluent-edit/markdown",
+  "private": true,
+  "license": "MIT",
+  "description": "Markdown Plugin for React FluentEdit",
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sodenn/react-fluent-edit.git",
+    "directory": "packages/markdown"
+  },
+  "homepage": "https://github.com/sodenn/react-fluent-edit",
+  "author": {
+    "name": "sodenn",
+    "email": "mail@sodenn.dev"
+  },
+  "scripts": {
+    "build": "yarn clean && yarn build:esm & yarn build:cjs",
+    "clean": "rimraf lib",
+    "copy": "node ../../scripts/copy-files.js",
+    "build:all": "run-p build:esm build:cjs",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "publish": "node ../../scripts/publish.js"
+  },
+  "dependencies": {
+    "@react-fluent-edit/core": "workspace:*",
+    "marked": "^4.0.18"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "slate": "^0.81.3",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.81.0"
+  },
+  "devDependencies": {
+    "@types/marked": "^4.0.5"
+  }
+}

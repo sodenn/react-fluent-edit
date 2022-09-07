@@ -13,8 +13,7 @@ const LeafRenderer = (props: RenderLeafProps) => {
   const plugins = usePlugins();
 
   const plugin = plugins
-    .flatMap((plugin) => plugin.leaves)
-    .sort((l1, l2) => (l2.priority || 0) - (l1.priority || 0))
+    .map((plugin) => plugin.leave)
     .find(({ match }) => match(props));
 
   let style: CSSProperties | undefined = undefined;

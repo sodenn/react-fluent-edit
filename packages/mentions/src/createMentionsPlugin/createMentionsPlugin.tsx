@@ -9,13 +9,11 @@ function createMentionsPlugin(
 ): Plugin<MentionsPluginOptions> {
   return {
     name: "mentions",
-    elements: [
-      {
-        match: ({ element: { type } }) => type === "mention",
-        component: MentionsComponent,
-      },
-    ],
-    overrides: [{ handler: (editor) => withMentions(editor) }],
+    element: {
+      match: ({ element: { type } }) => type === "mention",
+      component: MentionsComponent,
+    },
+    override: withMentions,
     beforeSerialize: {
       handler: (nodes) => {
         return withoutMentionNodes(nodes);

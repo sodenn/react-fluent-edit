@@ -7,8 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { createEditor, Descendant, Transforms } from "slate";
-import { withHistory } from "slate-history";
+import { Descendant, Transforms } from "slate";
 import {
   Editable,
   ReactEditor,
@@ -16,39 +15,25 @@ import {
   RenderLeafProps,
   RenderPlaceholderProps,
   Slate,
-  withReact,
 } from "slate-react";
+import useDecorate from "../decorate";
 import ElementRenderer from "../ElementRenderer";
 import LeafRenderer from "../LeafRenderer";
 import useOverrides from "../overrides";
 import Placeholder from "../Placeholder";
 import PluginProvider from "../PluginProvider";
 import { useDeserialize, useSerialize } from "../serialize";
-import useEventHandler from "../useEventHandlerProps";
+import useEventHandler from "../useEventHandler";
 import useFluentEditInternal from "../useFluentEditInternal";
-import {
-  addRoot,
-  focusEditor,
-  isParagraph,
-  removeRoot,
-  withoutTab,
-  withSingleLine,
-} from "../utils";
+import { addRoot, focusEditor, isParagraph, removeRoot } from "../utils";
+import createSlateEditor from "./createSlateEditor";
 import { FluentEditInternalProps, FluentEditProps } from "./FluentEditProps";
 
-function createSlateEditor(singleLine: boolean) {
-  let editor = withoutTab(withReact(withHistory(createEditor())));
-  if (singleLine) {
-    editor = withSingleLine(editor);
-  }
-  return editor;
-}
-
 const FluentEdit = (props: FluentEditProps) => {
-  const { singleLine = false, markdown = false, plugins } = props;
+  const { singleLine = false, plugins } = props;
   const [key, setKey] = useState(0);
 
-  const { setEditor } = useFluentEditInternal();
+  const ctx = useFluentEditInternal();
 
   useEffect(() => setKey((v) => v + 1), [singleLine, JSON.stringify(plugins)]);
 
@@ -58,8 +43,7 @@ const FluentEdit = (props: FluentEditProps) => {
         key={key}
         {...props}
         singleLine={singleLine}
-        markdown={markdown}
-        onCreateEditor={setEditor}
+        onCreateEditor={ctx?.setEditor}
       />
     </PluginProvider>
   );
@@ -68,7 +52,6 @@ const FluentEdit = (props: FluentEditProps) => {
 const FluentEditInternal = (props: FluentEditInternalProps) => {
   const {
     singleLine,
-    markdown,
     autoFocus,
     placeholder,
     initialValue: initialTextValue = "",
@@ -84,8 +67,9 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   const editor = useMemo(() => overrides(createSlateEditor(singleLine)), []);
 
   const { onPaste, onKeyDown, ...eventProps } = useEventHandler(editor);
-  const serializer = useSerialize(markdown);
-  const deserializer = useDeserialize(markdown);
+  const serializer = useSerialize();
+  const deserializer = useDeserialize();
+  const decorate = useDecorate(editor);
 
   const renderElement = useCallback(
     (props: RenderElementProps) => <ElementRenderer {...props} />,
@@ -162,7 +146,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   );
 
   useLayoutEffect(() => {
-    onCreateEditor(editor);
+    onCreateEditor?.(editor);
   }, []);
 
   useEffect(() => {
@@ -177,6 +161,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
         renderLeaf={renderLeaf}
         renderElement={renderElement}
         renderPlaceholder={renderPlaceholder}
+        decorate={decorate}
         onKeyDown={handleKeyDown}
         onPaste={handlePaste}
         placeholder={placeholder}

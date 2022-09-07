@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { RenderElementProps } from "slate-react";
 import usePlugins from "../usePlugins";
 
@@ -8,8 +7,7 @@ const ElementRenderer = (props: RenderElementProps) => {
   const plugins = usePlugins();
 
   const plugin = plugins
-    .flatMap((plugin) => plugin.elements)
-    .sort((e1, e2) => (e2.priority || 0) - (e1.priority || 0))
+    .map((plugin) => plugin.element)
     .find(({ match }) => match(props));
 
   if (plugin) {
@@ -17,10 +15,8 @@ const ElementRenderer = (props: RenderElementProps) => {
     return <Component {...props} />;
   }
 
-  const style = useMemo(() => ({ margin: 0, padding: 0 }), []);
-
   return (
-    <p style={style} {...attributes}>
+    <p style={{ margin: 0, padding: 0 }} {...attributes}>
       {children}
     </p>
   );
