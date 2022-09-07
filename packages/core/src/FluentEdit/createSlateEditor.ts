@@ -7,7 +7,7 @@ function withoutTab(editor: Editor) {
 
   editor.normalizeNode = ([node, path]) => {
     if (Text.isText(node) && /\t/.test(node.text)) {
-      Transforms.insertText(editor, node.text.replace(/\t/, "  "), {
+      Transforms.insertText(editor, node.text.replace(/\t/g, "  "), {
         at: path,
       });
     }
