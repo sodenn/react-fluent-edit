@@ -14,18 +14,18 @@ function hasTokens(token: any): token is { tokens?: Token[]; items?: Token[] } {
 
 const rules = {
   heading: /^(#{1,6})(\s+)(.+)(?:\n+|$)/,
-  listItem: /^ *(?:[*+-]|\d+[.)])( .+)/,
+  listItem: /^ *(?:[*+-]|\d+[.)])( .*)/,
   listItemStart: /^ *(?:[*+-]|\d+[.)]) /,
 };
 
 const tokenizer: any = {
   list(src: string) {
-    const match = src.match(rules.listItemStart);
+    const match = src.split("\n").shift()?.match(rules.listItem);
     if (match) {
       return {
         type: "list_item",
         raw: match[0],
-        text: "",
+        text: match[1].trimStart(),
       };
     }
     return false;
