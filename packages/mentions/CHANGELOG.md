@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://github.com/sodenn/react-fluent-edit/compare/mentions-v1.0.3...mentions-v2.0.0) (2022-09-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **plugin:** the `Plugin.leaves` key was renamed to `Plugin.leave`; the `Plugin.elements` key was renamed to `Plugin.element`
+
+### Features
+
+* **plugin:** markdown preview support ([#43](https://github.com/sodenn/react-fluent-edit/issues/43)) ([6c324fa](https://github.com/sodenn/react-fluent-edit/commit/6c324fabb43f14954f6fe83756fc411215e94a38))
+
+
+### Bug Fixes
+
+* insert a space before a mention ([#58](https://github.com/sodenn/react-fluent-edit/issues/58)) ([7254dc4](https://github.com/sodenn/react-fluent-edit/commit/7254dc4ab840e72186ee97d2c25950fafcf7fc0d))
+
 ## [1.0.3](https://github.com/sodenn/react-fluent-edit/compare/mentions-v1.0.2...mentions-v1.0.3) (2022-08-16)
 
 
