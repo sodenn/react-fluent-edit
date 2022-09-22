@@ -4,7 +4,7 @@ import {
   WithChildrenProp,
 } from "@react-fluent-edit/core";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
-import { Editor, Element, Range, Text, Transforms } from "slate";
+import { Editor, Element, Node, Range, Text, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { Mention, MentionItem } from "../types";
 import { escapeRegExp, getMentionNodes, isMentionElement } from "../utils";
@@ -178,28 +178,6 @@ function MentionsProvider({ children }: WithChildrenProp) {
     [editor]
   );
 
-  const renameMentions = useCallback(
-    ({ text, newText, trigger }: RenameMentionsOptions) => {
-      if (!editor) {
-        return;
-      }
-      Transforms.setNodes(
-        editor,
-        { value: newText },
-        {
-          at: [],
-          match: (n) =>
-            !Editor.isEditor(n) &&
-            Element.isElement(n) &&
-            isMentionElement(n) &&
-            n.trigger === trigger &&
-            (!text || text === n.value),
-        }
-      );
-    },
-    [editor]
-  );
-
   const hasMentions = useCallback(
     (opt: FindMentionsOptions) => findMentionEntries(opt).length > 0,
     []
@@ -222,12 +200,73 @@ function MentionsProvider({ children }: WithChildrenProp) {
         children: [{ text: "" }],
       };
 
+      // add space before mention
+      let selection = editor.selection;
+      if (selection && Range.isCollapsed(selection)) {
+        const [start] = Range.edges(selection);
+        const before = Editor.before(editor, start);
+        const beforeRange = Editor.range(editor, start, before);
+        const beforeChar = Editor.string(editor, beforeRange);
+        if (beforeChar.trim()) {
+          Transforms.insertText(editor, " ");
+        }
+      }
+
       Transforms.insertNodes(editor, mentionElement);
       Transforms.move(editor);
+
+      // add space after mention
+      selection = editor.selection;
+      if (selection && Range.isCollapsed(selection)) {
+        const [start] = Range.edges(selection);
+        const after = Editor.after(editor, start);
+        const afterRange = Editor.range(editor, start, after);
+        const afterChar = Editor.string(editor, afterRange);
+        if (afterChar.trim()) {
+          Transforms.insertText(editor, " ");
+          Transforms.move(editor);
+        }
+      }
 
       ReactEditor.focus(editor);
     },
     [mentions]
+  );
+
+  const renameMentions = useCallback(
+    ({ text, newText, trigger }: RenameMentionsOptions) => {
+      if (!editor) {
+        return;
+      }
+
+      const match = (n: Node) =>
+        !Editor.isEditor(n) &&
+        Element.isElement(n) &&
+        isMentionElement(n) &&
+        n.trigger === trigger &&
+        (!text || text === n.value);
+
+      const nodes = Array.from(
+        Editor.nodes(editor, {
+          at: [],
+          match,
+        })
+      );
+
+      if (nodes.length) {
+        Transforms.setNodes(
+          editor,
+          { value: newText },
+          {
+            at: [],
+            match,
+          }
+        );
+      } else {
+        addMention({ text: newText, trigger });
+      }
+    },
+    [editor, addMention]
   );
 
   useEffect(() => {
