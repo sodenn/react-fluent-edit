@@ -1,6 +1,6 @@
 {
   "name": "@react-fluent-edit/core",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "license": "MIT",
   "description": "Slate based editor powered by plugins",
   "main": "./src/index.ts",
