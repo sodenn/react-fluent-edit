@@ -160,3 +160,17 @@ test("should automatically insert a space after a mention", async ({
     "@Hello World"
   );
 });
+
+test("should automatically insert a space before a mention", async ({
+  mount,
+  page,
+}) => {
+  const component = await mount(
+    <TestComponent autoFocus initialValue="Hello" />
+  );
+  await component.locator('[data-testid="fe-mention-to-add"]').type("Harry");
+  await component.locator('[data-testid="fe-add-mention"]').click();
+  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
+    "Hello @Harry"
+  );
+});
