@@ -7,12 +7,13 @@ const markerColor = "rgb(119, 119, 119)";
 
 test("should not render multiline heading element", async ({ mount, page }) => {
   const component = await mount(<MarkdownPlayground initialValue="# x" />);
+  await new Promise((resolve) => setTimeout(resolve, 100));
   await page.keyboard.press("Enter");
   await component.type("x");
-  const heading = component.locator(
-    '[data-slate-leaf="true"] > span:has-text("x")'
-  );
-  await expect(heading).toHaveCount(1);
+  await expect(
+    component.locator('[data-slate-leaf="true"][style]')
+  ).toHaveCount(2);
+  await expect(component.locator('[data-slate-leaf="true"]')).toHaveCount(3);
 });
 
 test("should render a heading element", async ({ mount }) => {
