@@ -23,6 +23,7 @@ import useOverrides from "../overrides";
 import Placeholder from "../Placeholder";
 import PluginProvider from "../PluginProvider";
 import { useDeserialize, useSerialize } from "../serialize";
+import { Plugin } from "../types";
 import useEventHandler from "../useEventHandler";
 import useFluentEditInternal from "../useFluentEditInternal";
 import { addRoot, focusEditor, isParagraph, removeRoot } from "../utils";
@@ -94,7 +95,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
       plugins.reduce((prev, curr) => {
         prev[curr.name] = curr.options;
         return prev;
-      }, {}),
+      }, {} as { [key: string]: Plugin["options"] }),
     [plugins]
   );
 

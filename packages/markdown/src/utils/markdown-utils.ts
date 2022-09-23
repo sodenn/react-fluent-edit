@@ -33,6 +33,7 @@ function decorateMarkdown({
 
   const tokens = getTokens(node.text);
   walkTokens(tokens, (token: Token) => {
+    // @ts-ignore
     if (disabled[token.type]) {
       return;
     }
