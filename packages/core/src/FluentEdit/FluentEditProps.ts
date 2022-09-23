@@ -3,7 +3,7 @@ import { Editor } from "slate";
 import { Plugin } from "../types";
 
 interface FluentEditProps
-  extends Omit<TextareaHTMLAttributes<HTMLDivElement>, "onChange"> {
+  extends Omit<TextareaHTMLAttributes<HTMLDivElement>, "onChange" | "value"> {
   singleLine?: boolean;
   autoFocus?: boolean;
   placeholder?: string;

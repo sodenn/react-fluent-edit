@@ -1,5 +1,5 @@
 import { CssBaseline } from "@mui/material";
-import { FluentEditProps, FluentEditProvider } from "@react-fluent-edit/core";
+import { FluentEditProvider } from "@react-fluent-edit/core";
 import {
   createMentionsPlugin,
   MentionsProvider,
@@ -8,6 +8,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { useState } from "react";
 import MuiFluentEdit from "../MuiFluentEdit";
 import MuiMentionCombobox from "../MuiMentionCombobox";
+import { MuiFluentEditProps } from "./MuiFluentEditProps";
 
 const plugin = createMentionsPlugin({
   mentions: [
@@ -21,7 +22,7 @@ const plugin = createMentionsPlugin({
   ],
 });
 
-const FluentEditStory = (props: FluentEditProps) => {
+const FluentEditStory = (props: MuiFluentEditProps) => {
   const [value, setValue] = useState("");
   return (
     <div style={{ padding: 8, width: 400 }}>

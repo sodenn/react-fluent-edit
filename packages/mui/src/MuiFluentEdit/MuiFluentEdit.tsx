@@ -1,11 +1,8 @@
 import { styled, useTheme } from "@mui/material";
-import {
-  FluentEdit,
-  FluentEditProps,
-  useFluentEdit,
-} from "@react-fluent-edit/core";
-import { FocusEvent, ReactNode, useCallback, useState } from "react";
+import { FluentEdit, useFluentEdit } from "@react-fluent-edit/core";
+import { FocusEvent, useCallback, useState } from "react";
 import { ReactEditor } from "slate-react";
+import { MuiFluentEditProps } from "./MuiFluentEditProps";
 
 const Legend = styled("legend")`
   user-select: none;
@@ -34,10 +31,6 @@ const Fieldset = styled("fieldset")(({ theme }) => {
     },
   };
 });
-
-interface MuiFluentEditProps extends FluentEditProps {
-  label?: ReactNode;
-}
 
 const MuiFluentEdit = (props: MuiFluentEditProps) => {
   const { label, onFocus, onBlur } = props;
