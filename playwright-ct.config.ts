@@ -5,7 +5,7 @@ import { devices } from "@playwright/experimental-ct-react";
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-  testMatch: /.*e2e.(js|ts|mjs)/,
+  testMatch: /.*spec.(ts|tsx)$/,
   testDir: "./packages",
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
   snapshotDir: "./__snapshots__",

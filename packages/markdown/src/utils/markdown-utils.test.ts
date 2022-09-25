@@ -1,10 +1,10 @@
-import { expect } from "@playwright/test";
 import { CustomText } from "@react-fluent-edit/core";
 import { createEditor } from "slate";
+import { describe, expect, it } from "vitest";
 import { decorateMarkdown } from "./markdown-utils";
 
 describe("markdown-utils", () => {
-  test("should decorate markdown entries", () => {
+  it("should decorate markdown entries", () => {
     const node: CustomText = {
       text: "Lorem *ipsum **dolor** sit amet*",
     };

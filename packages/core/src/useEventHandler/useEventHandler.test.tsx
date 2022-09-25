@@ -1,16 +1,17 @@
 import { renderHook } from "@testing-library/react";
 import { FocusEvent, MouseEvent } from "react";
 import { createEditor } from "slate";
+import { describe, expect, it, vi } from "vitest";
 import PluginProvider from "../PluginProvider";
 import { Plugin, WithChildrenProp } from "../types";
 import useEventHandler from "./useEventHandler";
 
 describe("useEventHandler", () => {
   it("should call all event listeners in the correct order", () => {
-    const listener1 = jest.fn().mockImplementation(() => false);
-    const listener2 = jest.fn().mockImplementation(() => true);
-    const listener3 = jest.fn().mockImplementation(() => false);
-    const listener4 = jest.fn().mockImplementation(() => false);
+    const listener1 = vi.fn().mockImplementation(() => false);
+    const listener2 = vi.fn().mockImplementation(() => true);
+    const listener3 = vi.fn().mockImplementation(() => false);
+    const listener4 = vi.fn().mockImplementation(() => false);
 
     const plugins: Plugin[] = [
       {

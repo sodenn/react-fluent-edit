@@ -1,4 +1,5 @@
 import { createEditor, Transforms } from "slate";
+import { describe, expect, it } from "vitest";
 import withMentions from "../withMentions";
 import {
   addMentionNodes,

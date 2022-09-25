@@ -27,7 +27,7 @@ jobs:
       - run: corepack enable
       - run: yarn install --immutable --immutable-cache
       - run: npx playwright install --with-deps
-      - run: yarn test:e2e
+      - run: yarn test:ct
       - uses: actions/upload-artifact@v3
         if: always()
         with:
