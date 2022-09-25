@@ -23,10 +23,10 @@ import useOverrides from "../overrides";
 import Placeholder from "../Placeholder";
 import PluginProvider from "../PluginProvider";
 import { useDeserialize, useSerialize } from "../serialize";
-import { Plugin } from "../types";
 import useEventHandler from "../useEventHandler";
 import useFluentEditInternal from "../useFluentEditInternal";
 import { addRoot, focusEditor, isParagraph, removeRoot } from "../utils";
+import { getPluginOptions } from "../utils/plugin-utils";
 import createSlateEditor from "./createSlateEditor";
 import { FluentEditInternalProps, FluentEditProps } from "./FluentEditProps";
 
@@ -34,18 +34,11 @@ const FluentEdit = (props: FluentEditProps) => {
   const { singleLine = false, plugins } = props;
   const [key, setKey] = useState(0);
 
-  const ctx = useFluentEditInternal();
-
   useEffect(() => setKey((v) => v + 1), [singleLine, JSON.stringify(plugins)]);
 
   return (
     <PluginProvider plugins={plugins}>
-      <FluentEditInternal
-        key={key}
-        {...props}
-        singleLine={singleLine}
-        onCreateEditor={ctx?.setEditor}
-      />
+      <FluentEditInternal key={key} {...props} singleLine={singleLine} />
     </PluginProvider>
   );
 };
@@ -57,19 +50,17 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
     placeholder,
     initialValue: initialTextValue = "",
     onChange,
-    onCreateEditor,
     children,
     plugins = [],
     ...rest
   } = props;
 
   const overrides = useOverrides();
-
+  const ctx = useFluentEditInternal();
   const editor = useMemo(() => overrides(createSlateEditor(singleLine)), []);
-
   const { onPaste, onKeyDown, ...eventProps } = useEventHandler(editor);
-  const serializer = useSerialize();
-  const deserializer = useDeserialize();
+  const serializer = useSerialize(plugins);
+  const deserializer = useDeserialize(plugins);
   const decorate = useDecorate(editor);
 
   const renderElement = useCallback(
@@ -90,14 +81,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
     }
   }, []);
 
-  const pluginOptions = useMemo(
-    () =>
-      plugins.reduce((prev, curr) => {
-        prev[curr.name] = curr.options;
-        return prev;
-      }, {} as { [key: string]: Plugin["options"] }),
-    [plugins]
-  );
+  const pluginOptions = useMemo(() => getPluginOptions(plugins), [plugins]);
 
   const initialValue = useMemo<Descendant[]>(
     () => addRoot(deserializer(initialTextValue, singleLine, pluginOptions)),
@@ -147,7 +131,11 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   );
 
   useLayoutEffect(() => {
-    onCreateEditor?.(editor);
+    if (ctx) {
+      ctx.setEditor(editor);
+      ctx.setSingleLine(singleLine);
+      ctx.setPlugins(plugins);
+    }
   }, []);
 
   useEffect(() => {

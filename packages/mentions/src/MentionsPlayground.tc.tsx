@@ -2,6 +2,7 @@ import {
   FluentEdit,
   FluentEditProps,
   FluentEditProvider,
+  useFluentEdit,
   WithChildrenProp,
 } from "@react-fluent-edit/core";
 import { ChangeEvent, useMemo, useState } from "react";
@@ -249,7 +250,8 @@ const MentionToolbar = ({ triggers, openSections }: MentionToolbarProps) => {
   const [mentionToRemove, setMentionToRemove] = useState("");
   const [mentionToRenameOld, setMentionToRenameOld] = useState("");
   const [mentionToRenameNew, setMentionToRenameNew] = useState("");
-
+  const [value, setValue] = useState("");
+  const { resetEditor } = useFluentEdit();
   const { addMention, removeMentions, renameMentions, openMentionsCombobox } =
     useMentions();
 
@@ -309,6 +311,11 @@ const MentionToolbar = ({ triggers, openSections }: MentionToolbarProps) => {
 
   const handelChangeTrigger = (t: string) => {
     setTrigger(t);
+  };
+
+  const resetEditorValue = () => {
+    resetEditor(value);
+    setValue("");
   };
 
   return (
@@ -377,6 +384,16 @@ const MentionToolbar = ({ triggers, openSections }: MentionToolbarProps) => {
           data-testid="fe-mention-to-rename-value"
           onChange={handleChangeMentionToRenameNew}
           value={mentionToRenameNew}
+        />
+      </div>
+      <div style={{ gap: 4, display: "flex" }}>
+        <button data-testid="fe-reset" onClick={resetEditorValue}>
+          Reset input value
+        </button>
+        <input
+          data-testid="fe-reset-value"
+          onChange={(ev) => setValue(ev.target.value)}
+          value={value}
         />
       </div>
     </Section>

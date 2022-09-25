@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction, TextareaHTMLAttributes } from "react";
-import { Editor } from "slate";
+import { TextareaHTMLAttributes } from "react";
 import { Plugin } from "../types";
 
 interface FluentEditProps
@@ -10,11 +9,14 @@ interface FluentEditProps
   initialValue?: string;
   onChange?: (value: string) => void;
   plugins?: Plugin[];
+  /**
+   * @deprecated use initialValue instead
+   */
+  value?: string | ReadonlyArray<string> | number | undefined;
 }
 
 interface FluentEditInternalProps extends FluentEditProps {
   singleLine: boolean;
-  onCreateEditor?: Dispatch<SetStateAction<Editor | undefined>>;
 }
 
 export type { FluentEditProps, FluentEditInternalProps };

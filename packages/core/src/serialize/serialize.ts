@@ -1,7 +1,8 @@
 import { useCallback } from "react";
 import { Descendant } from "slate";
-import usePlugins from "../usePlugins";
+import { Plugin } from "../types";
 import { addRoot, cloneChildren, nodesToText } from "../utils";
+import { normalizePlugins } from "../utils/plugin-utils";
 
 function textToNodes(text: string): Descendant[] {
   text = text.replace(/<br>/g, "\n");
@@ -22,12 +23,11 @@ function textToNodes(text: string): Descendant[] {
 /**
  * Converts the given data structure into a string.
  */
-function useSerialize() {
-  const plugins = usePlugins();
+function useSerialize(plugins: Plugin[]) {
   return useCallback(
     (nodes: Descendant[]): string => {
       nodes = cloneChildren(nodes);
-      nodes = plugins
+      nodes = normalizePlugins(plugins)
         .map((p) => p.beforeSerialize)
         .sort((d1, d2) => (d2.priority || 0) - (d1.priority || 0))
         .map((d) => d.handler)
@@ -41,8 +41,7 @@ function useSerialize() {
 /**
  * Converts the given string into a data structure.
  */
-function useDeserialize() {
-  const plugins = usePlugins();
+function useDeserialize(plugins: Plugin[]) {
   return useCallback(
     (
       text: string,
@@ -51,7 +50,7 @@ function useDeserialize() {
     ): Descendant[] => {
       text = singleLine ? text.replace(/\n|<br>/g, " ") : text;
       let nodes: Descendant[] = textToNodes(text);
-      nodes = plugins
+      nodes = normalizePlugins(plugins)
         .sort(
           (s1, s2) =>
             (s2.afterDeserialize.priority || 0) -

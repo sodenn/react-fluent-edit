@@ -4,7 +4,7 @@ import FluentEditProvider from "../FluentEditProvider";
 import useFluentEdit from "../useFluentEdit";
 import { FluentEditProps } from "./FluentEditProps";
 
-const TestComponent = (props: FluentEditProps) => {
+const FluentEditPlayground = (props: FluentEditProps) => {
   return (
     <FluentEditProvider>
       <Internal {...props} />
@@ -13,13 +13,16 @@ const TestComponent = (props: FluentEditProps) => {
 };
 
 const Internal = (props: FluentEditProps) => {
-  const { focusEditor } = useFluentEdit();
+  const { focusEditor, resetEditor } = useFluentEdit();
   const [value, setValue] = useState("");
   return (
-    <div style={{ maxWidth: 400 }}>
-      <div style={{ marginBottom: 8 }}>
+    <div style={{ minWidth: 500 }}>
+      <div style={{ marginBottom: 8, display: "flex", gap: 4 }}>
         <button data-testid="fe-focus" onClick={focusEditor}>
           Focus
+        </button>
+        <button data-testid="fe-reset" onClick={() => resetEditor()}>
+          Reset
         </button>
       </div>
       <div style={{ border: "1px solid #aaa", borderRadius: 4, padding: 8 }}>
@@ -33,11 +36,22 @@ const Internal = (props: FluentEditProps) => {
           {...props}
         />
       </div>
-      <div style={{ whiteSpace: "pre-wrap" }} data-testid="fe-value">
-        {value}
-      </div>
+      {value && (
+        <div
+          data-testid="fe-value"
+          style={{
+            padding: 8,
+            borderRadius: 4,
+            marginTop: 12,
+            whiteSpace: "pre-wrap",
+            backgroundColor: "#efefef",
+          }}
+        >
+          {value}
+        </div>
+      )}
     </div>
   );
 };
 
-export default TestComponent;
+export default FluentEditPlayground;
