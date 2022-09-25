@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { MentionsPlayground } from "./MentionsPlayground.tc";
+import FluentEdit from "./Mentions.tc";
 
 export default {
   title: "FluentEdit",
-  component: MentionsPlayground,
+  component: FluentEdit,
   argTypes: {
     autoCorrect: { control: "select", options: ["on", "off"] },
     autoCapitalize: { control: "select", options: ["on", "off"] },
@@ -11,10 +11,10 @@ export default {
   parameters: {
     layout: "centered",
   },
-} as ComponentMeta<typeof MentionsPlayground>;
+} as ComponentMeta<typeof FluentEdit>;
 
-const Template: ComponentStory<typeof MentionsPlayground> = (args) => (
-  <MentionsPlayground {...args} />
+const Template: ComponentStory<typeof FluentEdit> = (args) => (
+  <FluentEdit {...args} />
 );
 
 export const Mentions = Template.bind({});

@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import MarkdownPlayground from "./MarkdownPlayground.tc";
+import FluentEdit from "./Markdown.tc";
 
 export default {
   title: "FluentEdit",
-  component: MarkdownPlayground,
+  component: FluentEdit,
   argTypes: {
     autoCorrect: { control: "select", options: ["on", "off"] },
     autoCapitalize: { control: "select", options: ["on", "off"] },
@@ -11,10 +11,10 @@ export default {
   parameters: {
     layout: "centered",
   },
-} as ComponentMeta<typeof MarkdownPlayground>;
+} as ComponentMeta<typeof FluentEdit>;
 
-const Template: ComponentStory<typeof MarkdownPlayground> = (args) => (
-  <MarkdownPlayground {...args} />
+const Template: ComponentStory<typeof FluentEdit> = (args) => (
+  <FluentEdit {...args} />
 );
 
 export const Markdown = Template.bind({});

@@ -1,7 +1,8 @@
+import { describe, expect, it } from "vitest";
 import { getTokens } from "./tokenizer";
 
 describe("tokenizer", () => {
-  test("should add position to tokens", () => {
+  it("should add position to tokens", () => {
     const src = `# Title
 1. ItemA
    1. Item1

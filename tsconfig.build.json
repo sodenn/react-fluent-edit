@@ -11,8 +11,8 @@
     "packages/**/src/**/*.stories.tsx",
     "packages/**/src/**/*.test.ts",
     "packages/**/src/**/*.test.tsx",
-    "packages/**/src/**/*.e2e.ts",
-    "packages/**/src/**/*.e2e.tsx",
+    "packages/**/src/**/*.spec.ts",
+    "packages/**/src/**/*.spec.tsx",
     "packages/**/src/**/*.tc.ts",
     "packages/**/src/**/*.tc.tsx",
     "packages/**/lib"
