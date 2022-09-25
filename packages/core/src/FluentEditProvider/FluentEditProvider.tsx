@@ -6,8 +6,11 @@ import {
   useCallback,
   useState,
 } from "react";
-import { Editor } from "slate";
+import { Editor, Transforms } from "slate";
+import { useDeserialize } from "../serialize";
+import { Plugin } from "../types";
 import { focusEditor as _focusEditor } from "../utils";
+import { getPluginOptions } from "../utils/plugin-utils";
 import {
   FluentEditContext,
   FluentEditProviderProps,
@@ -24,6 +27,9 @@ function FluentEditProvider({
   providers = [],
 }: FluentEditProviderProps) {
   const [editor, setEditor] = useState<Editor | undefined>(undefined);
+  const [singleLine, setSingleLine] = useState(false);
+  const [plugins, setPlugins] = useState<Plugin[]>([]);
+  const deserializer = useDeserialize(plugins);
 
   const focusEditor = useCallback(() => {
     if (editor) {
@@ -31,10 +37,35 @@ function FluentEditProvider({
     }
   }, [editor]);
 
+  const resetEditor = useCallback(
+    (text = "") => {
+      if (editor) {
+        Editor.withoutNormalizing(editor, () => {
+          Transforms.delete(editor, {
+            at: [0],
+          });
+          const nodes = deserializer(
+            text,
+            singleLine,
+            getPluginOptions(plugins)
+          );
+          Transforms.insertNodes(editor, nodes);
+          focusEditor();
+        });
+      }
+    },
+    [editor, focusEditor, plugins, deserializer]
+  );
+
   const value = {
     editor,
     setEditor,
     focusEditor,
+    resetEditor,
+    singleLine,
+    setSingleLine,
+    plugins,
+    setPlugins,
   };
 
   return (

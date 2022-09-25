@@ -42,9 +42,9 @@ test("should open the mention combobox by clicking on a button", async ({
   await expect(
     page.locator('[data-testid="fe-mention-combobox"]')
   ).toBeVisible();
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "@"
-  );
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("@");
 });
 
 test("should select a mention when pressing the enter key", async ({
@@ -68,38 +68,34 @@ test("should select a mention when clicking on a list item", async ({
   const component = await mount(<TestComponent autoFocus />);
   await component.locator('[data-testid="fe-open-mentions"]').click();
   await page.locator('[data-testid="fe-mention-combobox-item-Jane"]').click();
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "@Jane"
-  );
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("@Jane");
 });
 
-test("should add a mention from outside of the editor", async ({
-  mount,
-  page,
-}) => {
+test("should add a mention from outside of the editor", async ({ mount }) => {
   const component = await mount(<TestComponent autoFocus />);
   await component.locator('[data-testid="fe-mention-to-add"]').type("Test");
   await component.locator('[data-testid="fe-add-mention"]').click();
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "@Test"
-  );
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("@Test");
 });
 
 test("should remove a mention from outside of the editor", async ({
   mount,
-  page,
 }) => {
   const component = await mount(
     <TestComponent autoFocus initialValue="This is a @Small @Test" />
   );
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "This is a @Small @Test"
-  );
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("This is a @Small @Test");
   await component.locator('[data-testid="fe-mention-to-remove"]').type("Test");
   await component.locator('[data-testid="fe-remove-mention"]').click();
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "This is a @Small"
-  );
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("This is a @Small");
 });
 
 test("should remove all mention from outside of the editor", async ({
@@ -109,23 +105,23 @@ test("should remove all mention from outside of the editor", async ({
   const component = await mount(
     <TestComponent autoFocus initialValue="@A @B #C" />
   );
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "@A @B #C"
-  );
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("@A @B #C");
   await page.selectOption('[data-testid="fe-trigger-select"]', "@");
   await component.locator('[data-testid="fe-remove-mention"]').click();
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "#C"
-  );
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("#C");
 });
 
 test("should rename a mention", async ({ mount, page }) => {
   const component = await mount(
     <TestComponent autoFocus initialValue="@Hello #World" />
   );
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "@Hello #World"
-  );
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("@Hello #World");
   await page.selectOption('[data-testid="fe-trigger-select"]', "#");
   await component
     .locator('[data-testid="fe-mention-to-rename-filter"]')
@@ -134,43 +130,58 @@ test("should rename a mention", async ({ mount, page }) => {
     .locator('[data-testid="fe-mention-to-rename-value"]')
     .type("Test");
   await component.locator('[data-testid="fe-rename-mentions"]').click();
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "@Hello #Test"
-  );
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("@Hello #Test");
 });
 
-test("should add a mention when focus is lost", async ({ mount, page }) => {
+test("should add a mention when focus is lost", async ({ mount }) => {
   const component = await mount(<TestComponent autoFocus />);
   await component.locator("data-testid=fe").type("@www");
   await component.locator("data-testid=fe").evaluate((e) => e.blur());
-  await expect(page.locator('[data-testid="mention-www"]')).toContainText(
+  await expect(component.locator('[data-testid="mention-www"]')).toContainText(
     "@www"
   );
 });
 
 test("should automatically insert a space after a mention", async ({
   mount,
-  page,
 }) => {
   const component = await mount(
     <TestComponent autoFocus initialValue="@Hello" />
   );
   await component.locator("data-testid=fe").type("World");
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "@Hello World"
-  );
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("@Hello World");
 });
 
 test("should automatically insert a space before a mention", async ({
   mount,
-  page,
 }) => {
   const component = await mount(
     <TestComponent autoFocus initialValue="Hello" />
   );
   await component.locator('[data-testid="fe-mention-to-add"]').type("Harry");
   await component.locator('[data-testid="fe-add-mention"]').click();
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
-    "Hello @Harry"
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("Hello @Harry");
+});
+
+test("should be able to reset the editor value", async ({ mount }) => {
+  const component = await mount(<TestComponent autoFocus={false} />);
+  await component
+    .locator('[data-testid="fe-reset-value"]')
+    .type("Hello @World");
+  await component.locator("data-testid=fe-reset").click();
+  await expect(component.locator("data-testid=fe")).toContainText(
+    "Hello @World"
   );
+  await expect(
+    component.locator('[data-testid="mention-World"]')
+  ).toContainText("@World");
+  await expect(
+    component.locator('[data-testid="fe-editor-value"]')
+  ).toContainText("Hello @World");
 });
