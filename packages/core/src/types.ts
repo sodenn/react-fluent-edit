@@ -57,7 +57,7 @@ interface Deserialize {
   /**
    * Called just after deserializing.
    */
-  handler: (nodes: Descendant[], props: unknown) => Descendant[];
+  handler: (nodes: Descendant[], props: any) => Descendant[];
 
   /**
    * A high value results in earlier execution.

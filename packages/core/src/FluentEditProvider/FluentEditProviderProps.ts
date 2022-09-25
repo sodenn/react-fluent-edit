@@ -4,7 +4,7 @@ import { WithChildrenProp } from "../types";
 
 interface FluentEditContext {
   editor?: Editor;
-  setEditor: Dispatch<SetStateAction<Editor>>;
+  setEditor: Dispatch<SetStateAction<Editor | undefined>>;
   focusEditor: () => void;
 }
 

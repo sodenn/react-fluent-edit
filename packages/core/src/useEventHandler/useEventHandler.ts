@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Editor } from "slate";
+import { EventHandlers } from "../types";
 import usePlugins from "../usePlugins";
 import { UseEventHandlersProps } from "./useEventHandlerProps";
 
@@ -10,7 +11,7 @@ function useEventHandler(editor: Editor): Partial<UseEventHandlersProps> {
     .map((p) => p.handlers)
     .flatMap((h) =>
       Object.entries(h).map(([key, value]) => ({
-        name: key,
+        name: key as keyof EventHandlers,
         priority: value.priority,
         handler: value.handler,
       }))

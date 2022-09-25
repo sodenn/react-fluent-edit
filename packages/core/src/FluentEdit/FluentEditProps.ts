@@ -14,7 +14,7 @@ interface FluentEditProps
 
 interface FluentEditInternalProps extends FluentEditProps {
   singleLine: boolean;
-  onCreateEditor?: Dispatch<SetStateAction<Editor>>;
+  onCreateEditor?: Dispatch<SetStateAction<Editor | undefined>>;
 }
 
 export type { FluentEditProps, FluentEditInternalProps };

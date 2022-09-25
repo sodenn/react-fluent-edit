@@ -63,13 +63,13 @@ function getTokens(src: string): Token[] {
       tokens,
     },
   ];
-  marked.walkTokens(root, addPositions);
+  marked.walkTokens(root, addPositions as any);
 
   return tokens as any;
 }
 
 function walkTokens(tokens: Token[], fn: (token: Token) => void) {
-  marked.walkTokens(tokens, fn);
+  marked.walkTokens(tokens, fn as any);
 }
 
 export { getTokens, walkTokens, Token, HeadingToken, rules };
