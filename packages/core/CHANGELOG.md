@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/sodenn/react-fluent-edit/compare/core-v2.0.0...core-v2.1.0) (2022-09-26)
+
+
+### Features
+
+* allow to reset the value of the editor ([#63](https://github.com/sodenn/react-fluent-edit/issues/63)) ([6a9d892](https://github.com/sodenn/react-fluent-edit/commit/6a9d892bc7229b1afd595a78bc3c712e17527db5))
+
+
+### Bug Fixes
+
+* remove broken source maps ([#59](https://github.com/sodenn/react-fluent-edit/issues/59)) ([269bcc3](https://github.com/sodenn/react-fluent-edit/commit/269bcc3fa53551116d4a6fd4fbfb3950b4ea3089))
+
 ## [2.0.0](https://github.com/sodenn/react-fluent-edit/compare/core-v1.0.3...core-v2.0.0) (2022-09-22)
 
 
