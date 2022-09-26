@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/sodenn/react-fluent-edit/compare/mentions-v2.0.0...mentions-v2.1.0) (2022-09-26)
+
+
+### Features
+
+* allow to reset the value of the editor ([#63](https://github.com/sodenn/react-fluent-edit/issues/63)) ([6a9d892](https://github.com/sodenn/react-fluent-edit/commit/6a9d892bc7229b1afd595a78bc3c712e17527db5))
+
 ## [2.0.0](https://github.com/sodenn/react-fluent-edit/compare/mentions-v1.0.3...mentions-v2.0.0) (2022-09-22)
 
 

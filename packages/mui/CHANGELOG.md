@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/sodenn/react-fluent-edit/compare/mui-v2.0.0...mui-v2.1.0) (2022-09-26)
+
+
+### Bug Fixes
+
+* remove broken source maps ([#59](https://github.com/sodenn/react-fluent-edit/issues/59)) ([269bcc3](https://github.com/sodenn/react-fluent-edit/commit/269bcc3fa53551116d4a6fd4fbfb3950b4ea3089))
+
 ## [2.0.0](https://github.com/sodenn/react-fluent-edit/compare/mui-v1.0.3...mui-v2.0.0) (2022-09-22)
 
 
