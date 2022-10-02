@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import FluentEdit from "./FluentEdit.tc";
+import FluentEdit from "./Dnd.tc";
 
 export default {
   title: "FluentEdit",
@@ -17,9 +17,9 @@ const Template: ComponentStory<typeof FluentEdit> = (args) => (
   <FluentEdit {...args} />
 );
 
-export const Simple = Template.bind({});
-Simple.args = {
-  initialValue: "",
+export const Dnd = Template.bind({});
+Dnd.args = {
+  initialValue: "{{Lorem}} ipsum dolor sit amet.",
   placeholder: "Start typing",
   autoCorrect: "off",
   autoCapitalize: "off",
@@ -27,10 +27,3 @@ Simple.args = {
   autoFocus: true,
   singleLine: false,
 };
-
-// Simple.parameters = {
-//   docs: {
-//     source: { code: FluentEdit },
-//     language: "typescript",
-//   },
-// };

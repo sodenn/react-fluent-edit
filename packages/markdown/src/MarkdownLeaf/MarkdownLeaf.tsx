@@ -3,7 +3,7 @@ import { CSSProperties } from "react";
 import { RenderLeafProps } from "slate-react";
 import { MarkdownPluginOptions } from "../types";
 
-const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
+const MarkdownLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {
   let style: CSSProperties = {};
 
   const plugin = usePlugins().find(
@@ -114,4 +114,4 @@ const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
   );
 };
 
-export default Leaf;
+export default MarkdownLeaf;

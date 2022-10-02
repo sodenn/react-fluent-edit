@@ -1,5 +1,6 @@
 import { CustomText } from "@react-fluent-edit/core";
-import { CSSProperties } from "react";
+import { CSSProperties, FunctionComponent } from "react";
+import { RenderLeafProps } from "slate-react";
 
 type MarkdownToken = keyof Pick<
   CustomText,
@@ -33,6 +34,7 @@ type MarkdownStyles = {
 interface MarkdownPluginOptions {
   disabled?: MarkdownDisabled;
   styles?: MarkdownStyles;
+  component?: FunctionComponent<RenderLeafProps>;
 }
 
 export type {

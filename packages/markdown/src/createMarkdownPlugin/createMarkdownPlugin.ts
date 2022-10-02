@@ -1,5 +1,5 @@
 import { Plugin } from "@react-fluent-edit/core";
-import Leaf from "../Leaf";
+import MarkdownLeaf from "../MarkdownLeaf";
 import { MarkdownPluginOptions, MarkdownToken } from "../types";
 import { decorateMarkdown, handleKeydown } from "../utils";
 import withMarkdown from "../withMarkdown";
@@ -19,12 +19,12 @@ const tokens: MarkdownToken[] = [
   "marker",
 ];
 
-function createMarkdownPlugin(options?: MarkdownPluginOptions): Plugin {
+function createMarkdownPlugin(options: MarkdownPluginOptions = {}): Plugin {
   return {
     name: "markdown",
     leave: {
       match: ({ leaf }) => tokens.some((key) => leaf[key]),
-      component: Leaf,
+      component: options.component || MarkdownLeaf,
     },
     override: withMarkdown,
     decorate: decorateMarkdown,

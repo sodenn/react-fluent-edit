@@ -1,3 +1,5 @@
+export * from "./Chip";
+export { default as Chip } from "./Chip";
 export * from "./FluentEdit";
 export { default as FluentEdit } from "./FluentEdit";
 export * from "./FluentEditProvider";
@@ -5,6 +7,8 @@ export { default as FluentEditProvider } from "./FluentEditProvider";
 export * from "./PluginProvider";
 export { default as PluginProvider } from "./PluginProvider";
 export * from "./types";
+export * from "./useComponents";
+export { default as useComponents } from "./useComponents";
 export * from "./useFluentEdit";
 export { default as useFluentEdit } from "./useFluentEdit";
 export * from "./usePlugins";

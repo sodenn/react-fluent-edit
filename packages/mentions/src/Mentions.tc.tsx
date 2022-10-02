@@ -153,7 +153,9 @@ const PluginConfiguration = ({
             >
               🗑️
             </button>
-            <span>
+            <span
+              style={{ ...mention.style, padding: "2px 4px", borderRadius: 4 }}
+            >
               <strong>Trigger:</strong> {mention.trigger}
             </span>
           </ListItem>

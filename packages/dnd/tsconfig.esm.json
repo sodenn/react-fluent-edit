@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "allowJs": true,
+    "outDir": "lib",
+    "target": "es6"
+  }
+}

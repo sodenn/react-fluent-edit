@@ -1,3 +1,4 @@
+import { ChipComponent } from "@react-fluent-edit/core";
 import { CSSProperties } from "react";
 
 interface MentionItem {
@@ -12,6 +13,7 @@ interface Mention {
 
 interface MentionsPluginOptions {
   mentions: Mention[];
+  chipComponent?: ChipComponent;
 }
 
 export { Mention, MentionsPluginOptions, MentionItem };
