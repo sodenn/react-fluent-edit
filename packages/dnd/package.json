@@ -1,0 +1,39 @@
+{
+  "name": "@react-fluent-edit/dnd",
+  "version": "2.0.0",
+  "license": "MIT",
+  "description": "Allows dragging HTML elements into the editor",
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sodenn/react-fluent-edit.git",
+    "directory": "packages/dnd"
+  },
+  "homepage": "https://github.com/sodenn/react-fluent-edit",
+  "author": {
+    "name": "sodenn",
+    "email": "mail@sodenn.dev"
+  },
+  "scripts": {
+    "build": "run-s clean build:all copy",
+    "clean": "rimraf lib",
+    "copy": "node ../../scripts/copy-files.js",
+    "build:all": "run-p build:esm build:cjs",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "publish": "node ../../scripts/publish.js"
+  },
+  "dependencies": {
+    "@react-fluent-edit/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "slate": "^0.81.3",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.81.0"
+  }
+}

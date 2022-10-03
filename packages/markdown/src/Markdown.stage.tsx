@@ -4,7 +4,7 @@ import createMarkdownPlugin from "./createMarkdownPlugin";
 
 const plugins = [createMarkdownPlugin()];
 
-const MarkdownPlayground = (props: FluentEditProps) => {
+const MarkdownStage = (props: FluentEditProps) => {
   const [value, setValue] = useState("");
   return (
     <div style={{ minWidth: 500 }}>
@@ -38,4 +38,4 @@ const MarkdownPlayground = (props: FluentEditProps) => {
   );
 };
 
-export default MarkdownPlayground;
+export default MarkdownStage;

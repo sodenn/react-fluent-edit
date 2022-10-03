@@ -1,6 +1,7 @@
 import {
   ClipboardEvent,
   CSSProperties,
+  DragEvent,
   FocusEvent,
   FunctionComponent,
   KeyboardEvent,
@@ -10,6 +11,11 @@ import {
 import { BaseEditor, BaseRange, Descendant, Editor, NodeEntry } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";
+
+interface CustomRenderElementProps<T>
+  extends Omit<RenderElementProps, "element"> {
+  element: T;
+}
 
 interface LeafComponent {
   match: (props: RenderLeafProps) => boolean;
@@ -25,7 +31,7 @@ type Leaf = LeafComponent | LeafStyle;
 
 interface Element {
   match: (props: RenderElementProps) => boolean;
-  component: FunctionComponent<RenderElementProps>;
+  component: FunctionComponent<CustomRenderElementProps<any>>;
 }
 
 interface EventHandler<E> {
@@ -39,6 +45,8 @@ interface EventHandlers {
   onFocus?: EventHandler<FocusEvent<HTMLDivElement>>;
   onBlur?: EventHandler<FocusEvent<HTMLDivElement>>;
   onPaste?: EventHandler<ClipboardEvent<HTMLDivElement>>;
+  onDragOver?: EventHandler<DragEvent<HTMLDivElement>>;
+  onDrop?: EventHandler<DragEvent<HTMLDivElement>>;
 }
 
 interface Serialize {
@@ -91,6 +99,9 @@ interface Plugin<T = {}> {
    */
   element?: Element;
 
+  /**
+   * Editor event handlers.
+   */
   handlers?: EventHandlers;
 
   /**
@@ -104,7 +115,7 @@ interface Plugin<T = {}> {
   afterDeserialize?: Deserialize;
 
   /**
-   *
+   * Apply text-level formatting in the editor.
    */
   decorate?: Decorate;
 
@@ -145,6 +156,13 @@ interface Mention {
   children: CustomText[];
 }
 
+interface DnD {
+  type: "dnd";
+  value: string;
+  raw: string;
+  children: CustomText[];
+}
+
 interface CustomText {
   text: string;
   marker?: boolean;
@@ -164,7 +182,7 @@ interface CustomText {
   title?: string;
 }
 
-type CustomElement = Root | Paragraph | Mention;
+type CustomElement = Root | Paragraph | Mention | DnD;
 
 type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 
@@ -177,6 +195,7 @@ declare module "slate" {
 }
 
 export type {
+  CustomRenderElementProps,
   LeafComponent,
   EventHandler,
   EventHandlers,
@@ -193,4 +212,5 @@ export type {
   CustomText,
   CustomElement,
   Mention,
+  DnD,
 };

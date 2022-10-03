@@ -20,7 +20,7 @@ interface SectionProps extends WithOpenSection, WithChildrenProp {
   title: string;
 }
 
-interface MentionsPlaygroundProps extends FluentEditProps, WithOpenSection {}
+interface MentionsStageProps extends FluentEditProps, WithOpenSection {}
 
 interface PluginConfigurationProps extends WithOpenSection {
   mentions: Mention[];
@@ -153,7 +153,9 @@ const PluginConfiguration = ({
             >
               🗑️
             </button>
-            <span>
+            <span
+              style={{ ...mention.style, padding: "2px 4px", borderRadius: 4 }}
+            >
               <strong>Trigger:</strong> {mention.trigger}
             </span>
           </ListItem>
@@ -433,7 +435,7 @@ const Editor = ({ items, ...props }: EditorProps) => {
   );
 };
 
-const MentionsPlaygroundInternal = (props: MentionsPlaygroundProps) => {
+const MentionsPlaygroundInternal = (props: MentionsStageProps) => {
   const { openSections } = props;
 
   const [mentions, setMentions] = useState<Mention[]>([
@@ -494,7 +496,7 @@ const MentionsPlaygroundInternal = (props: MentionsPlaygroundProps) => {
   );
 };
 
-const TestComponent = (props: MentionsPlaygroundProps) => {
+const MentionsStage = (props: MentionsStageProps) => {
   return (
     <FluentEditProvider providers={[<MentionsProvider />]}>
       <MentionsPlaygroundInternal {...props} />
@@ -502,5 +504,5 @@ const TestComponent = (props: MentionsPlaygroundProps) => {
   );
 };
 
-export default TestComponent;
-export type { MentionsPlaygroundProps };
+export default MentionsStage;
+export type { MentionsStageProps };

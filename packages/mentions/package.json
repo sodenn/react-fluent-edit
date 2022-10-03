@@ -2,7 +2,7 @@
   "name": "@react-fluent-edit/mentions",
   "version": "2.1.0",
   "license": "MIT",
-  "description": "Mentions Plugin for React FluentEdit",
+  "description": "Mentions Plugin for react-fluent-edit",
   "main": "./src/index.ts",
   "publishConfig": {
     "access": "public"

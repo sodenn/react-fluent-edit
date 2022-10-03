@@ -1,20 +1,14 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import FluentEdit from "./Markdown.tc";
+import MarkdownCode from "./Markdown.code";
+import MarkdownStory from "./Markdown.stage";
 
 export default {
   title: "FluentEdit",
-  component: FluentEdit,
-  argTypes: {
-    autoCorrect: { control: "select", options: ["on", "off"] },
-    autoCapitalize: { control: "select", options: ["on", "off"] },
-  },
-  parameters: {
-    layout: "centered",
-  },
-} as ComponentMeta<typeof FluentEdit>;
+  component: MarkdownStory,
+} as ComponentMeta<typeof MarkdownStory>;
 
-const Template: ComponentStory<typeof FluentEdit> = (args) => (
-  <FluentEdit {...args} />
+const Template: ComponentStory<typeof MarkdownStory> = (args) => (
+  <MarkdownStory {...args} />
 );
 
 export const Markdown = Template.bind({});
@@ -27,4 +21,11 @@ Markdown.args = {
   spellCheck: false,
   autoFocus: true,
   singleLine: false,
+};
+
+Markdown.parameters = {
+  docs: {
+    source: { code: MarkdownCode },
+    language: "typescript",
+  },
 };

@@ -1,24 +1,18 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import FluentEdit from "./FluentEdit.tc";
+import FluentEditCode from "./FluentEdit.code";
+import FluentEditStory from "./FluentEdit.stage";
 
 export default {
   title: "FluentEdit",
-  component: FluentEdit,
-  argTypes: {
-    autoCorrect: { control: "select", options: ["on", "off"] },
-    autoCapitalize: { control: "select", options: ["on", "off"] },
-  },
-  parameters: {
-    layout: "centered",
-  },
-} as ComponentMeta<typeof FluentEdit>;
+  component: FluentEditStory,
+} as ComponentMeta<typeof FluentEditStory>;
 
-const Template: ComponentStory<typeof FluentEdit> = (args) => (
-  <FluentEdit {...args} />
+const Template: ComponentStory<typeof FluentEditStory> = (args) => (
+  <FluentEditStory {...args} />
 );
 
-export const Simple = Template.bind({});
-Simple.args = {
+export const Basic = Template.bind({});
+Basic.args = {
   initialValue: "",
   placeholder: "Start typing",
   autoCorrect: "off",
@@ -26,4 +20,11 @@ Simple.args = {
   spellCheck: false,
   autoFocus: true,
   singleLine: false,
+};
+
+Basic.parameters = {
+  docs: {
+    source: { code: FluentEditCode },
+    language: "typescript",
+  },
 };

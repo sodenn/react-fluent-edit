@@ -2,7 +2,7 @@
   "name": "@react-fluent-edit/markdown",
   "private": true,
   "license": "MIT",
-  "description": "Markdown Plugin for React FluentEdit",
+  "description": "Markdown Plugin for react-fluent-edit",
   "main": "./src/index.ts",
   "publishConfig": {
     "access": "public"

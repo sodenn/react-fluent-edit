@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/experimental-ct-react";
-import TestComponent from "./Markdown.tc";
+import TestComponent from "./Markdown.stage";
 
 test.use({ viewport: { width: 500, height: 500 } });
 

@@ -4,15 +4,15 @@ import FluentEditProvider from "../FluentEditProvider";
 import useFluentEdit from "../useFluentEdit";
 import { FluentEditProps } from "./FluentEditProps";
 
-const TestComponent = (props: FluentEditProps) => {
+const FluentEditStage = (props: FluentEditProps) => {
   return (
     <FluentEditProvider>
-      <Internal {...props} />
+      <Editor {...props} />
     </FluentEditProvider>
   );
 };
 
-const Internal = (props: FluentEditProps) => {
+const Editor = (props: FluentEditProps) => {
   const { focusEditor, resetEditor } = useFluentEdit();
   const [value, setValue] = useState("");
   return (
@@ -54,4 +54,4 @@ const Internal = (props: FluentEditProps) => {
   );
 };
 
-export default TestComponent;
+export default FluentEditStage;

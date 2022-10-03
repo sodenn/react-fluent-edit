@@ -7,7 +7,3 @@ export { default as MentionsProvider } from "./MentionsProvider";
 export * from "./types";
 export * from "./useMentions";
 export { default as useMentions } from "./useMentions";
-export * from "./useMentionsInternal";
-export { default as useMentionsInternal } from "./useMentionsInternal";
-export * from "./withMentions";
-export { default as withMentions } from "./withMentions";

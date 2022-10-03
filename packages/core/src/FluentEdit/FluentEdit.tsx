@@ -16,6 +16,7 @@ import {
   RenderPlaceholderProps,
   Slate,
 } from "slate-react";
+import ComponentProvider from "../ComponentProvider";
 import useDecorate from "../decorate";
 import ElementRenderer from "../ElementRenderer";
 import LeafRenderer from "../LeafRenderer";
@@ -30,16 +31,18 @@ import { getPluginOptions } from "../utils/plugin-utils";
 import createSlateEditor from "./createSlateEditor";
 import { FluentEditInternalProps, FluentEditProps } from "./FluentEditProps";
 
-const FluentEdit = (props: FluentEditProps) => {
+const FluentEdit = ({ chipComponent, ...props }: FluentEditProps) => {
   const { singleLine = false, plugins } = props;
   const [key, setKey] = useState(0);
 
   useEffect(() => setKey((v) => v + 1), [singleLine, JSON.stringify(plugins)]);
 
   return (
-    <PluginProvider plugins={plugins}>
-      <FluentEditInternal key={key} {...props} singleLine={singleLine} />
-    </PluginProvider>
+    <ComponentProvider chipComponent={chipComponent}>
+      <PluginProvider plugins={plugins}>
+        <FluentEditInternal key={key} {...props} singleLine={singleLine} />
+      </PluginProvider>
+    </ComponentProvider>
   );
 };
 

@@ -1,4 +1,5 @@
 import { TextareaHTMLAttributes } from "react";
+import { ChipComponent } from "../Chip";
 import { Plugin } from "../types";
 
 interface FluentEditProps
@@ -13,6 +14,7 @@ interface FluentEditProps
    * @deprecated use initialValue instead
    */
   value?: string | ReadonlyArray<string> | number | undefined;
+  chipComponent?: ChipComponent;
 }
 
 interface FluentEditInternalProps extends FluentEditProps {
