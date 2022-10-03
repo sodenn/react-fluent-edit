@@ -10,6 +10,8 @@
 
 Brings easy-to-use mentions, markdown and DnD (WIP) features to [Slate](https://github.com/ianstormtaylor/slate).
 
+Examples and code snippets: [https://react-fluent-edit.vercel.app](https://react-fluent-edit.vercel.app/?path=/docs/fluentedit--simple)
+
 ## Installation
 
 Install the core package in your project directory:
@@ -46,12 +48,12 @@ yarn add @react-fluent-edit/mentions
 
 **react-fluent-edit** consists of the following packages:
 
-- @react-fluent-edit/mentions<br>
-  <img width="400" src="resources/mentions1.png" alt="Screenshot" style="border-radius: 4px">
-  <img width="400" src="resources/mentions2.png" alt="Screenshot" style="border-radius: 4px">
-- @react-fluent-edit/markdown<br>
+- **@react-fluent-edit/mentions**<br>
+  <img width="400" src="resources/mentions.gif" alt="Screenshot" style="border-radius: 4px">
+- **@react-fluent-edit/markdown**<br>
   <img width="400" src="resources/markdown.gif" alt="Screenshot" style="border-radius: 4px">
-- @react-fluent-edit/dnd<br>
+- **@react-fluent-edit/dnd**<br>
   <img width="400" src="resources/dnd.gif" alt="Screenshot" style="border-radius: 4px">
-- @react-fluent-edit/mui<br>
-  Bindings for using [MUI (Material UI)](https://mui.com/) with react-fluent-edit.
+- **@react-fluent-edit/mui**<br>
+  Bindings for using [MUI (Material UI)](https://mui.com/) with react-fluent-edit.<br>
+  <img width="400" src="resources/mui.png" alt="Screenshot" style="border-radius: 4px">
