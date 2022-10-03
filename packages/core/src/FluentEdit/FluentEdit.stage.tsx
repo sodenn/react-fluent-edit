@@ -1,33 +1,37 @@
-import {
-  FluentEdit,
-  FluentEditProps,
-  FluentEditProvider,
-} from "@react-fluent-edit/core";
 import { useState } from "react";
-import createDnDPlugin from "./createDnDPlugin";
-import Draggable from "./Draggable";
+import FluentEdit from "../FluentEdit";
+import FluentEditProvider from "../FluentEditProvider";
+import useFluentEdit from "../useFluentEdit";
+import { FluentEditProps } from "./FluentEditProps";
 
-const plugins = [createDnDPlugin()];
-
-const DndPlayground = (props: FluentEditProps) => {
+const FluentEditStage = (props: FluentEditProps) => {
   return (
     <FluentEditProvider>
-      <Internal {...props} />
+      <Editor {...props} />
     </FluentEditProvider>
   );
 };
 
-const Internal = (props: FluentEditProps) => {
+const Editor = (props: FluentEditProps) => {
+  const { focusEditor, resetEditor } = useFluentEdit();
   const [value, setValue] = useState("");
   return (
     <div style={{ minWidth: 500 }}>
       <div style={{ marginBottom: 8, display: "flex", gap: 4 }}>
-        <Draggable component="div" value="{{Lorem ipsum}}" />
+        <button data-testid="fe-focus" onClick={focusEditor}>
+          Focus
+        </button>
+        <button data-testid="fe-reset" onClick={() => resetEditor()}>
+          Reset
+        </button>
       </div>
       <div style={{ border: "1px solid #aaa", borderRadius: 4, padding: 8 }}>
         <FluentEdit
-          plugins={plugins}
-          initialValue={value}
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          initialValue=""
+          autoFocus
           onChange={setValue}
           {...props}
         />
@@ -50,4 +54,4 @@ const Internal = (props: FluentEditProps) => {
   );
 };
 
-export default DndPlayground;
+export default FluentEditStage;

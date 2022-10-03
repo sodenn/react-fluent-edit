@@ -1,20 +1,14 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import FluentEdit from "./Mentions.tc";
+import MentionsCode from "./Mentions.code";
+import MentionsStory from "./Mentions.stage";
 
 export default {
   title: "FluentEdit",
-  component: FluentEdit,
-  argTypes: {
-    autoCorrect: { control: "select", options: ["on", "off"] },
-    autoCapitalize: { control: "select", options: ["on", "off"] },
-  },
-  parameters: {
-    layout: "centered",
-  },
-} as ComponentMeta<typeof FluentEdit>;
+  component: MentionsStory,
+} as ComponentMeta<typeof MentionsStory>;
 
-const Template: ComponentStory<typeof FluentEdit> = (args) => (
-  <FluentEdit {...args} />
+const Template: ComponentStory<typeof MentionsStory> = (args) => (
+  <MentionsStory {...args} />
 );
 
 export const Mentions = Template.bind({});
@@ -26,4 +20,11 @@ Mentions.args = {
   spellCheck: false,
   autoFocus: true,
   singleLine: false,
+};
+
+Mentions.parameters = {
+  docs: {
+    source: { code: MentionsCode },
+    language: "typescript",
+  },
 };

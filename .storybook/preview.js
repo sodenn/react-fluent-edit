@@ -1,4 +1,5 @@
 export const parameters = {
+  layout: "centered",
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
     matchers: {
@@ -6,4 +7,9 @@ export const parameters = {
       date: /Date$/,
     },
   },
-}
+};
+
+export const argTypes = {
+  autoCorrect: { control: "select", options: ["on", "off"] },
+  autoCapitalize: { control: "select", options: ["on", "off"] },
+};
