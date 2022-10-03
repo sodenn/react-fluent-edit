@@ -99,6 +99,9 @@ interface Plugin<T = {}> {
    */
   element?: Element;
 
+  /**
+   * Editor event handlers.
+   */
   handlers?: EventHandlers;
 
   /**
@@ -112,7 +115,7 @@ interface Plugin<T = {}> {
   afterDeserialize?: Deserialize;
 
   /**
-   *
+   * Apply text-level formatting in the editor.
    */
   decorate?: Decorate;
 

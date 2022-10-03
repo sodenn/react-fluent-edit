@@ -29,7 +29,7 @@ function getDnD(text: string, match: DnDMatchFn): DnD {
 function defaultMatch(text: string) {
   const result: DnDMatch[] = [];
 
-  for (const match of text.matchAll(/{{(.+)}}/g)) {
+  for (const match of text.matchAll(/{{(.[^{}]+)}}/g)) {
     const [raw, text] = match;
     const start = match.index || 0;
     const end = start + raw.length;

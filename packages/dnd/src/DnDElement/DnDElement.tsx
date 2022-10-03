@@ -15,7 +15,7 @@ const DnDElement = ({
   const editor = useSlateStatic();
   const plugin = usePlugins<DnDPluginOptions>("dnd");
   const { chipComponent: Chip } = useComponents();
-  const Comp = plugin?.options.chipComponent || Chip;
+  const Comp = plugin.options.chipComponent || Chip;
   const path = ReactEditor.findPath(editor, element);
 
   const handleDragStart = (event: any) => {

@@ -3,7 +3,7 @@ import { PluginCtx } from "../PluginProvider";
 import { Plugin } from "../types";
 
 function usePlugins<T = {}>(): Required<Plugin<T>>[];
-function usePlugins<T = {}>(name: string): Required<Plugin<T>> | undefined;
+function usePlugins<T = {}>(name: string): Required<Plugin<T>>;
 function usePlugins<T = {}>(name?: string) {
   const context = useContext(PluginCtx);
 
@@ -14,7 +14,11 @@ function usePlugins<T = {}>(name?: string) {
   if (typeof name === "undefined") {
     return context;
   } else {
-    return context.find((p) => p.name === name);
+    const plugin = context.find((p) => p.name === name);
+    if (!plugin) {
+      throw new Error(`Cannot find plugin with name "${name}"`);
+    }
+    return plugin;
   }
 }
 

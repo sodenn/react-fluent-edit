@@ -1,4 +1,4 @@
-import { Plugin, usePlugins } from "@react-fluent-edit/core";
+import { usePlugins } from "@react-fluent-edit/core";
 import { CSSProperties } from "react";
 import { RenderLeafProps } from "slate-react";
 import { MarkdownPluginOptions } from "../types";
@@ -6,11 +6,10 @@ import { MarkdownPluginOptions } from "../types";
 const MarkdownLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {
   let style: CSSProperties = {};
 
-  const plugin = usePlugins().find(
-    (p): p is Required<Plugin<MarkdownPluginOptions>> => p.name === "markdown"
-  );
+  const plugin = usePlugins<MarkdownPluginOptions>("markdown");
+
   const { h1, h2, h3, h4, h5, h6, codespan, marker } =
-    plugin?.options.styles ?? {};
+    plugin.options.styles ?? {};
 
   if (leaf.strong) {
     style.fontWeight = "bold";

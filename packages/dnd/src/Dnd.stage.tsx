@@ -1,22 +1,49 @@
-import { FluentEdit, FluentEditProps } from "@react-fluent-edit/core";
-import { useState } from "react";
+import {
+  Chip,
+  ChipProps,
+  FluentEdit,
+  FluentEditProps,
+} from "@react-fluent-edit/core";
+import { forwardRef, useState } from "react";
 import createDnDPlugin from "./createDnDPlugin";
 import Draggable from "./Draggable";
 
-const plugins = [createDnDPlugin()];
+const DraggableComp = forwardRef<HTMLSpanElement>((props, ref) => {
+  return (
+    <span
+      ref={ref}
+      {...props}
+      style={{
+        cursor: "pointer",
+        color: "#213580",
+        border: "1px solid #213580",
+        backgroundColor: "#dbe2ff",
+        padding: "0 4px",
+        borderRadius: 4,
+      }}
+    />
+  );
+});
+
+const ChipComp = (props: ChipProps) => {
+  return <Chip {...props} style={{ border: "1px solid grey" }} />;
+};
+
+const plugins = [createDnDPlugin({ chipComponent: ChipComp })];
 
 const DndStage = (props: FluentEditProps) => {
   const [value, setValue] = useState("");
   return (
     <div style={{ minWidth: 500 }}>
       <div style={{ marginBottom: 8, display: "flex", gap: 4 }}>
-        <Draggable component="div" value="{{Lorem ipsum}}" />
+        <Draggable component={DraggableComp} value="{{Lorem ipsum}}" />
       </div>
       <div style={{ border: "1px solid #aaa", borderRadius: 4, padding: 8 }}>
         <FluentEdit
           plugins={plugins}
           initialValue={value}
           onChange={setValue}
+          //chipComponent={ChipComp}
           {...props}
         />
       </div>

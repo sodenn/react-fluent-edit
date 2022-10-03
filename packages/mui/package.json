@@ -2,7 +2,7 @@
   "name": "@react-fluent-edit/mui",
   "version": "2.0.0",
   "license": "MIT",
-  "description": "Bindings for using React FluentEdit with MUI",
+  "description": "Bindings for using react-fluent-edit with MUI",
   "main": "./src/index.ts",
   "publishConfig": {
     "access": "public"
