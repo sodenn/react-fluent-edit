@@ -19,28 +19,49 @@ function handleDrop(
 ) {
   event.preventDefault();
   const range = ReactEditor.findEventRange(editor, event);
-  const end = Range.end(range);
-  const pathStr = event.dataTransfer.getData("rfe-path");
-  const path = pathStr && (JSON.parse(pathStr) as Path);
-  const isBefore = path && Point.isBefore(end, { path, offset: 0 });
-  const isAfter = path && Point.isAfter(end, { path, offset: 0 });
-  const text = event.dataTransfer.getData("rfe-dnd");
-  const dnd = getDnD(text, match);
+  if (Range.isCollapsed(range)) {
+    const start = Range.start(range);
+    const charBefore = Editor.before(editor, start, { unit: "character" });
+    const beforeRange = charBefore && Editor.range(editor, charBefore, start);
+    const beforeText =
+      beforeRange && Editor.string(editor, beforeRange, { voids: true });
+    const charAfter = Editor.after(editor, start, { unit: "character" });
+    const afterRange = charAfter && Editor.range(editor, charAfter, start);
+    const afterText =
+      afterRange && Editor.string(editor, afterRange, { voids: true });
+    const pathStr = event.dataTransfer.getData("rfe-path");
+    const path = pathStr && (JSON.parse(pathStr) as Path);
+    const isBefore = path && Point.isBefore(start, { path, offset: 0 });
+    const isAfter = path && Point.isAfter(start, { path, offset: 0 });
+    const text = event.dataTransfer.getData("rfe-dnd");
+    const dnd = getDnD(text, match);
 
-  if (isBefore) {
-    Transforms.removeNodes(editor, { at: path });
-  }
-  Transforms.select(editor, range);
-  Transforms.insertNodes(editor, [dnd, { text: "" }], { at: range });
-  if (!path) {
-    Transforms.move(editor);
-    Transforms.move(editor);
-  }
-  if (isAfter) {
-    Transforms.removeNodes(editor, { at: path });
-  }
+    if (isBefore) {
+      // remove old DnD node
+      Transforms.removeNodes(editor, { at: path });
+    }
 
-  return true;
+    const nodes = beforeText?.trim()
+      ? [{ text: " " }, dnd]
+      : afterText?.trim()
+      ? [dnd, { text: " " }]
+      : [dnd, { text: "" }];
+
+    Transforms.select(editor, range);
+    Transforms.insertNodes(editor, nodes, { at: range });
+    if (!path) {
+      Transforms.move(editor);
+      Transforms.move(editor);
+    }
+
+    if (isAfter) {
+      // remove old DnD node
+      Transforms.removeNodes(editor, { at: path });
+    }
+
+    return true;
+  }
+  return false;
 }
 
 export { handleDragOver, handleDrop };
