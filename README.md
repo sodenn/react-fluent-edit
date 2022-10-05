@@ -34,25 +34,17 @@ npm install slate slate-history slate-react
 yarn add slate slate-history slate-react
 ```
 
+### Packages
+
 Install additional packages of your choice:
-
-```bash
-// with npm
-npm install @react-fluent-edit/mentions
-
-// with yarn
-yarn add @react-fluent-edit/mentions
-```
-
-## Packages
-
-**react-fluent-edit** consists of the following packages:
 
 - **@react-fluent-edit/mentions**<br>
   <img width="400" src="resources/mentions.gif" alt="Screenshot" style="border-radius: 4px">
 - **@react-fluent-edit/markdown**<br>
+  Markdown autocompletion and highlighting.<br>
   <img width="400" src="resources/markdown.gif" alt="Screenshot" style="border-radius: 4px">
 - **@react-fluent-edit/dnd**<br>
+  Allows dragging HTML elements into the editor.<br>
   <img width="400" src="resources/dnd.gif" alt="Screenshot" style="border-radius: 4px">
 - **@react-fluent-edit/mui**<br>
   Bindings for using [MUI (Material UI)](https://mui.com/) with react-fluent-edit.<br>
