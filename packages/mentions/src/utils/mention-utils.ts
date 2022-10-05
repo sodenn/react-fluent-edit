@@ -6,7 +6,6 @@ import {
 } from "@react-fluent-edit/core";
 import {
   BaseRange,
-  createEditor,
   Descendant,
   Editor,
   Element,
@@ -18,7 +17,6 @@ import {
 } from "slate";
 import { ReactEditor } from "slate-react";
 import { Mention, MentionsPluginOptions } from "../types";
-import withMentions from "../withMentions";
 
 interface InsertMentionOptions extends Omit<Mention, "suggestions"> {
   editor: Editor;
@@ -178,7 +176,7 @@ function withMentionNodes(
 }
 
 function addMentionNodes(editor: Editor, mentions: Mention[]) {
-  removeMentionNodes(editor);
+  Editor.withoutNormalizing(editor, () => removeMentionNodes(editor.children));
 
   const textEntries: NodeEntry<CustomText>[] = Array.from(
     Editor.nodes(editor, { at: [], match: (n) => Text.isText(n) })
@@ -227,45 +225,21 @@ function addMentionNodes(editor: Editor, mentions: Mention[]) {
   }
 }
 
-function removeMentionNodes(editor: Editor) {
-  const mentionEntries: Generator<
-    NodeEntry<MentionElement>,
-    void,
-    undefined
-  > = Editor.nodes(editor, {
-    at: [],
-    match: (n) =>
-      !Editor.isEditor(n) && Element.isElement(n) && isMentionElement(n),
-  });
-
-  const { value, done } = mentionEntries.next();
-
-  if (value) {
-    const [node, path] = value;
-    Editor.withoutNormalizing(editor, () => {
-      Transforms.insertNodes(
-        editor,
-        { text: node.trigger + node.value },
-        { at: path }
-      );
-      const next = Editor.next(editor, { at: path });
-      if (next) {
-        const [, nextPath] = next;
-        Transforms.removeNodes(editor, { at: nextPath });
-      }
-    });
-  }
-
-  if (!done) {
-    removeMentionNodes(editor);
+function removeMentionNodes(nodes: Descendant[]) {
+  let index = nodes.length;
+  while (index--) {
+    const node = nodes[index];
+    if (Element.isElement(node) && isMentionElement(node)) {
+      nodes[index] = { text: node.trigger + node.value };
+    } else if (Element.isElement(node) && node.children.length) {
+      removeMentionNodes(node.children);
+    }
   }
 }
 
 function withoutMentionNodes(nodes: Descendant[]) {
-  const editor = withMentions(createEditor());
-  editor.children = nodes;
-  removeMentionNodes(editor);
-  return editor.children;
+  removeMentionNodes(nodes);
+  return nodes;
 }
 
 function getMentionItems(text: string, triggers: string[]) {

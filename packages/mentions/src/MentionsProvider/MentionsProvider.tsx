@@ -270,13 +270,13 @@ function MentionsProvider({ children }: WithChildrenProp) {
   );
 
   useEffect(() => {
-    const editorRef = editor && ReactEditor.toDOMNode(editor, editor);
+    const editorElem = editor && ReactEditor.toDOMNode(editor, editor);
     const handleBlur = () => {
       editorSelection.current = editor?.selection;
     };
-    editorRef?.addEventListener("blur", handleBlur);
+    editorElem?.addEventListener("blur", handleBlur);
     return () => {
-      editorRef?.removeEventListener("blur", handleBlur);
+      editorElem?.removeEventListener("blur", handleBlur);
     };
   }, [editor]);
 

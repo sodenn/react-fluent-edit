@@ -1,16 +1,6 @@
 import { cloneChildren, CustomText, DnD } from "@react-fluent-edit/core";
-import {
-  createEditor,
-  Descendant,
-  Editor,
-  Element,
-  Node,
-  NodeEntry,
-  Text,
-  Transforms,
-} from "slate";
+import { Descendant, Element, Node, NodeEntry, Text } from "slate";
 import { DnDMatch, DnDMatchFn } from "../types";
-import withDnD from "../withDnD";
 
 function getDnD(text: string, match: DnDMatchFn): DnD {
   const items = match(text);
@@ -42,35 +32,6 @@ function defaultMatch(text: string) {
   }
 
   return result;
-}
-
-function removeDnDNodes(editor: Editor) {
-  const dndEntries: Generator<NodeEntry<DnD>, void, undefined> = Editor.nodes(
-    editor,
-    {
-      at: [],
-      match: (n) =>
-        !Editor.isEditor(n) && Element.isElement(n) && n.type === "dnd",
-    }
-  );
-
-  const { value, done } = dndEntries.next();
-
-  if (value) {
-    const [node, path] = value;
-    Editor.withoutNormalizing(editor, () => {
-      Transforms.insertNodes(editor, { text: node.raw }, { at: path });
-      const next = Editor.next(editor, { at: path });
-      if (next) {
-        const [, nextPath] = next;
-        Transforms.removeNodes(editor, { at: nextPath });
-      }
-    });
-  }
-
-  if (!done) {
-    removeDnDNodes(editor);
-  }
 }
 
 function withDnDNodes(nodes: Descendant[], match: DnDMatchFn): Descendant[] {
@@ -116,11 +77,21 @@ function withDnDNodes(nodes: Descendant[], match: DnDMatchFn): Descendant[] {
   return root.children;
 }
 
+function removeDnDNodes(nodes: Descendant[]) {
+  let index = nodes.length;
+  while (index--) {
+    const node = nodes[index];
+    if (Element.isElement(node) && node.type === "dnd") {
+      nodes[index] = { text: node.raw };
+    } else if (Element.isElement(node) && node.children.length) {
+      removeDnDNodes(node.children);
+    }
+  }
+}
+
 function withoutDnDNodes(nodes: Descendant[]) {
-  const editor = withDnD(createEditor());
-  editor.children = nodes;
-  removeDnDNodes(editor);
-  return editor.children;
+  removeDnDNodes(nodes);
+  return nodes;
 }
 
 export { withDnDNodes, withoutDnDNodes, defaultMatch, getDnD };
