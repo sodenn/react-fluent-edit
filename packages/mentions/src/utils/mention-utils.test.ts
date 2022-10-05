@@ -1,10 +1,11 @@
-import { createEditor, Transforms } from "slate";
+import { nodesToText } from "@react-fluent-edit/core";
+import { createEditor, Descendant, Transforms } from "slate";
 import { describe, expect, it } from "vitest";
 import withMentions from "../withMentions";
 import {
   addMentionNodes,
   getMentionItems,
-  removeMentionNodes,
+  withoutMentionNodes,
 } from "./mention-utils";
 
 describe("mention-utils", () => {
@@ -233,34 +234,117 @@ describe("mention-utils", () => {
   });
 
   it("should remove mention nodes from editor", () => {
-    const editor = withMentions(createEditor());
-
-    Transforms.insertNodes(editor, {
-      type: "paragraph",
-      children: [
-        {
-          text: "+Proj1 lorem+Proj2 ipsum @Ctx1 dolor @Ctx1 sit amet @Ctx2 @Ctx3 due:2022-01-01",
-        },
-      ],
-    });
-
-    addMentionNodes(editor, [
-      { trigger: "@", style: { backgroundColor: "green" } },
-      { trigger: "+", style: { backgroundColor: "blue" } },
-      { trigger: "due:", style: { backgroundColor: "red" } },
-    ]);
-
-    removeMentionNodes(editor);
-
-    expect(editor.children).toStrictEqual([
+    const nodesWithMentions: Descendant[] = [
       {
         type: "paragraph",
         children: [
           {
-            text: "+Proj1 lorem+Proj2 ipsum @Ctx1 dolor @Ctx1 sit amet @Ctx2 @Ctx3 due:2022-01-01",
+            text: "",
+          },
+          {
+            type: "mention",
+            trigger: "+",
+            value: "Proj1",
+            style: {
+              backgroundColor: "blue",
+            },
+            children: [
+              {
+                text: "",
+              },
+            ],
+          },
+          {
+            text: " lorem+Proj2 ipsum ",
+          },
+          {
+            type: "mention",
+            trigger: "@",
+            value: "Ctx1",
+            style: {
+              backgroundColor: "green",
+            },
+            children: [
+              {
+                text: "",
+              },
+            ],
+          },
+          {
+            text: " dolor ",
+          },
+          {
+            type: "mention",
+            trigger: "@",
+            value: "Ctx1",
+            style: {
+              backgroundColor: "green",
+            },
+            children: [
+              {
+                text: "",
+              },
+            ],
+          },
+          {
+            text: " sit amet ",
+          },
+          {
+            type: "mention",
+            trigger: "@",
+            value: "Ctx2",
+            style: {
+              backgroundColor: "green",
+            },
+            children: [
+              {
+                text: "",
+              },
+            ],
+          },
+          {
+            text: " ",
+          },
+          {
+            type: "mention",
+            trigger: "@",
+            value: "Ctx3",
+            style: {
+              backgroundColor: "green",
+            },
+            children: [
+              {
+                text: "",
+              },
+            ],
+          },
+          {
+            text: " ",
+          },
+          {
+            type: "mention",
+            trigger: "due:",
+            value: "2022-01-01",
+            style: {
+              backgroundColor: "red",
+            },
+            children: [
+              {
+                text: "",
+              },
+            ],
+          },
+          {
+            text: "",
           },
         ],
       },
-    ]);
+    ];
+
+    const nodesWithoutMentions = withoutMentionNodes(nodesWithMentions);
+
+    expect(nodesToText(nodesWithoutMentions)).toStrictEqual(
+      "+Proj1 lorem+Proj2 ipsum @Ctx1 dolor @Ctx1 sit amet @Ctx2 @Ctx3 due:2022-01-01"
+    );
   });
 });
