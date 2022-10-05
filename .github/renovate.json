@@ -17,10 +17,6 @@
       "rangeStrategy": "auto"
     },
     {
-      "matchDatasources": ["npm"],
-      "stabilityDays": 3
-    },
-    {
       "matchDepTypes": ["peerDependencies"],
       "matchUpdateTypes": ["patch"],
       "groupName": "peerDependencies (patch)"
