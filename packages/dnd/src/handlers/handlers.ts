@@ -61,6 +61,7 @@ function handleDrop(
 
     return true;
   }
+  return false;
 }
 
 export { handleDragOver, handleDrop };
