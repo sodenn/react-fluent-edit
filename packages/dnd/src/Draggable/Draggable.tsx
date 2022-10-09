@@ -13,7 +13,12 @@ const Draggable = ({
   };
 
   return (
-    <Component draggable contentEditable={false} onDragStart={handleDragStart}>
+    <Component
+      draggable
+      contentEditable={false}
+      onDragStart={handleDragStart}
+      style={{ cursor: "move" }}
+    >
       {dnd.value}
     </Component>
   );

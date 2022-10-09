@@ -24,7 +24,12 @@ const DnDElement = ({
   };
 
   return (
-    <Comp attributes={attributes} draggable onDragStart={handleDragStart}>
+    <Comp
+      attributes={attributes}
+      draggable
+      onDragStart={handleDragStart}
+      style={{ cursor: "move" }}
+    >
       {element.value}
       {children}
     </Comp>
