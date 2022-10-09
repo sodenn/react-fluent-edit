@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.2.0](https://github.com/sodenn/react-fluent-edit/compare/mentions-v2.1.0...mentions-v2.2.0) (2022-10-09)
+
+
+### Features
+
+* allows dragging HTML elements into the editor ([#67](https://github.com/sodenn/react-fluent-edit/issues/67)) ([c83efe2](https://github.com/sodenn/react-fluent-edit/commit/c83efe290399f85d7dea658ff66ebfb330e74a12))
+
+
+### Performance Improvements
+
+* optimize removal of specific nodes ([#71](https://github.com/sodenn/react-fluent-edit/issues/71)) ([7d214cb](https://github.com/sodenn/react-fluent-edit/commit/7d214cbced35d1fb597bf4131b0e36a21dcc09a1))
+
 ## [2.1.0](https://github.com/sodenn/react-fluent-edit/compare/mentions-v2.0.0...mentions-v2.1.0) (2022-09-26)
 
 
