@@ -48,7 +48,7 @@ jobs:
   prerelease:
     runs-on: ubuntu-latest
     needs: [test, e2e, hygiene]
-    if: startsWith(github.event.pull_request.head.ref, 'feat')
+    if: github.ref == 'refs/heads/main' || startsWith(github.event.pull_request.head.ref, 'feat')
     steps:
       - uses: actions/checkout@v3
         with:
