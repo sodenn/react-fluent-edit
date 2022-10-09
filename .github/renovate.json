@@ -18,13 +18,29 @@
     },
     {
       "matchDepTypes": ["peerDependencies"],
+      "excludePackagePatterns": ["^react", "^slate"],
       "matchUpdateTypes": ["patch"],
       "groupName": "peerDependencies (patch)"
     },
     {
       "matchDepTypes": ["devDependencies"],
+      "excludePackagePatterns": ["^react", "^slate"],
       "matchUpdateTypes": ["patch", "minor"],
       "groupName": "devDependencies (non-major)"
+    },
+    {
+      "matchDepTypes": ["devDependencies", "peerDependencies"],
+      "matchPackageNames": [
+        "^react"
+      ],
+      "groupName": "React dependencies"
+    },
+    {
+      "matchDepTypes": ["devDependencies", "peerDependencies"],
+      "matchPackageNames": [
+        "^slate"
+      ],
+      "groupName": "Slate dependencies"
     }
   ]
 }
