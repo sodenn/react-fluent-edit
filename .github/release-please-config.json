@@ -3,6 +3,9 @@
     "packages/core": {
       "component": "core"
     },
+    "packages/dnd": {
+      "component": "dnd"
+    },
     "packages/mentions": {
       "component": "mentions"
     },

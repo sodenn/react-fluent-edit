@@ -14,7 +14,7 @@ const DraggableComp = forwardRef<HTMLSpanElement>((props, ref) => {
       ref={ref}
       {...props}
       style={{
-        cursor: "pointer",
+        cursor: "move",
         color: "#213580",
         border: "1px solid #213580",
         backgroundColor: "#dbe2ff",
@@ -25,9 +25,17 @@ const DraggableComp = forwardRef<HTMLSpanElement>((props, ref) => {
   );
 });
 
-const ChipComp = (props: ChipProps) => {
-  return <Chip {...props} style={{ border: "1px solid grey" }} />;
-};
+const ChipComp = forwardRef<HTMLSpanElement, ChipProps>(
+  ({ style, ...props }, ref) => {
+    return (
+      <Chip
+        ref={ref}
+        {...props}
+        style={{ border: "1px solid grey", ...style }}
+      />
+    );
+  }
+);
 
 const plugins = [createDnDPlugin({ chipComponent: ChipComp })];
 

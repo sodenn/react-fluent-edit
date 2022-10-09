@@ -10,7 +10,7 @@
 
 Brings easy-to-use mentions, markdown and DnD (WIP) features to [Slate](https://github.com/ianstormtaylor/slate).
 
-Examples and code snippets: [https://react-fluent-edit.vercel.app](https://react-fluent-edit.vercel.app/?path=/docs/fluentedit--simple)
+Examples and code snippets: [https://react-fluent-edit.vercel.app](https://react-fluent-edit.vercel.app/?path=/docs/fluentedit--basic)
 
 ## Installation
 
