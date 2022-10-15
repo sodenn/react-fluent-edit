@@ -18,7 +18,7 @@
       "type": "linked-versions",
       "group-name": "fixed",
       "components": [
-        "core", "mentions", "mui"
+        "core", "mentions", "mui", "dnd"
       ]
     }
   ]
