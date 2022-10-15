@@ -16,19 +16,19 @@ test("should open the mention combobox by typing a trigger key", async ({
   page,
 }) => {
   const component = await mount(<TestComponent autoFocus openSections />);
-  const editor = component.locator("data-testid=fe");
+  const editor = component.locator("data-testid=rfe");
   await expect(
-    page.locator('[data-testid="fe-mention-combobox"]')
+    page.locator('[data-testid="rfe-mention-combobox"]')
   ).not.toBeVisible();
   await editor.type("@");
   await expect(
-    page.locator('[data-testid="fe-mention-combobox"]')
+    page.locator('[data-testid="rfe-mention-combobox"]')
   ).toBeVisible();
   await expect(
-    page.locator('[data-testid="fe-mention-combobox-item-Jane"]')
+    page.locator('[data-testid="rfe-mention-combobox-item-Jane"]')
   ).toContainText("Jane");
   await expect(
-    page.locator('[data-testid="fe-mention-combobox-item-John"]')
+    page.locator('[data-testid="rfe-mention-combobox-item-John"]')
   ).toContainText("John");
 });
 
@@ -38,14 +38,14 @@ test("should open the mention combobox by clicking on a button", async ({
 }) => {
   const component = await mount(<TestComponent autoFocus openSections />);
   await expect(
-    page.locator('[data-testid="fe-mention-combobox"]')
+    page.locator('[data-testid="rfe-mention-combobox"]')
   ).not.toBeVisible();
-  await component.locator('[data-testid="fe-open-mentions"]').click();
+  await component.locator('[data-testid="rfe-open-mentions"]').click();
   await expect(
-    page.locator('[data-testid="fe-mention-combobox"]')
+    page.locator('[data-testid="rfe-mention-combobox"]')
   ).toBeVisible();
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("@");
 });
 
@@ -54,11 +54,11 @@ test("should select a mention when pressing the enter key", async ({
   page,
 }) => {
   const component = await mount(<TestComponent autoFocus openSections />);
-  const editor = component.locator("data-testid=fe");
+  const editor = component.locator("data-testid=rfe");
   await editor.type("@");
   await page.keyboard.press("ArrowDown", { delay: 10 });
   await page.keyboard.press("Enter");
-  await expect(page.locator('[data-testid="fe-editor-value"]')).toContainText(
+  await expect(page.locator('[data-testid="rfe-editor-value"]')).toContainText(
     "@Jane"
   );
 });
@@ -68,19 +68,19 @@ test("should select a mention when clicking on a list item", async ({
   page,
 }) => {
   const component = await mount(<TestComponent autoFocus openSections />);
-  await component.locator('[data-testid="fe-open-mentions"]').click();
-  await page.locator('[data-testid="fe-mention-combobox-item-Jane"]').click();
+  await component.locator('[data-testid="rfe-open-mentions"]').click();
+  await page.locator('[data-testid="rfe-mention-combobox-item-Jane"]').click();
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("@Jane");
 });
 
 test("should add a mention from outside of the editor", async ({ mount }) => {
   const component = await mount(<TestComponent autoFocus openSections />);
-  await component.locator('[data-testid="fe-mention-to-add"]').type("Test");
-  await component.locator('[data-testid="fe-add-mention"]').click();
+  await component.locator('[data-testid="rfe-mention-to-add"]').type("Test");
+  await component.locator('[data-testid="rfe-add-mention"]').click();
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("@Test");
 });
 
@@ -95,12 +95,12 @@ test("should remove a mention from outside of the editor", async ({
     />
   );
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("This is a @Small @Test");
-  await component.locator('[data-testid="fe-mention-to-remove"]').type("Test");
-  await component.locator('[data-testid="fe-remove-mention"]').click();
+  await component.locator('[data-testid="rfe-mention-to-remove"]').type("Test");
+  await component.locator('[data-testid="rfe-remove-mention"]').click();
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("This is a @Small");
 });
 
@@ -112,12 +112,12 @@ test("should remove all mention from outside of the editor", async ({
     <TestComponent autoFocus openSections initialValue="@A @B #C" />
   );
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("@A @B #C");
-  await page.selectOption('[data-testid="fe-trigger-select"]', "@");
-  await component.locator('[data-testid="fe-remove-mention"]').click();
+  await page.selectOption('[data-testid="rfe-trigger-select"]', "@");
+  await component.locator('[data-testid="rfe-remove-mention"]').click();
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("#C");
 });
 
@@ -126,25 +126,25 @@ test("should rename a mention", async ({ mount, page }) => {
     <TestComponent autoFocus openSections initialValue="@Hello #World" />
   );
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("@Hello #World");
-  await page.selectOption('[data-testid="fe-trigger-select"]', "#");
+  await page.selectOption('[data-testid="rfe-trigger-select"]', "#");
   await component
-    .locator('[data-testid="fe-mention-to-rename-filter"]')
+    .locator('[data-testid="rfe-mention-to-rename-filter"]')
     .type("World");
   await component
-    .locator('[data-testid="fe-mention-to-rename-value"]')
+    .locator('[data-testid="rfe-mention-to-rename-value"]')
     .type("Test");
-  await component.locator('[data-testid="fe-rename-mentions"]').click();
+  await component.locator('[data-testid="rfe-rename-mentions"]').click();
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("@Hello #Test");
 });
 
 test("should add a mention when focus is lost", async ({ mount }) => {
   const component = await mount(<TestComponent autoFocus openSections />);
-  await component.locator("data-testid=fe").type("@www");
-  await component.locator("data-testid=fe").evaluate((e) => e.blur());
+  await component.locator("data-testid=rfe").type("@www");
+  await component.locator("data-testid=rfe").evaluate((e) => e.blur());
   await expect(component.locator('[data-testid="mention-www"]')).toContainText(
     "@www"
   );
@@ -156,9 +156,9 @@ test("should automatically insert a space after a mention", async ({
   const component = await mount(
     <TestComponent autoFocus openSections initialValue="@Hello" />
   );
-  await component.locator("data-testid=fe").type("World");
+  await component.locator("data-testid=rfe").type("World");
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("@Hello World");
 });
 
@@ -168,10 +168,10 @@ test("should automatically insert a space before a mention", async ({
   const component = await mount(
     <TestComponent autoFocus openSections initialValue="Hello" />
   );
-  await component.locator('[data-testid="fe-mention-to-add"]').type("Harry");
-  await component.locator('[data-testid="fe-add-mention"]').click();
+  await component.locator('[data-testid="rfe-mention-to-add"]').type("Harry");
+  await component.locator('[data-testid="rfe-add-mention"]').click();
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("Hello @Harry");
 });
 
@@ -180,16 +180,16 @@ test("should be able to reset the editor value", async ({ mount }) => {
     <TestComponent autoFocus={false} openSections />
   );
   await component
-    .locator('[data-testid="fe-reset-value"]')
+    .locator('[data-testid="rfe-reset-value"]')
     .type("Hello @World");
-  await component.locator("data-testid=fe-reset").click();
-  await expect(component.locator("data-testid=fe")).toContainText(
+  await component.locator("data-testid=rfe-reset").click();
+  await expect(component.locator("data-testid=rfe")).toContainText(
     "Hello @World"
   );
   await expect(
     component.locator('[data-testid="mention-World"]')
   ).toContainText("@World");
   await expect(
-    component.locator('[data-testid="fe-editor-value"]')
+    component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("Hello @World");
 });

@@ -159,7 +159,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
         placeholder={placeholder}
         {...eventProps}
         {...rest}
-        data-testid="fe"
+        data-testid="rfe"
       />
       {children}
     </Slate>

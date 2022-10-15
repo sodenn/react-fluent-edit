@@ -57,7 +57,7 @@ const DndStage = (props: FluentEditProps) => {
       </div>
       {value && (
         <div
-          data-testid="fe-value"
+          data-testid="rfe-value"
           style={{
             padding: 8,
             borderRadius: 4,

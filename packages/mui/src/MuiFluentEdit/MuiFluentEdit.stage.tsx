@@ -55,7 +55,7 @@ const Editor = (props: MuiFluentEditProps) => {
       </MuiFluentEdit>
       {value && (
         <div
-          data-test-id="fe-value"
+          data-test-id="rfe-value"
           style={{
             padding: 8,
             borderRadius: 4,
