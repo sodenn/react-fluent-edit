@@ -193,3 +193,22 @@ test("should be able to reset the editor value", async ({ mount }) => {
     component.locator('[data-testid="rfe-editor-value"]')
   ).toContainText("Hello @World");
 });
+
+test("should only show suggestions from the current trigger", async ({
+  mount,
+  page,
+}) => {
+  const component = await mount(
+    <TestComponent autoFocus initialValue="#Hello @World" />
+  );
+  await component.locator("data-testid=rfe").type("@");
+  await expect(
+    page.locator('[data-testid="rfe-mention-combobox"]')
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-testid*="rfe-mention-combobox-item-"]')
+  ).toHaveCount(3);
+  await expect(
+    page.locator('[data-testid="rfe-mention-combobox-item-Hello"]')
+  ).not.toBeVisible();
+});
