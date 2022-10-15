@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/sodenn/react-fluent-edit/compare/mentions-v2.2.0...mentions-v2.2.1) (2022-10-15)
+
+
+### Bug Fixes
+
+* **mentions:** only show suggestions from the current trigger ([#78](https://github.com/sodenn/react-fluent-edit/issues/78)) ([ff987a0](https://github.com/sodenn/react-fluent-edit/commit/ff987a0f7ae74648b60496622c2fb23dc53ea48d))
+
 ## [2.2.0](https://github.com/sodenn/react-fluent-edit/compare/mentions-v2.1.0...mentions-v2.2.0) (2022-10-09)
 
 

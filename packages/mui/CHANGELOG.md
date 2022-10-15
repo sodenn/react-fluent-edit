@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/sodenn/react-fluent-edit/compare/mui-v2.2.0...mui-v2.2.1) (2022-10-15)
+
+
+### Miscellaneous Chores
+
+* **mui:** Synchronize undefined versions
+
 ## [2.2.0](https://github.com/sodenn/react-fluent-edit/compare/mui-v2.1.0...mui-v2.2.0) (2022-10-09)
 
 
