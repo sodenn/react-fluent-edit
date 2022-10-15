@@ -18,10 +18,10 @@ const Editor = (props: FluentEditProps) => {
   return (
     <div style={{ minWidth: 500 }}>
       <div style={{ marginBottom: 8, display: "flex", gap: 4 }}>
-        <button data-testid="fe-focus" onClick={focusEditor}>
+        <button data-testid="rfe-focus" onClick={focusEditor}>
           Focus
         </button>
-        <button data-testid="fe-reset" onClick={() => resetEditor()}>
+        <button data-testid="rfe-reset" onClick={() => resetEditor()}>
           Reset
         </button>
       </div>
@@ -38,7 +38,7 @@ const Editor = (props: FluentEditProps) => {
       </div>
       {value && (
         <div
-          data-testid="fe-value"
+          data-testid="rfe-value"
           style={{
             padding: 8,
             borderRadius: 4,

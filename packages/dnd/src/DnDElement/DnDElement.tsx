@@ -19,8 +19,8 @@ const DnDElement = ({
   const path = ReactEditor.findPath(editor, element);
 
   const handleDragStart = (event: any) => {
-    event.dataTransfer.setData("rfe-dnd", element.raw);
-    event.dataTransfer.setData("rfe-path", JSON.stringify(path));
+    event.dataTransfer.setData("rrfe-dnd", element.raw);
+    event.dataTransfer.setData("rrfe-path", JSON.stringify(path));
   };
 
   return (

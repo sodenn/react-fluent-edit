@@ -9,7 +9,7 @@ const Draggable = ({
   const dnd = getDnD(value, match);
 
   const handleDragStart = (event: any) => {
-    event.dataTransfer.setData("rfe-dnd", value);
+    event.dataTransfer.setData("rrfe-dnd", value);
   };
 
   return (

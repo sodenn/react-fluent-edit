@@ -122,7 +122,7 @@ const PluginConfiguration = ({
         <Fieldset>
           <label htmlFor="trigger">Trigger</label>
           <input
-            data-testid="fe-trigger"
+            data-testid="rfe-trigger"
             id="trigger"
             placeholder="e.g. @,#,+"
             value={trigger}
@@ -133,13 +133,13 @@ const PluginConfiguration = ({
           <label htmlFor="style">Style</label>
           <input
             id="style"
-            data-testid="fe-style"
+            data-testid="rfe-style"
             placeholder={`{"color": "", "backgroundColor": ""}`}
             value={style}
             onChange={(e) => setStyle(e.target.value)}
           />
         </Fieldset>
-        <button data-testid="fe-add-to-plugin" onClick={handleAddMention}>
+        <button data-testid="rfe-add-to-plugin" onClick={handleAddMention}>
           Add
         </button>
       </div>
@@ -147,7 +147,7 @@ const PluginConfiguration = ({
         {mentions.map((mention, index) => (
           <ListItem key={index}>
             <button
-              data-testid={`fe-remove-${mention.trigger}-from-plugin`}
+              data-testid={`rfe-remove-${mention.trigger}-from-plugin`}
               disabled={mentions.length === 1}
               onClick={() => handleRemoveMention(index)}
             >
@@ -194,7 +194,7 @@ const MentionItems = ({
     <Section openSections={openSections} title="Mention Items">
       <div style={{ gap: 8, display: "flex" }}>
         <select
-          data-testid={`fe-mention-item-trigger`}
+          data-testid={`rfe-mention-item-trigger`}
           value={trigger}
           onChange={(e) => handelChangeTrigger(e.target.value)}
         >
@@ -202,7 +202,7 @@ const MentionItems = ({
             <option
               key={t}
               value={t}
-              data-testid={`fe-trigger-option-${trigger}`}
+              data-testid={`rfe-trigger-option-${trigger}`}
             >
               {t}
             </option>
@@ -210,12 +210,12 @@ const MentionItems = ({
         </select>
         <input
           style={{ flex: 1 }}
-          data-testid="fe-mention-item-text"
+          data-testid="rfe-mention-item-text"
           onChange={(event) => setText(event.target.value)}
           value={text}
         />
         <button
-          data-testid="fe-add-mention-item"
+          data-testid="rfe-add-mention-item"
           disabled={!text}
           onClick={handleAddMentionItem}
         >
@@ -226,7 +226,7 @@ const MentionItems = ({
         {items.map((item, index) => (
           <ListItem key={index}>
             <button
-              data-testid={`fe-remove-${item.trigger}-mention-item`}
+              data-testid={`rfe-remove-${item.trigger}-mention-item`}
               onClick={() => handleRemoveMentionItem(index)}
             >
               🗑️
@@ -324,12 +324,12 @@ const MentionToolbar = ({ triggers, openSections }: MentionToolbarProps) => {
     <Section openSections={openSections} title="Mentions Toolbar">
       <div>
         <select
-          data-testid={`fe-trigger-select`}
+          data-testid={`rfe-trigger-select`}
           value={trigger}
           onChange={(e) => handelChangeTrigger(e.target.value)}
         >
           {triggers.map((t) => (
-            <option key={t} value={t} data-testid={`fe-trigger-option-${t}`}>
+            <option key={t} value={t} data-testid={`rfe-trigger-option-${t}`}>
               {t}
             </option>
           ))}
@@ -337,7 +337,7 @@ const MentionToolbar = ({ triggers, openSections }: MentionToolbarProps) => {
       </div>
       <div>
         <button
-          data-testid="fe-open-mentions"
+          data-testid="rfe-open-mentions"
           onClick={() => openMentionsCombobox(trigger)}
         >
           Open Mentions
@@ -345,24 +345,24 @@ const MentionToolbar = ({ triggers, openSections }: MentionToolbarProps) => {
       </div>
       <div style={{ gap: 4, display: "flex" }}>
         <button
-          data-testid="fe-add-mention"
+          data-testid="rfe-add-mention"
           disabled={!mentionToAdd}
           onClick={handleAddMention}
         >
           Add Mention
         </button>
         <input
-          data-testid="fe-mention-to-add"
+          data-testid="rfe-mention-to-add"
           onChange={handleChangeMentionToAdd}
           value={mentionToAdd}
         />
       </div>
       <div style={{ gap: 4, display: "flex" }}>
-        <button data-testid="fe-remove-mention" onClick={handleRemoveMention}>
+        <button data-testid="rfe-remove-mention" onClick={handleRemoveMention}>
           Remove Mentions
         </button>
         <input
-          data-testid="fe-mention-to-remove"
+          data-testid="rfe-mention-to-remove"
           placeholder="Filter or remove all"
           onChange={handleChangeMentionToRemove}
           value={mentionToRemove}
@@ -370,30 +370,30 @@ const MentionToolbar = ({ triggers, openSections }: MentionToolbarProps) => {
       </div>
       <div style={{ gap: 4, display: "flex" }}>
         <button
-          data-testid="fe-rename-mentions"
+          data-testid="rfe-rename-mentions"
           disabled={!mentionToRenameNew}
           onClick={handleRenameMention}
         >
           Rename Mentions
         </button>
         <input
-          data-testid="fe-mention-to-rename-filter"
+          data-testid="rfe-mention-to-rename-filter"
           placeholder="Filter or rename all"
           onChange={handleChangeMentionToRenameOld}
           value={mentionToRenameOld}
         />
         <input
-          data-testid="fe-mention-to-rename-value"
+          data-testid="rfe-mention-to-rename-value"
           onChange={handleChangeMentionToRenameNew}
           value={mentionToRenameNew}
         />
       </div>
       <div style={{ gap: 4, display: "flex" }}>
-        <button data-testid="fe-reset" onClick={resetEditorValue}>
+        <button data-testid="rfe-reset" onClick={resetEditorValue}>
           Reset input value
         </button>
         <input
-          data-testid="fe-reset-value"
+          data-testid="rfe-reset-value"
           onChange={(ev) => setValue(ev.target.value)}
           value={value}
         />
@@ -420,7 +420,7 @@ const Editor = ({ items, ...props }: EditorProps) => {
       </div>
       {editorValue && (
         <div
-          data-testid="fe-editor-value"
+          data-testid="rfe-editor-value"
           style={{
             padding: 8,
             borderRadius: 4,

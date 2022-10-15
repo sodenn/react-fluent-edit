@@ -30,12 +30,12 @@ function handleDrop(
     const afterRange = charAfter && Editor.range(editor, charAfter, start);
     const afterText =
       afterRange && Editor.string(editor, afterRange, { voids: true });
-    const pathStr = event.dataTransfer.getData("rfe-path");
+    const pathStr = event.dataTransfer.getData("rrfe-path");
     const path = pathStr ? (JSON.parse(pathStr) as Path) : undefined;
     const next = Editor.next(editor, { at: range });
     const isBefore = path && Point.isBefore(start, { path, offset: 0 });
     const isAfter = path && Point.isAfter(start, { path, offset: 0 });
-    const text = event.dataTransfer.getData("rfe-dnd");
+    const text = event.dataTransfer.getData("rrfe-dnd");
     const dnd = getDnD(text, match);
     const nodes = beforeText?.trim()
       ? [{ text: " " }, dnd]

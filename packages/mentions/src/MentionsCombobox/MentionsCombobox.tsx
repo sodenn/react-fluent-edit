@@ -269,13 +269,13 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
             position: "absolute",
             zIndex,
           }}
-          data-testid="fe-mention-combobox"
+          data-testid="rfe-mention-combobox"
         >
           <ClickAwayListener onClickAway={closeCombobox}>
             <ListComponent>
               {suggestions.map((char, i) => (
                 <ListItemComponent
-                  data-testid={`fe-mention-combobox-item-${char}`}
+                  data-testid={`rfe-mention-combobox-item-${char}`}
                   onClick={() =>
                     showAddMenuItem && char === search
                       ? handleClickSuggestion()
