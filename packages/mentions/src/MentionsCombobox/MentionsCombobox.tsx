@@ -101,6 +101,7 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
       list.push(search);
     }
     const itemsFromEditor = getMentionNodes(editor)
+      .filter(([n]) => n.trigger === mention?.trigger)
       .map(([n]) => n.value)
       .filter((i) => !list.includes(i));
     return list.concat(itemsFromEditor);
