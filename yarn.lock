@@ -8766,7 +8766,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:10.1.0, fs-extra@npm:^10.1.0":
+"fs-extra@npm:11.1.0":
+  version: 11.1.0
+  resolution: "fs-extra@npm:11.1.0"
+  dependencies:
+    graceful-fs: ^4.2.0
+    jsonfile: ^6.0.1
+    universalify: ^2.0.0
+  checksum: 5ca476103fa1f5ff4a9b3c4f331548f8a3c1881edaae323a4415d3153b5dc11dc6a981c8d1dd93eec8367ceee27b53f8bd27eecbbf66ffcdd04927510c171e7f
+  languageName: node
+  linkType: hard
+
+"fs-extra@npm:^10.1.0":
   version: 10.1.0
   resolution: "fs-extra@npm:10.1.0"
   dependencies:
@@ -13709,7 +13720,7 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-plugin-react: 7.31.11
     fast-glob: 3.2.12
-    fs-extra: 10.1.0
+    fs-extra: 11.1.0
     happy-dom: 7.7.0
     npm-run-all: 4.1.5
     prettier: 2.8.0
