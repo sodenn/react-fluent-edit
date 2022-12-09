@@ -17,6 +17,7 @@ Basic.args = {
   placeholder: "Start typing",
   autoCorrect: "off",
   autoCapitalize: "off",
+  autoFocusPosition: "end",
   spellCheck: false,
   autoFocus: true,
   singleLine: false,

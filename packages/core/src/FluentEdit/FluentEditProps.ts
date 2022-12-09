@@ -5,7 +5,7 @@ import { Plugin } from "../types";
 interface FluentEditProps
   extends Omit<TextareaHTMLAttributes<HTMLDivElement>, "onChange"> {
   singleLine?: boolean;
-  autoFocus?: boolean;
+  autoFocusPosition?: "start" | "end";
   placeholder?: string;
   initialValue?: string;
   onChange?: (value: string) => void;

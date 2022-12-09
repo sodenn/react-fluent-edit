@@ -30,11 +30,13 @@ function removeRoot(nodes: Descendant[]) {
   }
 }
 
-function focusEditor(editor: Editor) {
+function focusEditor(editor: Editor, position?: "start" | "end") {
   ReactEditor.focus(editor);
   // Fallback: try to select the last node
-  if (!editor.selection) {
-    const path = Editor.end(editor, []);
+  const useFallback = !editor.selection;
+  if (useFallback || position) {
+    const path =
+      position === "start" ? Editor.start(editor, []) : Editor.end(editor, []);
     Transforms.select(editor, path);
   }
 }
