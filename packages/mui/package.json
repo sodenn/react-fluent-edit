@@ -43,6 +43,6 @@
     "react-dom": "^17.0.0 || ^18.0.0",
     "slate": "^0.81.3",
     "slate-history": "^0.66.0",
-    "slate-react": "^0.81.0"
+    "slate-react": "^0.81.0 || ^0.87.0"
   }
 }
