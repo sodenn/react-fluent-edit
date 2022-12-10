@@ -14,6 +14,6 @@ export const argTypes = {
   autoCapitalize: { control: "select", options: ["on", "off"] },
   autoFocusPosition: {
     control: "select",
-    options: [undefined, "start", "end"],
+    options: ["start", "end"],
   },
 };

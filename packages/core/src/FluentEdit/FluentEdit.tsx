@@ -26,21 +26,35 @@ import PluginProvider from "../PluginProvider";
 import { useDeserialize, useSerialize } from "../serialize";
 import useEventHandler from "../useEventHandler";
 import useFluentEditInternal from "../useFluentEditInternal";
-import { addRoot, focusEditor, isParagraph, removeRoot } from "../utils";
+import {
+  addRoot,
+  focusEditor,
+  isParagraph,
+  removeRoot,
+  setAutofocusCursorPosition,
+} from "../utils";
 import { getPluginOptions } from "../utils/plugin-utils";
 import createSlateEditor from "./createSlateEditor";
 import { FluentEditInternalProps, FluentEditProps } from "./FluentEditProps";
 
 const FluentEdit = ({ chipComponent, ...props }: FluentEditProps) => {
-  const { singleLine = false, plugins } = props;
+  const { singleLine = false, autoFocusPosition, plugins } = props;
   const [key, setKey] = useState(0);
 
-  useEffect(() => setKey((v) => v + 1), [singleLine, JSON.stringify(plugins)]);
+  useEffect(
+    () => setKey((v) => v + 1),
+    [singleLine, autoFocusPosition, JSON.stringify(plugins)]
+  );
 
   return (
     <ComponentProvider chipComponent={chipComponent}>
       <PluginProvider plugins={plugins}>
-        <FluentEditInternal key={key} {...props} singleLine={singleLine} />
+        <FluentEditInternal
+          key={key}
+          {...props}
+          singleLine={singleLine}
+          autoFocusPosition={autoFocusPosition}
+        />
       </PluginProvider>
     </ComponentProvider>
   );
@@ -50,6 +64,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   const {
     singleLine,
     autoFocus,
+    autoFocusPosition,
     placeholder,
     initialValue: initialTextValue = "",
     onChange,
@@ -124,9 +139,9 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
       Transforms.insertNodes(editor, nodes);
       Transforms.move(editor);
 
-      const editorRef = ReactEditor.toDOMNode(editor, editor);
+      const editorElem = ReactEditor.toDOMNode(editor, editor);
       const pasteEvent = new Event("fePaste");
-      editorRef.dispatchEvent(pasteEvent);
+      editorElem.dispatchEvent(pasteEvent);
 
       onPaste?.(event);
     },
@@ -144,8 +159,9 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   useEffect(() => {
     if (autoFocus) {
       focusEditor(editor);
+      setAutofocusCursorPosition(editor, autoFocusPosition);
     }
-  }, [autoFocus]);
+  }, [autoFocus, autoFocusPosition]);
 
   return (
     <Slate editor={editor} value={initialValue} onChange={handleChange}>

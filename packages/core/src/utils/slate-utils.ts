@@ -1,4 +1,12 @@
-import { Descendant, Editor, Element, Node, Text, Transforms } from "slate";
+import {
+  Descendant,
+  Editor,
+  Element,
+  Node,
+  Range,
+  Text,
+  Transforms,
+} from "slate";
 import { ReactEditor } from "slate-react";
 import { CustomElement, Paragraph, Root, WithChildren } from "../types";
 
@@ -39,6 +47,29 @@ function focusEditor(editor: Editor) {
   }
 }
 
+function setAutofocusCursorPosition(
+  editor: Editor,
+  position?: "start" | "end"
+) {
+  const selection = editor.selection;
+  if (!position || !selection || !Range.isCollapsed(selection)) {
+    return;
+  }
+  const location =
+    position === "start" ? Editor.start(editor, []) : Editor.end(editor, []);
+  // Note: Transforms.select(editor, location) only works with a small delay in this case.
+  // So use an interval as a workaround (1-50 ms).
+  let count = 0;
+  const interval = setInterval(() => {
+    const domSelection = window.getSelection();
+    if (domSelection?.anchorOffset === location.offset || count === 50) {
+      clearInterval(interval);
+    }
+    Transforms.select(editor, location);
+    count++;
+  }, 1);
+}
+
 function nodesToText(nodes: Descendant[]): string {
   const root: Root = { type: "root", children: nodes };
   let text = Array.from(Node.nodes(root)).reduce((prev, [node]) => {
@@ -70,6 +101,7 @@ export {
   addRoot,
   removeRoot,
   focusEditor,
+  setAutofocusCursorPosition,
   cloneChildren,
   hasChildren,
   nodesToText,
