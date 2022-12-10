@@ -44,7 +44,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "rimraf": "3.0.2",
-    "slate": "0.82.1",
+    "slate": "0.87.0",
     "slate-history": "0.66.0",
     "slate-react": "0.83.1",
     "storybook": "7.0.0-beta.3",
