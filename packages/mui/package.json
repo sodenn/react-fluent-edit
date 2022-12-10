@@ -33,7 +33,7 @@
   "devDependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
-    "@mui/material": "5.10.15"
+    "@mui/material": "5.10.17"
   },
   "peerDependencies": {
     "@emotion/react": "^11.9.3",
@@ -41,8 +41,8 @@
     "@mui/material": "^5.9.2",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
-    "slate": "^0.81.3",
-    "slate-history": "^0.66.0",
-    "slate-react": "^0.81.0"
+    "slate": "^0.81.3 || ^0.87.0",
+    "slate-history": "^0.66.0 || ^0.86.0",
+    "slate-react": "^0.81.0 || ^0.87.0"
   }
 }

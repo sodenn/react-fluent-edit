@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "yarn@3.2.4",
+  "packageManager": "yarn@3.3.0",
   "workspaces": [
     "packages/*"
   ],
@@ -17,8 +17,8 @@
     "build-storybook": "storybook build"
   },
   "devDependencies": {
-    "@playwright/experimental-ct-react": "1.28.0",
-    "@playwright/test": "1.28.0",
+    "@playwright/experimental-ct-react": "1.28.1",
+    "@playwright/test": "1.28.1",
     "@storybook/addon-essentials": "7.0.0-beta.3",
     "@storybook/addon-links": "7.0.0-beta.3",
     "@storybook/builder-vite": "7.0.0-beta.3",
@@ -26,30 +26,30 @@
     "@storybook/react-vite": "7.0.0-beta.3",
     "@storybook/theming": "7.0.0-beta.3",
     "@testing-library/react": "13.4.0",
-    "@types/react": "18.0.25",
+    "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
-    "@typescript-eslint/eslint-plugin": "5.44.0",
-    "@typescript-eslint/parser": "5.44.0",
-    "@vitejs/plugin-react": "2.2.0",
-    "eslint": "8.28.0",
+    "@typescript-eslint/eslint-plugin": "5.46.0",
+    "@typescript-eslint/parser": "5.46.0",
+    "@vitejs/plugin-react": "3.0.0",
+    "eslint": "8.29.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-react": "7.31.11",
-    "eslint-plugin-storybook": "^0.6.8",
+    "eslint-plugin-storybook": "0.6.8",
     "fast-glob": "3.2.12",
     "fs-extra": "11.1.0",
-    "happy-dom": "7.7.0",
+    "happy-dom": "8.1.0",
     "npm-run-all": "4.1.5",
-    "prettier": "2.8.0",
-    "prettier-plugin-organize-imports": "3.2.0",
+    "prettier": "2.8.1",
+    "prettier-plugin-organize-imports": "3.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "rimraf": "3.0.2",
-    "slate": "0.82.1",
-    "slate-history": "0.66.0",
-    "slate-react": "0.83.1",
+    "slate": "0.87.0",
+    "slate-history": "0.86.0",
+    "slate-react": "0.87.0",
     "storybook": "7.0.0-beta.3",
     "ts-node": "10.9.1",
-    "typescript": "4.9.3",
-    "vitest": "0.25.3"
+    "typescript": "4.9.4",
+    "vitest": "0.25.6"
   }
 }

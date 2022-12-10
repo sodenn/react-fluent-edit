@@ -28,16 +28,16 @@
   },
   "dependencies": {
     "@react-fluent-edit/core": "workspace:*",
-    "marked": "4.2.3"
+    "marked": "4.2.4"
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
-    "slate": "^0.81.3",
-    "slate-history": "^0.66.0",
-    "slate-react": "^0.81.0"
+    "slate": "^0.81.3 || ^0.87.0",
+    "slate-history": "^0.66.0 || ^0.86.0",
+    "slate-react": "^0.81.0 || ^0.87.0"
   },
   "devDependencies": {
-    "@types/marked": "4.0.7"
+    "@types/marked": "4.0.8"
   }
 }
