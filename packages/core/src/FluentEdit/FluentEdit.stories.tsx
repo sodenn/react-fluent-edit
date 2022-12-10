@@ -8,7 +8,7 @@ export default {
 
 export const Basic = {
   args: {
-    initialValue: "Test",
+    initialValue: "",
     placeholder: "Start typing",
     autoCorrect: "off",
     autoCapitalize: "off",
