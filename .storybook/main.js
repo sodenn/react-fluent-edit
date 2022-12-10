@@ -8,6 +8,9 @@ module.exports = {
     name: "@storybook/react-vite",
     options: {},
   },
+  core: {
+    builder: "@storybook/builder-vite",
+  },
   docs: {
     docsPage: "automatic",
   },
