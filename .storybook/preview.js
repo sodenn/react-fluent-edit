@@ -12,4 +12,8 @@ export const parameters = {
 export const argTypes = {
   autoCorrect: { control: "select", options: ["on", "off"] },
   autoCapitalize: { control: "select", options: ["on", "off"] },
+  autoFocusPosition: {
+    control: "select",
+    options: [undefined, "start", "end"],
+  },
 };
