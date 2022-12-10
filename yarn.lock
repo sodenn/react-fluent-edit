@@ -2644,7 +2644,7 @@ __metadata:
     react-dom: ^17.0.0 || ^18.0.0
     slate: ^0.81.3 || ^0.87.0
     slate-history: ^0.66.0
-    slate-react: ^0.81.0
+    slate-react: ^0.81.0 || ^0.87.0
   languageName: unknown
   linkType: soft
 
@@ -2658,7 +2658,7 @@ __metadata:
     react-dom: ^17.0.0 || ^18.0.0
     slate: ^0.81.3 || ^0.87.0
     slate-history: ^0.66.0
-    slate-react: ^0.81.0
+    slate-react: ^0.81.0 || ^0.87.0
   languageName: unknown
   linkType: soft
 
@@ -2674,7 +2674,7 @@ __metadata:
     react-dom: ^17.0.0 || ^18.0.0
     slate: ^0.81.3 || ^0.87.0
     slate-history: ^0.66.0
-    slate-react: ^0.81.0
+    slate-react: ^0.81.0 || ^0.87.0
   languageName: unknown
   linkType: soft
 
@@ -2688,7 +2688,7 @@ __metadata:
     react-dom: ^17.0.0 || ^18.0.0
     slate: ^0.81.3 || ^0.87.0
     slate-history: ^0.66.0
-    slate-react: ^0.81.0
+    slate-react: ^0.81.0 || ^0.87.0
   languageName: unknown
   linkType: soft
 
@@ -2709,7 +2709,7 @@ __metadata:
     react-dom: ^17.0.0 || ^18.0.0
     slate: ^0.81.3 || ^0.87.0
     slate-history: ^0.66.0
-    slate-react: ^0.81.0
+    slate-react: ^0.81.0 || ^0.87.0
   languageName: unknown
   linkType: soft
 
@@ -11234,7 +11234,7 @@ __metadata:
     rimraf: 3.0.2
     slate: 0.87.0
     slate-history: 0.66.0
-    slate-react: 0.83.1
+    slate-react: 0.87.0
     storybook: 7.0.0-beta.3
     ts-node: 10.9.1
     typescript: 4.9.3
@@ -11531,9 +11531,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-react@npm:0.83.1":
-  version: 0.83.1
-  resolution: "slate-react@npm:0.83.1"
+"slate-react@npm:0.87.0":
+  version: 0.87.0
+  resolution: "slate-react@npm:0.87.0"
   dependencies:
     "@types/is-hotkey": ^0.1.1
     "@types/lodash": ^4.14.149
@@ -11547,7 +11547,7 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
     slate: ">=0.65.3"
-  checksum: 41016c695defc797b2ed40eb5a8cc20f1ca5515bcced941e90fe994d03dffe5a73b2e3e2996893ee52ffb34bdfac1a7c2ae6124667d47d99243781750b8fb5cb
+  checksum: aaa14bc62379bf5291975a3a2b7eff4d8a14a619ec2ca34cbeeffe20b5623e3aba6796b9bb07bfd5c1c624aadab9fb7ca0dbc002f844a6206982c345f182c118
   languageName: node
   linkType: hard
 
