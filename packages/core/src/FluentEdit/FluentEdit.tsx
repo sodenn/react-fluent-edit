@@ -26,7 +26,13 @@ import PluginProvider from "../PluginProvider";
 import { useDeserialize, useSerialize } from "../serialize";
 import useEventHandler from "../useEventHandler";
 import useFluentEditInternal from "../useFluentEditInternal";
-import { addRoot, focusEditor, isParagraph, removeRoot } from "../utils";
+import {
+  addRoot,
+  focusEditor,
+  isParagraph,
+  removeRoot,
+  setAutofocusCursorPosition,
+} from "../utils";
 import { getPluginOptions } from "../utils/plugin-utils";
 import createSlateEditor from "./createSlateEditor";
 import { FluentEditInternalProps, FluentEditProps } from "./FluentEditProps";
@@ -133,9 +139,9 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
       Transforms.insertNodes(editor, nodes);
       Transforms.move(editor);
 
-      const editorRef = ReactEditor.toDOMNode(editor, editor);
+      const editorElem = ReactEditor.toDOMNode(editor, editor);
       const pasteEvent = new Event("fePaste");
-      editorRef.dispatchEvent(pasteEvent);
+      editorElem.dispatchEvent(pasteEvent);
 
       onPaste?.(event);
     },
@@ -153,7 +159,8 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
 
   useEffect(() => {
     if (autoFocus) {
-      focusEditor(editor, autoFocusPosition);
+      focusEditor(editor);
+      setAutofocusCursorPosition(editor, autoFocusPosition);
     }
   }, [autoFocus, autoFocusPosition]);
 

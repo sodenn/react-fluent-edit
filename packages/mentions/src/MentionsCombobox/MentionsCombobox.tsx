@@ -246,16 +246,16 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
   }, [JSON.stringify(mentions)]);
 
   useEffect(() => {
-    const editorRef = ReactEditor.toDOMNode(editor, editor);
-    editorRef.addEventListener("blur", handleBlur);
-    editorRef.addEventListener("click", openCombobox);
-    editorRef.addEventListener("keydown", handleKeyDown);
-    editorRef.addEventListener("fePaste", handlePaste);
+    const editorElem = ReactEditor.toDOMNode(editor, editor);
+    editorElem.addEventListener("blur", handleBlur);
+    editorElem.addEventListener("click", openCombobox);
+    editorElem.addEventListener("keydown", handleKeyDown);
+    editorElem.addEventListener("fePaste", handlePaste);
     return () => {
-      editorRef.removeEventListener("blur", handleBlur);
-      editorRef.removeEventListener("click", openCombobox);
-      editorRef.removeEventListener("keydown", handleKeyDown);
-      editorRef.removeEventListener("fePaste", handlePaste);
+      editorElem.removeEventListener("blur", handleBlur);
+      editorElem.removeEventListener("click", openCombobox);
+      editorElem.removeEventListener("keydown", handleKeyDown);
+      editorElem.removeEventListener("fePaste", handlePaste);
     };
   }, [suggestions, index, popoverElement]);
 
