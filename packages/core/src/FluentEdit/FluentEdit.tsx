@@ -153,7 +153,6 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
       ctx.setEditor(editor);
       ctx.setSingleLine(singleLine);
       ctx.setPlugins(plugins);
-      ctx.setAutoFocusPosition(autoFocusPosition);
     }
   }, []);
 

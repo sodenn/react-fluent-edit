@@ -9,8 +9,6 @@ interface FluentEditContext {
   setSingleLine: Dispatch<SetStateAction<boolean>>;
   plugins?: Plugin[];
   setPlugins: Dispatch<SetStateAction<Plugin[]>>;
-  autoFocusPosition?: "start" | "end";
-  setAutoFocusPosition: Dispatch<SetStateAction<"start" | "end" | undefined>>;
   focusEditor: () => void;
   resetEditor: (text?: string) => void;
 }

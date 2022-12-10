@@ -29,14 +29,11 @@ function FluentEditProvider({
   const [editor, setEditor] = useState<Editor | undefined>(undefined);
   const [singleLine, setSingleLine] = useState(false);
   const [plugins, setPlugins] = useState<Plugin[]>([]);
-  const [autoFocusPosition, setAutoFocusPosition] = useState<
-    "start" | "end" | undefined
-  >();
   const deserializer = useDeserialize(plugins);
 
   const focusEditor = useCallback(() => {
     if (editor) {
-      _focusEditor(editor, autoFocusPosition);
+      _focusEditor(editor);
     }
   }, [editor]);
 
@@ -69,8 +66,6 @@ function FluentEditProvider({
     setSingleLine,
     plugins,
     setPlugins,
-    autoFocusPosition,
-    setAutoFocusPosition,
   };
 
   return (
