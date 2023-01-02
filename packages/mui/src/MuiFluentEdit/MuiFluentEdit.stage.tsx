@@ -2,11 +2,11 @@ import { CssBaseline } from "@mui/material";
 import { FluentEditProvider } from "@react-fluent-edit/core";
 import {
   createMentionsPlugin,
+  MentionCombobox,
   MentionsProvider,
 } from "@react-fluent-edit/mentions";
 import { useState } from "react";
 import MuiFluentEdit, { MuiFluentEditProps } from "../MuiFluentEdit";
-import MuiMentionCombobox from "../MuiMentionCombobox";
 
 const plugin = createMentionsPlugin({
   mentions: [
@@ -46,7 +46,7 @@ const Editor = (props: MuiFluentEditProps) => {
         autoFocus
         {...props}
       >
-        <MuiMentionCombobox
+        <MentionCombobox
           items={[
             { text: "John", trigger: "@" },
             { text: "Jane", trigger: "@" },

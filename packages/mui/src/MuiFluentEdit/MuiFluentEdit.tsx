@@ -2,6 +2,8 @@ import { styled, useTheme } from "@mui/material";
 import { FluentEdit, useFluentEdit } from "@react-fluent-edit/core";
 import { FocusEvent, useCallback, useState } from "react";
 import { ReactEditor } from "slate-react";
+import MuiCombobox from "../MuiCombobox";
+import { MuiComboboxItem } from "../MuiCombobox/MuiCombobox";
 import { MuiFluentEditProps } from "./MuiFluentEditProps";
 
 const Legend = styled("legend")`
@@ -92,7 +94,13 @@ const MuiFluentEdit = (props: MuiFluentEditProps) => {
           {label}
         </Legend>
       )}
-      <FluentEdit onFocus={handleFocus} onBlur={handleBlur} {...props} />
+      <FluentEdit
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        comboboxComponent={MuiCombobox}
+        comboboxItemComponent={MuiComboboxItem}
+        {...props}
+      />
     </Fieldset>
   );
 };

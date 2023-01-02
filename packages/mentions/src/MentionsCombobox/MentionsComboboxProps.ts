@@ -1,5 +1,5 @@
 import { WithChildrenProp } from "@react-fluent-edit/core";
-import { FunctionComponent, ReactNode } from "react";
+import { ReactNode } from "react";
 import { MentionItem } from "../types";
 
 interface MentionComboboxItemProps extends WithChildrenProp {
@@ -9,9 +9,6 @@ interface MentionComboboxItemProps extends WithChildrenProp {
 
 interface MentionComboboxProps {
   items?: MentionItem[];
-  zIndex?: number;
-  ListComponent?: FunctionComponent;
-  ListItemComponent?: FunctionComponent<MentionComboboxItemProps>;
   renderAddMentionLabel?: (value: string) => ReactNode;
 }
 

@@ -31,14 +31,23 @@ import { getPluginOptions } from "../utils/plugin-utils";
 import createSlateEditor from "./createSlateEditor";
 import { FluentEditInternalProps, FluentEditProps } from "./FluentEditProps";
 
-const FluentEdit = ({ chipComponent, ...props }: FluentEditProps) => {
+const FluentEdit = ({
+  chipComponent,
+  comboboxComponent,
+  comboboxItemComponent,
+  ...props
+}: FluentEditProps) => {
   const { singleLine = false, plugins } = props;
   const [key, setKey] = useState(0);
 
   useEffect(() => setKey((v) => v + 1), [singleLine, JSON.stringify(plugins)]);
 
   return (
-    <ComponentProvider chipComponent={chipComponent}>
+    <ComponentProvider
+      chipComponent={chipComponent}
+      comboboxComponent={comboboxComponent}
+      comboboxItemComponent={comboboxItemComponent}
+    >
       <PluginProvider plugins={plugins}>
         <FluentEditInternal key={key} {...props} singleLine={singleLine} />
       </PluginProvider>
