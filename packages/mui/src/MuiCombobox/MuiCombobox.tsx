@@ -14,14 +14,7 @@ const MuiCombobox = forwardRef<HTMLUListElement, WithChildrenProp>(
 
 const MuiComboboxItem = forwardRef<HTMLLIElement, ComboboxItemProps>(
   (props, ref) => {
-    return (
-      <MenuItem
-        {...props}
-        onMouseDown={(e) => {
-          e.preventDefault(); // keep focus in text field
-        }}
-      />
-    );
+    return <MenuItem {...props} />;
   }
 );
 

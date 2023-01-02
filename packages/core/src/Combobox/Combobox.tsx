@@ -1,6 +1,7 @@
 import React, {
   forwardRef,
   PropsWithChildren,
+  useCallback,
   useEffect,
   useState,
 } from "react";
@@ -57,9 +58,13 @@ function setComboboxPositionByRange(
   if (!comboboxElem) {
     return;
   }
-  const domRange = ReactEditor.toDOMRange(editor, range);
-  const rect = domRange.getBoundingClientRect();
-  setComboboxStyle(comboboxElem, rect);
+  try {
+    const domRange = ReactEditor.toDOMRange(editor, range);
+    const rect = domRange.getBoundingClientRect();
+    setComboboxStyle(comboboxElem, rect);
+  } catch (e) {
+    //
+  }
 }
 
 function setComboboxPositionByCursor(
@@ -88,64 +93,95 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
   const numItems = React.Children.count(children);
   const [comboboxElem, setComboboxElem] = useState<HTMLDivElement | null>(null);
 
-  const handleArrowDownPress = (event: KeyboardEvent) => {
-    event.preventDefault();
-    const newIndex = index < numItems - 1 ? index + 1 : 0;
-    onSelectItem?.(newIndex);
-    setIndex(newIndex);
-  };
+  const handleArrowDownPress = useCallback(
+    (event: KeyboardEvent) => {
+      event.preventDefault();
+      const newIndex = index < numItems - 1 ? index + 1 : 0;
+      onSelectItem?.(newIndex);
+      setIndex(newIndex);
+    },
+    [index, numItems, onSelectItem]
+  );
 
-  const handleArrowUpPress = (event: KeyboardEvent) => {
-    event.preventDefault();
-    const newIndex = index === 0 ? numItems - 1 : index - 1;
-    onSelectItem?.(newIndex);
-    setIndex(newIndex);
-  };
+  const handleArrowUpPress = useCallback(
+    (event: KeyboardEvent) => {
+      event.preventDefault();
+      const newIndex = index === 0 ? numItems - 1 : index - 1;
+      onSelectItem?.(newIndex);
+      setIndex(newIndex);
+    },
+    [index, numItems, onSelectItem]
+  );
 
-  const handleTabPress = (event: KeyboardEvent) => {
-    onClose(event, "tabPress", index);
-  };
+  const handleTabPress = useCallback(
+    (event: KeyboardEvent) => {
+      onClose(event, "tabPress", index);
+    },
+    [index, onClose]
+  );
 
-  const handleEnterPress = (event: KeyboardEvent) => {
-    onClose(event, "enterPress", index);
-  };
+  const handleEnterPress = useCallback(
+    (event: KeyboardEvent) => {
+      onClose(event, "enterPress", index);
+    },
+    [index, onClose]
+  );
 
-  const handleEscapePress = (event: KeyboardEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    onClose(event, "escapePress", index);
-  };
+  const handleEscapePress = useCallback(
+    (event: KeyboardEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      onClose(event, "escapePress", index);
+    },
+    [index, onClose]
+  );
 
-  const handleSpacePress = (event: KeyboardEvent) => {
-    onClose(event, "spacePress", index);
-  };
+  const handleSpacePress = useCallback(
+    (event: KeyboardEvent) => {
+      onClose(event, "spacePress", index);
+    },
+    [index, onClose]
+  );
 
-  const handleKeyDown = (event: KeyboardEvent) => {
-    switch (event.key) {
-      case "ArrowDown":
-        handleArrowDownPress(event);
-        break;
-      case "ArrowUp":
-        handleArrowUpPress(event);
-        break;
-      case "Tab":
-        handleTabPress(event);
-        break;
-      case "Enter":
-        handleEnterPress(event);
-        break;
-      case "Escape":
-        handleEscapePress(event);
-        break;
-      case " ":
-        handleSpacePress(event);
-        break;
-    }
-  };
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      switch (event.key) {
+        case "ArrowDown":
+          handleArrowDownPress(event);
+          break;
+        case "ArrowUp":
+          handleArrowUpPress(event);
+          break;
+        case "Tab":
+          handleTabPress(event);
+          break;
+        case "Enter":
+          handleEnterPress(event);
+          break;
+        case "Escape":
+          handleEscapePress(event);
+          break;
+        case " ":
+          handleSpacePress(event);
+          break;
+      }
+    },
+    [
+      handleArrowDownPress,
+      handleArrowUpPress,
+      handleEnterPress,
+      handleEscapePress,
+      handleSpacePress,
+      handleTabPress,
+    ]
+  );
 
-  const handleBlur = (event: any) => {
-    onClose(event, "clickAway", index);
-  };
+  const handleBlur = useCallback(
+    (event: any) => {
+      onClose(event, "clickAway", index);
+    },
+    [index, onClose]
+  );
 
   useEffect(() => {
     const editorRef = ReactEditor.toDOMNode(editor, editor);
@@ -156,7 +192,7 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
     return () => {
       editorRef.removeEventListener("keydown", handleKeyDown);
     };
-  }, [index, editor, open, onClose]);
+  }, [index, editor, open, onClose, handleKeyDown, handleBlur]);
 
   useEffect(() => {
     if (open) {
@@ -167,6 +203,7 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
         setComboboxPositionByCursor(editor, comboboxElem);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, comboboxElem, range, editor]);
 
   return (
