@@ -1,4 +1,3 @@
-import { ElementType, HTMLAttributes } from "react";
 import { BaseRange } from "slate";
 import { WithChildrenProp } from "../types";
 
@@ -23,15 +22,14 @@ interface ComboboxProps extends WithChildrenProp {
 }
 
 interface ComboboxItemProps extends WithChildrenProp {
-  onClick: () => void;
   selected?: boolean;
 }
 
-type ComboboxComponent = ElementType<HTMLAttributes<HTMLUListElement>>;
+interface ComboboxComponent extends WithChildrenProp {
+  in?: boolean;
+}
 
-type ComboboxItemComponent = ElementType<
-  ComboboxItemProps & HTMLAttributes<HTMLLIElement>
->;
+type ComboboxItemComponent = ComboboxItemProps;
 
 export type {
   ComboboxProps,

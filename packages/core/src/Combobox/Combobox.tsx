@@ -220,7 +220,7 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
         }}
         ref={setComboboxElem}
       >
-        <Component ref={ref as any} data-testid="rfe-combobox">
+        <Component ref={ref as any} in={open} data-testid="rfe-combobox">
           {React.Children.map(children, (child, i) => {
             if (!React.isValidElement<ComboboxItemProps>(child)) {
               return null;

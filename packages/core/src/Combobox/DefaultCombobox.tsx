@@ -1,9 +1,8 @@
 import { forwardRef } from "react";
-import { WithChildrenProp } from "../types";
-import { ComboboxItemProps } from "./ComboboxProps";
+import { ComboboxComponent, ComboboxItemComponent } from "./ComboboxProps";
 
-const DefaultCombobox = forwardRef<HTMLUListElement, WithChildrenProp>(
-  ({ children }, ref) => (
+const DefaultCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
+  (props, ref) => (
     <ul
       ref={ref}
       style={{
@@ -17,12 +16,12 @@ const DefaultCombobox = forwardRef<HTMLUListElement, WithChildrenProp>(
         margin: 0,
       }}
     >
-      {children}
+      {props.children}
     </ul>
   )
 );
 
-const DefaultComboboxItem = forwardRef<HTMLLIElement, ComboboxItemProps>(
+const DefaultComboboxItem = forwardRef<HTMLLIElement, ComboboxItemComponent>(
   ({ selected, ...props }, ref) => (
     <li
       {...props}

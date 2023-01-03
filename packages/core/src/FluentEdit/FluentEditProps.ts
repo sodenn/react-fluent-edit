@@ -1,4 +1,4 @@
-import { TextareaHTMLAttributes } from "react";
+import { ElementType, HTMLAttributes, TextareaHTMLAttributes } from "react";
 import { ChipComponent } from "../Chip";
 import { ComboboxComponent, ComboboxItemComponent } from "../Combobox";
 import { Plugin } from "../types";
@@ -16,8 +16,12 @@ interface FluentEditProps
    */
   value?: string | ReadonlyArray<string> | number | undefined;
   chipComponent?: ChipComponent;
-  comboboxComponent?: ComboboxComponent;
-  comboboxItemComponent?: ComboboxItemComponent;
+  comboboxComponent?: ElementType<
+    ComboboxComponent & HTMLAttributes<HTMLUListElement>
+  >;
+  comboboxItemComponent?: ElementType<
+    ComboboxItemComponent & HTMLAttributes<HTMLLIElement>
+  >;
 }
 
 interface FluentEditInternalProps extends FluentEditProps {
