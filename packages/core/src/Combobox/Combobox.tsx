@@ -191,6 +191,7 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
     }
     return () => {
       editorRef.removeEventListener("keydown", handleKeyDown);
+      editorRef.removeEventListener("blur", handleBlur);
     };
   }, [index, editor, open, onClose, handleKeyDown, handleBlur]);
 
@@ -215,12 +216,16 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
         style={{
           top: "-9999px",
           left: "-9999px",
-          position: "fixed",
+          position: "absolute",
           display: open ? "block" : "none",
         }}
         ref={setComboboxElem}
       >
-        <Component ref={ref as any} in={open} data-testid="rfe-combobox">
+        <Component
+          in={open}
+          ref={ref as any}
+          data-testid={(props as any)["data-testid"]}
+        >
           {React.Children.map(children, (child, i) => {
             if (!React.isValidElement<ComboboxItemProps>(child)) {
               return null;

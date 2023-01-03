@@ -1,9 +1,6 @@
 import { ElementType, HTMLAttributes } from "react";
 import { ChipComponent } from "../Chip";
-import {
-  ComboboxComponent,
-  ComboboxItemComponent,
-} from "../Combobox/ComboboxProps";
+import { ComboboxComponent, ComboboxItemComponent } from "../Combobox";
 import { WithChildrenProp } from "../types";
 
 interface Components {

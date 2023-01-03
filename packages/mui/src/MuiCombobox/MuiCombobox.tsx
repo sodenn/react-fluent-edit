@@ -9,7 +9,9 @@ const MuiCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
   (props, ref) => (
     <Fade in={props.in}>
       <Paper elevation={2}>
-        <MenuList ref={ref}>{props.children}</MenuList>
+        <MenuList ref={ref} data-testid={(props as any)["data-testid"]}>
+          {props.children}
+        </MenuList>
       </Paper>
     </Fade>
   )

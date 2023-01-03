@@ -2,8 +2,7 @@ import { styled, useTheme } from "@mui/material";
 import { FluentEdit, useFluentEdit } from "@react-fluent-edit/core";
 import { FocusEvent, useCallback, useState } from "react";
 import { ReactEditor } from "slate-react";
-import MuiCombobox from "../MuiCombobox";
-import { MuiComboboxItem } from "../MuiCombobox/MuiCombobox";
+import MuiCombobox, { MuiComboboxItem } from "../MuiCombobox";
 import { MuiFluentEditProps } from "./MuiFluentEditProps";
 
 const Legend = styled("legend")`

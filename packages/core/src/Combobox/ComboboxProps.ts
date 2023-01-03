@@ -1,3 +1,4 @@
+import { HTMLAttributes } from "react";
 import { BaseRange } from "slate";
 import { WithChildrenProp } from "../types";
 
@@ -21,7 +22,9 @@ interface ComboboxProps extends WithChildrenProp {
   range?: BaseRange | null;
 }
 
-interface ComboboxItemProps extends WithChildrenProp {
+interface ComboboxItemProps
+  extends WithChildrenProp,
+    Pick<HTMLAttributes<HTMLLIElement>, "onClick"> {
   selected?: boolean;
 }
 

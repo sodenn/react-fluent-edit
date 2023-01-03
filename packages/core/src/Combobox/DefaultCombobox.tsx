@@ -5,6 +5,7 @@ const DefaultCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
   (props, ref) => (
     <ul
       ref={ref}
+      data-testid={(props as any)["data-testid"]}
       style={{
         cursor: "pointer",
         borderRadius: 4,

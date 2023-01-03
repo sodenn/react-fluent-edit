@@ -79,8 +79,12 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
         return;
       }
 
-      if (reason === "escapePress" || reason === "clickAway") {
+      if (reason === "escapePress") {
         closeCombobox();
+        return;
+      }
+
+      if (reason === "clickAway") {
         return;
       }
 
@@ -126,9 +130,10 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
         const { mention, search, target } = result;
         insertMention({ editor, value: search, target, ...mention });
       }
+      closeCombobox();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [comboboxElement, editor, ...mentions]
+    [comboboxElement, editor, closeCombobox, ...mentions]
   );
 
   const handlePaste = useCallback(() => {
@@ -174,6 +179,7 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
       onClose={handleClose}
       ref={setComboboxElement}
       range={target}
+      data-testid="rfe-mention-combobox"
     >
       {suggestions.map((char, i) => (
         <ComboboxItem

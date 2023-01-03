@@ -29,7 +29,6 @@ const config: PlaywrightTestConfig = {
     /* Port to use for Playwright component endpoint. */
     ctPort: 3100,
   },
-  testIgnore: ["index.spec.ts", "example.spec.ts", "mention-utils.test.ts"],
 
   /* Configure projects for major browsers */
   projects: [

@@ -1,1 +1,1 @@
-export { default } from "./MuiCombobox";
+export { default, MuiComboboxItem } from "./MuiCombobox";
