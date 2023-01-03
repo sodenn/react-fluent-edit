@@ -1,8 +1,9 @@
-import { Combobox, ComboboxItem } from "@react-fluent-edit/core";
 import {
+  Combobox,
   ComboboxCloseEvents,
   ComboboxCloseReason,
-} from "@react-fluent-edit/core/src/Combobox/ComboboxProps";
+  ComboboxItem,
+} from "@react-fluent-edit/core";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Range } from "slate";
 import { ReactEditor, useSlateStatic } from "slate-react";
