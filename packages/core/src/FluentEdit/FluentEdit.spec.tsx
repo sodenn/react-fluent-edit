@@ -5,7 +5,7 @@ test.use({ viewport: { width: 500, height: 500 } });
 
 test("should render a placeholder", async ({ mount }) => {
   const component = await mount(<TestComponent placeholder="Hello World 😀" />);
-  const editor = component.locator("data-testid=rfe");
+  const editor = component.getByTestId("rfe");
   await expect(editor).toContainText("Hello World 😀");
 });
 
@@ -13,7 +13,7 @@ test("should not render a placeholder", async ({ mount }) => {
   const component = await mount(
     <TestComponent placeholder="Hello World 😀" initialValue="Lorem Ipsum" />
   );
-  const editor = component.locator("data-testid=rfe");
+  const editor = component.getByTestId("rfe");
   await expect(editor).not.toContainText("Hello World 😀");
 });
 
@@ -21,13 +21,13 @@ test("should call the change handler with the initial value", async ({
   mount,
 }) => {
   const component = await mount(<TestComponent initialValue="Lorem Ipsum" />);
-  const editorValue = component.locator("data-testid=rfe-value");
+  const editorValue = component.getByTestId("rfe-value");
   await expect(editorValue).toContainText("Lorem Ipsum");
 });
 
 test("should initially set the focus in the text field", async ({ mount }) => {
   const component = await mount(<TestComponent autoFocus={true} />);
-  const editor = component.locator("data-testid=rfe");
+  const editor = component.getByTestId("rfe");
   await expect(editor).toBeFocused();
 });
 
@@ -54,9 +54,9 @@ test("should be able to focus the editor via hook function", async ({
   mount,
 }) => {
   const component = await mount(<TestComponent autoFocus={false} />);
-  const editor = component.locator("data-testid=rfe");
+  const editor = component.getByTestId("rfe");
   await expect(editor).not.toBeFocused();
-  await component.locator("data-testid=rfe-focus").click();
+  await component.getByTestId("rfe-focus").click();
   await expect(editor).toBeFocused();
 });
 
@@ -64,8 +64,8 @@ test("should be able to reset the current editor value", async ({ mount }) => {
   const component = await mount(
     <TestComponent autoFocus={false} initialValue="Test" />
   );
-  const editor = component.locator("data-testid=rfe");
+  const editor = component.getByTestId("rfe");
   await expect(editor).toContainText("Test");
-  await component.locator("data-testid=rfe-reset").click();
+  await component.getByTestId("rfe-reset").click();
   await expect(editor).toContainText("");
 });
