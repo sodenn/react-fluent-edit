@@ -6,15 +6,18 @@ import {
 import { forwardRef } from "react";
 
 const MuiCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
-  (props, ref) => (
-    <Fade in={props.in}>
-      <Paper elevation={2}>
-        <MenuList ref={ref} data-testid={(props as any)["data-testid"]}>
-          {props.children}
-        </MenuList>
-      </Paper>
-    </Fade>
-  )
+  (props, ref) => {
+    const { in: inProp, children, ...other } = props;
+    return (
+      <Fade in={inProp}>
+        <Paper elevation={2}>
+          <MenuList ref={ref} {...other}>
+            {children}
+          </MenuList>
+        </Paper>
+      </Fade>
+    );
+  }
 );
 
 const MuiComboboxItem = forwardRef<HTMLLIElement, ComboboxItemComponent>(

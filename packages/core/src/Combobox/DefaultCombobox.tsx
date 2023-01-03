@@ -4,8 +4,8 @@ import { ComboboxComponent, ComboboxItemComponent } from "./ComboboxProps";
 const DefaultCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
   (props, ref) => (
     <ul
+      {...props}
       ref={ref}
-      data-testid={(props as any)["data-testid"]}
       style={{
         cursor: "pointer",
         borderRadius: 4,
@@ -16,9 +16,7 @@ const DefaultCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
         padding: "4px 0",
         margin: 0,
       }}
-    >
-      {props.children}
-    </ul>
+    />
   )
 );
 

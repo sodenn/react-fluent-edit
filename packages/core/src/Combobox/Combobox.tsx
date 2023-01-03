@@ -32,6 +32,8 @@ const ComboboxItem = forwardRef<HTMLLIElement, ComboboxItemProps>(
   }
 );
 
+ComboboxItem.displayName = "ComboboxItem";
+
 function setComboboxStyle(comboboxElem: HTMLElement, rect: DOMRect) {
   try {
     if (
@@ -86,15 +88,25 @@ function setComboboxPositionByCursor(
 }
 
 const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
-  const { open, onClose, onSelectItem, range, children } = props;
+  const { open, onClose, onSelectItem, range, children, ...other } = props;
   const [index, setIndex] = useState(() => getIndexFromChildren(children));
   const { comboboxComponent: Component } = useComponents();
   const editor = useSlateStatic();
-  const numItems = React.Children.count(children);
+  const numItems = React.Children.toArray(children).reduce<number>(
+    (prev, curr) =>
+      React.isValidElement(curr) &&
+      (curr.type as any).displayName === "ComboboxItem"
+        ? prev + 1
+        : prev,
+    0
+  );
   const [comboboxElem, setComboboxElem] = useState<HTMLDivElement | null>(null);
 
   const handleArrowDownPress = useCallback(
     (event: KeyboardEvent) => {
+      if (numItems === 0) {
+        return;
+      }
       event.preventDefault();
       const newIndex = index < numItems - 1 ? index + 1 : 0;
       onSelectItem?.(newIndex);
@@ -105,6 +117,9 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
 
   const handleArrowUpPress = useCallback(
     (event: KeyboardEvent) => {
+      if (numItems === 0) {
+        return;
+      }
       event.preventDefault();
       const newIndex = index === 0 ? numItems - 1 : index - 1;
       onSelectItem?.(newIndex);
@@ -221,11 +236,7 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
         }}
         ref={setComboboxElem}
       >
-        <Component
-          in={open}
-          ref={ref as any}
-          data-testid={(props as any)["data-testid"]}
-        >
+        <Component in={open} ref={ref as any} {...other}>
           {React.Children.map(children, (child, i) => {
             if (!React.isValidElement<ComboboxItemProps>(child)) {
               return null;
