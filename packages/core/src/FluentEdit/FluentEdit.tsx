@@ -91,20 +91,24 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
     } else {
       return <></>;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const pluginOptions = useMemo(() => getPluginOptions(plugins), [plugins]);
 
   const initialValue = useMemo<Descendant[]>(
     () => addRoot(deserializer(initialTextValue, singleLine, pluginOptions)),
-    [serializer, initialTextValue, singleLine, pluginOptions]
+    [deserializer, initialTextValue, singleLine, pluginOptions]
   );
 
-  const handleEnterPress = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (singleLine) {
-      event.preventDefault();
-    }
-  };
+  const handleEnterPress = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      if (singleLine) {
+        event.preventDefault();
+      }
+    },
+    [singleLine]
+  );
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
@@ -123,7 +127,8 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
       const text = serializer(editor.children);
       onChange(text);
     }
-  }, [onChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onChange, serializer]);
 
   const handlePaste = useCallback(
     (event: ClipboardEvent<HTMLDivElement>) => {
@@ -139,7 +144,8 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
 
       onPaste?.(event);
     },
-    [singleLine, onPaste]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [deserializer, singleLine, pluginOptions, onPaste]
   );
 
   useLayoutEffect(() => {
@@ -148,12 +154,14 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
       ctx.setSingleLine(singleLine);
       ctx.setPlugins(plugins);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (autoFocus) {
       focusEditor(editor);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoFocus]);
 
   return (

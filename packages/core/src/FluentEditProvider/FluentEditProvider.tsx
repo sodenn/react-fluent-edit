@@ -54,7 +54,7 @@ function FluentEditProvider({
         });
       }
     },
-    [editor, focusEditor, plugins, deserializer]
+    [editor, deserializer, singleLine, plugins, focusEditor]
   );
 
   const value = {
