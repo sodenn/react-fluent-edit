@@ -28,11 +28,11 @@ async function getVersion() {
     `npm show ${corePkg} versions --json`
   );
   try {
-    const prevVersions = JSON.parse(allVersions)
-      .sort((a, b) => b.localeCompare(a))
-      .filter((v) => v.startsWith(version));
+    const prevVersions = JSON.parse(allVersions).filter((v) =>
+      v.startsWith(version)
+    );
     if (prevVersions.length > 0) {
-      const prevVersion = prevVersions[0];
+      const prevVersion = prevVersions[prevVersions.length - 1];
       const prevCount = prevVersion.substring(prevVersion.lastIndexOf(".") + 1);
       count = parseInt(prevCount) + 1;
     }

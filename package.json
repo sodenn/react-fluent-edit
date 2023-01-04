@@ -5,8 +5,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach run build",
-    "clean": "yarn workspaces foreach run clean",
+    "build": "yarn workspaces foreach --parallel run build",
+    "clean": "yarn workspaces foreach --parallel run clean",
     "version:pre": "yarn workspaces foreach --no-private version ${PKG_VERSION}",
     "publish": "yarn workspaces foreach --no-private run publish",
     "test": "vitest --run",
