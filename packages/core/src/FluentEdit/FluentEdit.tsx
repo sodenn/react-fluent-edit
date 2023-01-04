@@ -40,6 +40,7 @@ const FluentEdit = ({
   const { singleLine = false, plugins } = props;
   const [key, setKey] = useState(0);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setKey((v) => v + 1), [singleLine, JSON.stringify(plugins)]);
 
   return (
@@ -69,6 +70,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
 
   const overrides = useOverrides();
   const ctx = useFluentEditInternal();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => overrides(createSlateEditor(singleLine)), []);
   const { onPaste, onKeyDown, ...eventProps } = useEventHandler(editor);
   const serializer = useSerialize(plugins);

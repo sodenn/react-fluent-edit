@@ -10,7 +10,7 @@
     "version:pre": "yarn workspaces foreach --no-private version ${PKG_VERSION}",
     "publish": "yarn workspaces foreach --no-private run publish",
     "test": "vitest --run",
-    "lint": "npx eslint packages/**/src/**",
+    "lint": "npx eslint --max-warnings=0 packages/**/src/**",
     "fmt": "prettier --check packages/**/src/**",
     "test:ct": "playwright test -c playwright-ct.config.ts",
     "storybook": "storybook dev -p 6006",

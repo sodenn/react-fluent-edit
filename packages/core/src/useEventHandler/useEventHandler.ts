@@ -41,6 +41,7 @@ function useEventHandler(editor: Editor): Partial<UseEventHandlersProps> {
         },
         {}
       ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [plugins, editor]
   );
 }
