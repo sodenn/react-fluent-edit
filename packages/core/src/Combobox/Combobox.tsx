@@ -90,7 +90,7 @@ function setComboboxPositionByCursor(
 const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
   const { open, onClose, onSelectItem, range, children, ...other } = props;
   const [index, setIndex] = useState(() => getIndexFromChildren(children));
-  const { comboboxComponent: Component } = useComponents();
+  const { comboboxComponent: Component, comboboxRootStyle } = useComponents();
   const editor = useSlateStatic();
   const numItems = React.Children.toArray(children).reduce<number>(
     (prev, curr) =>
@@ -233,6 +233,7 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
           left: "-9999px",
           position: "absolute",
           display: open ? "block" : "none",
+          ...comboboxRootStyle,
         }}
         ref={setComboboxElem}
       >

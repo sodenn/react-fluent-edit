@@ -9,15 +9,23 @@ import { ComponentProviderProps, Components } from "./ComponentProviderProps";
 // @ts-ignore
 const ComponentCtx = createContext<Components>(undefined);
 
+const defaultComboboxRootStyle = {};
+
 const ComponentProvider = ({
   children,
   chipComponent = Chip,
   comboboxComponent = DefaultCombobox,
+  comboboxRootStyle = defaultComboboxRootStyle,
   comboboxItemComponent = DefaultComboboxItem,
 }: ComponentProviderProps) => {
   return (
     <ComponentCtx.Provider
-      value={{ chipComponent, comboboxComponent, comboboxItemComponent }}
+      value={{
+        chipComponent,
+        comboboxComponent,
+        comboboxRootStyle,
+        comboboxItemComponent,
+      }}
     >
       {children}
     </ComponentCtx.Provider>

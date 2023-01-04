@@ -97,6 +97,7 @@ const MuiFluentEdit = (props: MuiFluentEditProps) => {
         onFocus={handleFocus}
         onBlur={handleBlur}
         comboboxComponent={MuiCombobox}
+        comboboxRootStyle={{ zIndex: theme.zIndex.modal + 1 }}
         comboboxItemComponent={MuiComboboxItem}
         {...props}
       />

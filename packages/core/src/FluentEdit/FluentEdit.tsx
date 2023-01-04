@@ -34,6 +34,7 @@ import { FluentEditInternalProps, FluentEditProps } from "./FluentEditProps";
 const FluentEdit = ({
   chipComponent,
   comboboxComponent,
+  comboboxRootStyle,
   comboboxItemComponent,
   ...props
 }: FluentEditProps) => {
@@ -47,6 +48,7 @@ const FluentEdit = ({
     <ComponentProvider
       chipComponent={chipComponent}
       comboboxComponent={comboboxComponent}
+      comboboxRootStyle={comboboxRootStyle}
       comboboxItemComponent={comboboxItemComponent}
     >
       <PluginProvider plugins={plugins}>

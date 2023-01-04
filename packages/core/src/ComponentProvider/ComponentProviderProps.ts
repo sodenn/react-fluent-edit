@@ -1,4 +1,4 @@
-import { ElementType, HTMLAttributes } from "react";
+import { CSSProperties, ElementType, HTMLAttributes } from "react";
 import { ChipComponent } from "../Chip";
 import { ComboboxComponent, ComboboxItemComponent } from "../Combobox";
 import { WithChildrenProp } from "../types";
@@ -8,6 +8,7 @@ interface Components {
   comboboxComponent: ElementType<
     ComboboxComponent & HTMLAttributes<HTMLUListElement>
   >;
+  comboboxRootStyle: CSSProperties;
   comboboxItemComponent: ElementType<
     ComboboxItemComponent & HTMLAttributes<HTMLLIElement>
   >;
