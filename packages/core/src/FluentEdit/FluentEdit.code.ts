@@ -33,7 +33,6 @@ const Editor = () => {
           onChange={setValue}
           placeholder="Start typing"
           autoFocus
-          singleLine={false}
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}

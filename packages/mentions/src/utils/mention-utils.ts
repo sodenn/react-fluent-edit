@@ -15,7 +15,6 @@ import {
   Text,
   Transforms,
 } from "slate";
-import { ReactEditor } from "slate-react";
 import { Mention, MentionsPluginOptions } from "../types";
 
 interface InsertMentionOptions extends Omit<Mention, "suggestions"> {
@@ -88,32 +87,6 @@ function getUserInputAtSelection(editor: Editor, mentions: Mention[]) {
         search: beforeMatch[3],
       };
     }
-  }
-}
-
-function setSuggestionComboboxPosition(
-  editor: Editor,
-  popoverElement: HTMLElement,
-  target: BaseRange
-) {
-  try {
-    const domRange = ReactEditor.toDOMRange(editor, target);
-    const rect = domRange.getBoundingClientRect();
-
-    if (
-      popoverElement.offsetWidth + rect.left + window.pageXOffset <
-      window.outerWidth - 16
-    ) {
-      popoverElement.style.left = `${rect.left + window.pageXOffset}px`;
-      popoverElement.style.right = "auto";
-    } else {
-      popoverElement.style.left = "auto";
-      popoverElement.style.right = "16px";
-    }
-
-    popoverElement.style.top = `${rect.top + window.pageYOffset + 24}px`;
-  } catch (e) {
-    //
   }
 }
 
@@ -296,7 +269,6 @@ export {
   isMentionElement,
   insertMention,
   getUserInputAtSelection,
-  setSuggestionComboboxPosition,
   addMentionNodes,
   removeMentionNodes,
   withMentionNodes,

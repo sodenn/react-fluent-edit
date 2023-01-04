@@ -1,16 +1,12 @@
-import { WithChildrenProp } from "@react-fluent-edit/core";
 import {
-  FC,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { createPortal } from "react-dom";
+  Combobox,
+  ComboboxCloseEvents,
+  ComboboxCloseReason,
+  ComboboxItem,
+} from "@react-fluent-edit/core";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Range } from "slate";
 import { ReactEditor, useSlateStatic } from "slate-react";
-import ClickAwayListener from "../ClickAwayListener";
 import { Mention } from "../types";
 import useMentionsInternal from "../useMentionsInternal";
 import {
@@ -18,76 +14,20 @@ import {
   getMentionNodes,
   getUserInputAtSelection,
   insertMention,
-  setSuggestionComboboxPosition,
   useMentionPlugin,
 } from "../utils";
-import {
-  MentionComboboxItemProps,
-  MentionComboboxProps,
-} from "./MentionsComboboxProps";
-
-const Portal = ({ children }: WithChildrenProp) => {
-  return typeof document === "object"
-    ? createPortal(children, document.body)
-    : null;
-};
-
-const DefaultListComponent = forwardRef<HTMLUListElement, WithChildrenProp>(
-  ({ children }, ref) => (
-    <ul
-      ref={ref}
-      style={{
-        cursor: "pointer",
-        borderRadius: 4,
-        backgroundColor: "rgb(255, 255, 255)",
-        boxShadow:
-          "rgb(0 0 0 / 20%) 0px 5px 5px -3px, rgb(0 0 0 / 14%) 0px 8px 10px 1px, rgb(0 0 0 / 12%) 0px 3px 14px 2px",
-        listStyle: "none",
-        padding: "4px 0",
-        margin: "0 0 0 12px",
-      }}
-    >
-      {children}
-    </ul>
-  )
-);
-
-const DefaultListItemComponent = (props: MentionComboboxItemProps) => (
-  <li
-    {...props}
-    style={{
-      backgroundColor: props.selected
-        ? "rgba(0, 0, 0, 0.04)"
-        : "rgb(255, 255, 255)",
-      padding: 8,
-    }}
-  />
-);
+import { MentionComboboxProps } from "./MentionsComboboxProps";
 
 const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
-  const {
-    renderAddMentionLabel,
-    items = [],
-    zIndex: zIndex,
-    ListComponent = DefaultListComponent,
-    ListItemComponent = DefaultListItemComponent,
-  } = props;
-  const [popoverElement, setPopoverElement] = useState<HTMLDivElement | null>(
-    null
-  );
+  const { renderAddMentionLabel, items = [] } = props;
+  const [comboboxElement, setComboboxElement] = useState<any | null>(null);
   const [target, setTarget] = useState<Range | null>(null);
-  const [index, setIndex] = useState(0);
   const [search, setSearch] = useState("");
   const [mention, setMention] = useState<Mention | null>(null);
   const plugin = useMentionPlugin();
-  const mentions = plugin ? [...plugin.options.mentions] : [];
   const editor = useSlateStatic();
   const mentionsContext = useMentionsInternal();
-
-  const showAddMenuItem =
-    !!search &&
-    items?.find((m) => m.trigger === mention?.trigger)?.text !== search;
-
+  const mentions = plugin ? [...plugin.options.mentions] : [];
   const suggestions = useMemo((): string[] => {
     const list =
       items
@@ -105,15 +45,19 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
       .map(([n]) => n.value)
       .filter((i) => !list.includes(i));
     return list.concat(itemsFromEditor);
-  }, [JSON.stringify(mentions), search, mention]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, mention, ...mentions]);
+  const showAddMenuItem =
+    !!search &&
+    items?.find((m) => m.trigger === mention?.trigger)?.text !== search;
+  const open = !!target && (suggestions.length > 0 || search.length > 0);
 
   const closeCombobox = useCallback(() => {
     setTarget(null);
     setMention(null);
-    setIndex(0);
   }, []);
 
-  const openCombobox = () => {
+  const openCombobox = useCallback(() => {
     const result = getUserInputAtSelection(editor, mentions);
     if (result) {
       setTarget(result.target);
@@ -122,98 +66,84 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
     } else {
       closeCombobox();
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [closeCombobox, editor, ...mentions]);
 
-  const handleArrowDownPress = (event: KeyboardEvent) => {
-    if (target) {
-      event.preventDefault();
-      const prevIndex = index >= suggestions.length - 1 ? 0 : index + 1;
-      setIndex(prevIndex);
-    }
-  };
+  const handleClose = useCallback(
+    (
+      event: ComboboxCloseEvents,
+      reason: ComboboxCloseReason,
+      index?: number
+    ) => {
+      if (!target || !mention) {
+        return;
+      }
 
-  const handleArrowUpPress = (event: KeyboardEvent) => {
-    if (target) {
-      event.preventDefault();
-      const nextIndex = index <= 0 ? suggestions.length - 1 : index - 1;
-      setIndex(nextIndex);
-      return true;
-    }
-    return false;
-  };
+      if (reason === "escapePress") {
+        closeCombobox();
+        return;
+      }
 
-  const handleTabPress = () => {
-    if (target && mention) {
-      const value = index < suggestions.length ? suggestions[index] : search;
+      if (reason === "clickAway") {
+        return;
+      }
+
+      if (reason === "enterPress") {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      if (typeof index === "undefined") {
+        return;
+      }
+
+      const value =
+        reason === "enterPress" || reason === "tabPress"
+          ? index < suggestions.length
+            ? suggestions[index]
+            : search
+          : reason === "spacePress"
+          ? search.trim()
+          : undefined;
+
+      if (!value) {
+        return;
+      }
+
       insertMention({ editor, value, target, ...mention });
       closeCombobox();
-    }
-  };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      closeCombobox,
+      editor,
+      search,
+      suggestions,
+      target,
+      ...mentions, // eslint-disable-line react-hooks/exhaustive-deps
+    ]
+  );
 
-  const handleEnterPress = (event: KeyboardEvent) => {
-    if (target && mention) {
-      event.preventDefault();
-      event.stopPropagation();
-      const value = index < suggestions.length ? suggestions[index] : search;
-      insertMention({ editor, value, target, ...mention });
+  const handleBlur = useCallback(
+    (event: FocusEvent) => {
+      if (comboboxElement?.contains(event.relatedTarget)) {
+        return;
+      }
+      const result = getUserInputAtSelection(editor, mentions);
+      if (result && result.search) {
+        const { mention, search, target } = result;
+        insertMention({ editor, value: search, target, ...mention });
+      }
       closeCombobox();
-    }
-  };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [comboboxElement, editor, closeCombobox, ...mentions]
+  );
 
-  const handleEscapePress = (event: KeyboardEvent) => {
-    if (target && mention) {
-      event.preventDefault();
-      event.stopPropagation();
-      closeCombobox();
-    }
-  };
-
-  const handleSpacePress = () => {
-    const value = search.trim();
-    if (target && mention && value) {
-      insertMention({ editor, value, target, ...mention });
-      closeCombobox();
-    }
-  };
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    switch (event.key) {
-      case "ArrowDown":
-        handleArrowDownPress(event);
-        break;
-      case "ArrowUp":
-        handleArrowUpPress(event);
-        break;
-      case "Tab":
-        handleTabPress();
-        break;
-      case "Enter":
-        handleEnterPress(event);
-        break;
-      case "Escape":
-        handleEscapePress(event);
-        break;
-      case " ":
-        handleSpacePress();
-        break;
-    }
-  };
-
-  const handleBlur = (event: FocusEvent) => {
-    // @ts-ignore
-    if (popoverElement?.contains(event.relatedTarget)) {
-      return;
-    }
-    const result = getUserInputAtSelection(editor, mentions);
-    if (result && result.search) {
-      const { mention, search, target } = result;
-      insertMention({ editor, value: search, target, ...mention });
-    }
-  };
-
-  const handlePaste = () => {
+  const handlePaste = useCallback(() => {
     setTimeout(() => addMentionNodes(editor, mentions), 0);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor, ...mentions]);
 
   const handleClickSuggestion = (index?: number) => {
     if (target && mention) {
@@ -227,85 +157,59 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
     }
   };
 
-  useEffect(openCombobox, [editor.children]);
+  useEffect(openCombobox, [editor.children, openCombobox]);
 
-  useEffect(() => {
-    if (
-      target &&
-      popoverElement &&
-      (suggestions.length > 0 || search.length > 0)
-    ) {
-      setSuggestionComboboxPosition(editor, popoverElement, target);
-    }
-  }, [suggestions.length, search, target, popoverElement]);
-
-  useEffect(() => {
-    if (mentionsContext) {
-      mentionsContext.setMentions(mentions);
-    }
-  }, [JSON.stringify(mentions)]);
+  useEffect(
+    () => mentionsContext?.setMentions(mentions),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [...mentions]
+  );
 
   useEffect(() => {
     const editorRef = ReactEditor.toDOMNode(editor, editor);
     editorRef.addEventListener("blur", handleBlur);
     editorRef.addEventListener("click", openCombobox);
-    editorRef.addEventListener("keydown", handleKeyDown);
     editorRef.addEventListener("fePaste", handlePaste);
     return () => {
       editorRef.removeEventListener("blur", handleBlur);
       editorRef.removeEventListener("click", openCombobox);
-      editorRef.removeEventListener("keydown", handleKeyDown);
       editorRef.removeEventListener("fePaste", handlePaste);
     };
-  }, [suggestions, index, popoverElement]);
+  }, [suggestions, editor, handleBlur, openCombobox, handlePaste]);
 
-  if (target && (suggestions.length > 0 || search.length > 0)) {
-    return (
-      <Portal>
-        <div
-          ref={setPopoverElement}
-          style={{
-            top: "-9999px",
-            left: "-9999px",
-            position: "absolute",
-            zIndex,
-          }}
-          data-testid="rfe-mention-combobox"
+  return (
+    <Combobox
+      open={open}
+      onClose={handleClose}
+      ref={setComboboxElement}
+      range={target}
+      data-testid="rfe-mention-combobox"
+    >
+      {suggestions.map((char, i) => (
+        <ComboboxItem
+          data-testid={`rfe-mention-combobox-item-${char}`}
+          onClick={() =>
+            handleClickSuggestion(
+              showAddMenuItem && char === search ? undefined : i
+            )
+          }
+          key={char}
         >
-          <ClickAwayListener onClickAway={closeCombobox}>
-            <ListComponent>
-              {suggestions.map((char, i) => (
-                <ListItemComponent
-                  data-testid={`rfe-mention-combobox-item-${char}`}
-                  onClick={() =>
-                    showAddMenuItem && char === search
-                      ? handleClickSuggestion()
-                      : handleClickSuggestion(i)
-                  }
-                  key={char}
-                  selected={i === index}
-                >
-                  {showAddMenuItem &&
-                    char === search &&
-                    renderAddMentionLabel &&
-                    renderAddMentionLabel(search)}
-                  {showAddMenuItem &&
-                    char === search &&
-                    !renderAddMentionLabel &&
-                    `Add "${search}"`}
-                  {(!showAddMenuItem || char !== search) && char}
-                </ListItemComponent>
-              ))}
-            </ListComponent>
-          </ClickAwayListener>
-        </div>
-      </Portal>
-    );
-  }
-
-  return null;
+          {showAddMenuItem &&
+            char === search &&
+            renderAddMentionLabel &&
+            renderAddMentionLabel(search)}
+          {showAddMenuItem &&
+            char === search &&
+            !renderAddMentionLabel &&
+            `Add "${search}"`}
+          {(!showAddMenuItem || char !== search) && char}
+        </ComboboxItem>
+      ))}
+    </Combobox>
+  );
 };
 
-MentionsCombobox.displayName = "mentions";
+MentionsCombobox.displayName = "MentionsCombobox";
 
 export default MentionsCombobox;

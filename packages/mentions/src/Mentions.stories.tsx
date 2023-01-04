@@ -14,7 +14,7 @@ export const Mentions = {
     autoCapitalize: "off",
     spellCheck: false,
     autoFocus: true,
-    singleLine: false,
+    multiline: true,
   },
   parameters: {
     docs: {

@@ -3,12 +3,10 @@ import { CssBaseline } from "@mui/material";
 import { FluentEditProvider } from "@react-fluent-edit/core";
 import {
   createMentionsPlugin,
+  MentionCombobox,
   MentionsProvider,
 } from "@react-fluent-edit/mentions";
-import { 
-  MuiFluentEdit,
-  MuiMentionCombobox,
-} from "@react-fluent-edit/mui";
+import { MuiFluentEdit } from "@react-fluent-edit/mui";
 import { useState } from "react";
 
 const plugin = createMentionsPlugin({
@@ -42,13 +40,13 @@ const Editor = () => {
         initialValue={value}
         onChange={setValue}
         plugins={[plugin]}
-        singleLine
+        multiline={false}
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck={false}
         autoFocus
       >
-        <MuiMentionCombobox
+        <MentionCombobox
           items={[
             { text: "John", trigger: "@" },
             { text: "Jane", trigger: "@" },

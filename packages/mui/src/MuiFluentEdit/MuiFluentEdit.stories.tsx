@@ -15,7 +15,7 @@ export const MUI = {
     autoCapitalize: "off",
     spellCheck: false,
     autoFocus: true,
-    singleLine: false,
+    multiline: false,
   },
   parameters: {
     docs: {

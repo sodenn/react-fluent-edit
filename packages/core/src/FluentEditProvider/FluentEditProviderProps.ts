@@ -5,8 +5,8 @@ import { Plugin, WithChildrenProp } from "../types";
 interface FluentEditContext {
   editor?: Editor;
   setEditor: Dispatch<SetStateAction<Editor | undefined>>;
-  singleLine?: boolean;
-  setSingleLine: Dispatch<SetStateAction<boolean>>;
+  multiline?: boolean;
+  setMultiline: Dispatch<SetStateAction<boolean>>;
   plugins?: Plugin[];
   setPlugins: Dispatch<SetStateAction<Plugin[]>>;
   focusEditor: () => void;

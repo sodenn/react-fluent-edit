@@ -127,6 +127,7 @@ function MentionsProvider({ children }: WithChildrenProp) {
         }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [editor]
   );
 
@@ -175,11 +176,13 @@ function MentionsProvider({ children }: WithChildrenProp) {
         });
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [editor]
   );
 
   const hasMentions = useCallback(
     (opt: FindMentionsOptions) => findMentionEntries(opt).length > 0,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -230,6 +233,7 @@ function MentionsProvider({ children }: WithChildrenProp) {
 
       ReactEditor.focus(editor);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [mentions]
   );
 

@@ -18,7 +18,7 @@
     "email": "mail@sodenn.dev"
   },
   "scripts": {
-    "build": "yarn clean && yarn build:esm & yarn build:cjs",
+    "build": "run-s clean build:all copy",
     "clean": "rimraf lib",
     "copy": "node ../../scripts/copy-files.js",
     "build:all": "run-p build:esm build:cjs",

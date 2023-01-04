@@ -1,5 +1,7 @@
 export * from "./Chip";
 export { default as Chip } from "./Chip";
+export * from "./Combobox";
+export { default as Combobox } from "./Combobox";
 export * from "./FluentEdit";
 export { default as FluentEdit } from "./FluentEdit";
 export * from "./FluentEditProvider";

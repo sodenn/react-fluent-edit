@@ -29,7 +29,6 @@ const config: PlaywrightTestConfig = {
     /* Port to use for Playwright component endpoint. */
     ctPort: 3100,
   },
-  testIgnore: ["index.spec.ts", "example.spec.ts", "mention-utils.test.ts"],
 
   /* Configure projects for major browsers */
   projects: [
@@ -40,16 +39,16 @@ const config: PlaywrightTestConfig = {
         headless: true,
       },
     },
+    {
+      name: "firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+      },
+    },
     // {
-    //   name: 'firefox',
+    //   name: "webkit",
     //   use: {
-    //     ...devices['Desktop Firefox'],
-    //   },
-    // },
-    // {
-    //   name: 'webkit',
-    //   use: {
-    //     ...devices['Desktop Safari'],
+    //     ...devices["Desktop Safari"],
     //   },
     // },
   ],

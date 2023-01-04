@@ -16,6 +16,7 @@ const PluginProvider = ({
 
   useEffect(() => {
     setPlugins(normalizePlugins(plugins));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_plugins]);
 
   return <PluginCtx.Provider value={plugins}>{children}</PluginCtx.Provider>;
