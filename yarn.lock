@@ -2800,7 +2800,7 @@ __metadata:
     react-dom: ^17.0.0 || ^18.0.0
     slate: ^0.81.3 || ^0.87.0
     slate-history: ^0.66.0 || ^0.86.0
-    slate-react: ^0.81.0 || ^0.87.0
+    slate-react: ^0.81.0 || ^0.87.0 || ^0.88.0
   languageName: unknown
   linkType: soft
 
@@ -2814,7 +2814,7 @@ __metadata:
     react-dom: ^17.0.0 || ^18.0.0
     slate: ^0.81.3 || ^0.87.0
     slate-history: ^0.66.0 || ^0.86.0
-    slate-react: ^0.81.0 || ^0.87.0
+    slate-react: ^0.81.0 || ^0.87.0 || ^0.88.0
   languageName: unknown
   linkType: soft
 
@@ -2830,7 +2830,7 @@ __metadata:
     react-dom: ^17.0.0 || ^18.0.0
     slate: ^0.81.3 || ^0.87.0
     slate-history: ^0.66.0 || ^0.86.0
-    slate-react: ^0.81.0 || ^0.87.0
+    slate-react: ^0.81.0 || ^0.87.0 || ^0.88.0
   languageName: unknown
   linkType: soft
 
@@ -2844,7 +2844,7 @@ __metadata:
     react-dom: ^17.0.0 || ^18.0.0
     slate: ^0.81.3 || ^0.87.0
     slate-history: ^0.66.0 || ^0.86.0
-    slate-react: ^0.81.0 || ^0.87.0
+    slate-react: ^0.81.0 || ^0.87.0 || ^0.88.0
   languageName: unknown
   linkType: soft
 
@@ -2865,7 +2865,7 @@ __metadata:
     react-dom: ^17.0.0 || ^18.0.0
     slate: ^0.81.3 || ^0.87.0
     slate-history: ^0.66.0 || ^0.86.0
-    slate-react: ^0.81.0 || ^0.87.0
+    slate-react: ^0.81.0 || ^0.87.0 || ^0.88.0
   languageName: unknown
   linkType: soft
 
@@ -11273,7 +11273,7 @@ __metadata:
     rimraf: 3.0.2
     slate: 0.87.0
     slate-history: 0.86.0
-    slate-react: 0.87.0
+    slate-react: 0.88.0
     storybook: 7.0.0-beta.12
     ts-node: 10.9.1
     typescript: 4.9.4
@@ -11570,9 +11570,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-react@npm:0.87.0":
-  version: 0.87.0
-  resolution: "slate-react@npm:0.87.0"
+"slate-react@npm:0.88.0":
+  version: 0.88.0
+  resolution: "slate-react@npm:0.88.0"
   dependencies:
     "@types/is-hotkey": ^0.1.1
     "@types/lodash": ^4.14.149
@@ -11586,7 +11586,7 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
     slate: ">=0.65.3"
-  checksum: aaa14bc62379bf5291975a3a2b7eff4d8a14a619ec2ca34cbeeffe20b5623e3aba6796b9bb07bfd5c1c624aadab9fb7ca0dbc002f844a6206982c345f182c118
+  checksum: e7f41fe94c2d7c885a098d61c674e58f5e9a42a44f8f0bf49083349f0510d494ba64c270ce24f1f0df2c5276ea302b3fd550d95316fdd57272a568263f1046fa
   languageName: node
   linkType: hard
 
