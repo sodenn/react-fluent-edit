@@ -15,7 +15,6 @@ const Story = () => {
           onChange={setValue}
           plugins={plugins}
           autoFocus
-          singleLine={false}
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}

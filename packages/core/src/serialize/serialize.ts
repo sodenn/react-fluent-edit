@@ -45,10 +45,10 @@ function useDeserialize(plugins: Plugin[]) {
   return useCallback(
     (
       text: string,
-      singleLine: boolean,
+      multiline: boolean,
       options: { [key: string]: unknown }
     ): Descendant[] => {
-      text = singleLine ? text.replace(/\n|<br>/g, " ") : text;
+      text = multiline ? text : text.replace(/\n|<br>/g, " ");
       let nodes: Descendant[] = textToNodes(text);
       nodes = normalizePlugins(plugins)
         .sort(

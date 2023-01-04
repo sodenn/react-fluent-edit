@@ -31,14 +31,25 @@ test("should initially set the focus in the text field", async ({ mount }) => {
   await expect(editor).toBeFocused();
 });
 
-test("should not add a new line when pressing enter if singleLine=true", async ({
+test("should not add a new line when pressing enter if multiline=false", async ({
   mount,
   page,
 }) => {
-  const component = await mount(<TestComponent singleLine={true} />);
+  const component = await mount(<TestComponent multiline={false} />);
   await page.keyboard.press("Enter");
   await expect(component.locator('p[data-slate-node="element"]')).toHaveCount(
     1
+  );
+});
+
+test("should not add a new line when pressing enter if multiline=undefined", async ({
+  mount,
+  page,
+}) => {
+  const component = await mount(<TestComponent />);
+  await page.keyboard.press("Enter");
+  await expect(component.locator('p[data-slate-node="element"]')).toHaveCount(
+    2
   );
 });
 

@@ -40,7 +40,7 @@ const Editor = () => {
         initialValue={value}
         onChange={setValue}
         plugins={[plugin]}
-        singleLine
+        multiline={false}
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck={false}

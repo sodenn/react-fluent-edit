@@ -10,7 +10,7 @@ import { Plugin } from "../types";
 
 interface FluentEditProps
   extends Omit<TextareaHTMLAttributes<HTMLDivElement>, "onChange" | "value"> {
-  singleLine?: boolean;
+  multiline?: boolean;
   autoFocus?: boolean;
   placeholder?: string;
   initialValue?: string;
@@ -27,7 +27,7 @@ interface FluentEditProps
 }
 
 interface FluentEditInternalProps extends FluentEditProps {
-  singleLine: boolean;
+  multiline: boolean;
 }
 
 export type { FluentEditProps, FluentEditInternalProps };

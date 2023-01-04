@@ -27,8 +27,7 @@ import {
 
 return (
   <FluentEdit 
-    singleLine={false}
-    markdown={true}
+    multiline={true}
     autoFocus={true}
     placeholder=""
     initialValue=""

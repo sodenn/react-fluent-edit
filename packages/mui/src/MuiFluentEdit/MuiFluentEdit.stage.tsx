@@ -34,7 +34,7 @@ const Editor = (props: MuiFluentEditProps) => {
     <div style={{ minWidth: 400 }}>
       <CssBaseline />
       <MuiFluentEdit
-        singleLine
+        multiline={false}
         plugins={[plugin]}
         label="Description"
         placeholder="Start typing"

@@ -27,7 +27,7 @@ function FluentEditProvider({
   providers = [],
 }: FluentEditProviderProps) {
   const [editor, setEditor] = useState<Editor | undefined>(undefined);
-  const [singleLine, setSingleLine] = useState(false);
+  const [multiline, setMultiline] = useState(false);
   const [plugins, setPlugins] = useState<Plugin[]>([]);
   const deserializer = useDeserialize(plugins);
 
@@ -46,7 +46,7 @@ function FluentEditProvider({
           });
           const nodes = deserializer(
             text,
-            singleLine,
+            multiline,
             getPluginOptions(plugins)
           );
           Transforms.insertNodes(editor, nodes);
@@ -54,7 +54,7 @@ function FluentEditProvider({
         });
       }
     },
-    [editor, deserializer, singleLine, plugins, focusEditor]
+    [editor, deserializer, multiline, plugins, focusEditor]
   );
 
   const value = {
@@ -62,8 +62,8 @@ function FluentEditProvider({
     setEditor,
     focusEditor,
     resetEditor,
-    singleLine,
-    setSingleLine,
+    multiline,
+    setMultiline,
     plugins,
     setPlugins,
   };

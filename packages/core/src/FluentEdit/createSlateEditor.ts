@@ -32,9 +32,9 @@ function withSingleLine(editor: Editor) {
   return editor;
 }
 
-function createSlateEditor(singleLine: boolean) {
+function createSlateEditor(multiline: boolean) {
   let editor = withoutTab(withReact(withHistory(createEditor())));
-  if (singleLine) {
+  if (!multiline) {
     editor = withSingleLine(editor);
   }
   return editor;

@@ -38,11 +38,11 @@ const FluentEdit = ({
   comboboxItemComponent,
   ...props
 }: FluentEditProps) => {
-  const { singleLine = false, plugins } = props;
+  const { multiline = true, plugins } = props;
   const [key, setKey] = useState(0);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setKey((v) => v + 1), [singleLine, JSON.stringify(plugins)]);
+  useEffect(() => setKey((v) => v + 1), [multiline, JSON.stringify(plugins)]);
 
   return (
     <ComponentProvider
@@ -52,7 +52,7 @@ const FluentEdit = ({
       comboboxItemComponent={comboboxItemComponent}
     >
       <PluginProvider plugins={plugins}>
-        <FluentEditInternal key={key} {...props} singleLine={singleLine} />
+        <FluentEditInternal key={key} {...props} multiline={multiline} />
       </PluginProvider>
     </ComponentProvider>
   );
@@ -60,7 +60,7 @@ const FluentEdit = ({
 
 const FluentEditInternal = (props: FluentEditInternalProps) => {
   const {
-    singleLine,
+    multiline,
     autoFocus,
     placeholder,
     initialValue: initialTextValue = "",
@@ -73,7 +73,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   const overrides = useOverrides();
   const ctx = useFluentEditInternal();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const editor = useMemo(() => overrides(createSlateEditor(singleLine)), []);
+  const editor = useMemo(() => overrides(createSlateEditor(multiline)), []);
   const { onPaste, onKeyDown, ...eventProps } = useEventHandler(editor);
   const serializer = useSerialize(plugins);
   const deserializer = useDeserialize(plugins);
@@ -101,17 +101,17 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   const pluginOptions = useMemo(() => getPluginOptions(plugins), [plugins]);
 
   const initialValue = useMemo<Descendant[]>(
-    () => addRoot(deserializer(initialTextValue, singleLine, pluginOptions)),
-    [deserializer, initialTextValue, singleLine, pluginOptions]
+    () => addRoot(deserializer(initialTextValue, multiline, pluginOptions)),
+    [deserializer, initialTextValue, multiline, pluginOptions]
   );
 
   const handleEnterPress = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
-      if (singleLine) {
+      if (!multiline) {
         event.preventDefault();
       }
     },
-    [singleLine]
+    [multiline]
   );
 
   const handleKeyDown = useCallback(
@@ -138,7 +138,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
     (event: ClipboardEvent<HTMLDivElement>) => {
       event.preventDefault();
       const text = event.clipboardData.getData("text");
-      const nodes = removeRoot(deserializer(text, singleLine, pluginOptions));
+      const nodes = removeRoot(deserializer(text, multiline, pluginOptions));
       Transforms.insertNodes(editor, nodes);
       Transforms.move(editor);
 
@@ -149,13 +149,13 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
       onPaste?.(event);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deserializer, singleLine, pluginOptions, onPaste]
+    [deserializer, multiline, pluginOptions, onPaste]
   );
 
   useLayoutEffect(() => {
     if (ctx) {
       ctx.setEditor(editor);
-      ctx.setSingleLine(singleLine);
+      ctx.setMultiline(multiline);
       ctx.setPlugins(plugins);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

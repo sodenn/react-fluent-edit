@@ -19,7 +19,6 @@ const Story = () => {
           placeholder="Start typing"
           autoFocus
           plugins={plugins}
-          singleLine={false}
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
