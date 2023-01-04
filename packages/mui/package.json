@@ -1,6 +1,6 @@
 {
   "name": "@react-fluent-edit/mui",
-  "version": "2.2.1",
+  "version": "3.0.0",
   "license": "MIT",
   "description": "Bindings for using react-fluent-edit with MUI",
   "main": "./src/index.ts",

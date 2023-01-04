@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/sodenn/react-fluent-edit/compare/dnd-v2.2.1...dnd-v3.0.0) (2023-01-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* The `MuiMentionCombobox` component was removed. Use the `MentionCombobox` instead; The `FluentEdit.value` prop was removed. Use `initialValue` instead; The `FluentEdit.singleLine` prop was removed. Use `multiline` instead; The `MentionCombobox.ListComponent`, `MentionCombobox.ListItemComponent` and `MentionCombobox.zIndex` props are removed. Use the new `FluentEdit.comboboxComponent`, `FluentEdit.comboboxItemComponent` and `FluentEdit.comboboxRootStyle` props instead.
+
+### Features
+
+* configure combobox component via core plugin ([c84c082](https://github.com/sodenn/react-fluent-edit/commit/c84c082ed7569edc7f2ac5456fc277a958cfe3f6))
+
 ## [2.2.1](https://github.com/sodenn/react-fluent-edit/compare/dnd-v2.2.0...dnd-v2.2.1) (2022-10-15)
 
 
