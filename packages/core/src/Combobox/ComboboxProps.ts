@@ -39,10 +39,19 @@ interface ComboboxProps extends WithChildrenProp {
 interface ComboboxItemProps
   extends WithChildrenProp,
     Pick<HTMLAttributes<HTMLLIElement>, "onClick"> {
+  /**
+   * If `true`, the component is initially marked as active. After the first mount,
+   * the `selected` state is controlled by the `Combobox` component.
+   * @default undefined
+   */
   selected?: boolean;
 }
 
 interface ComboboxComponent extends WithChildrenProp {
+  /**
+   * Becomes `true` as soon as the combobox is opened. Useful for animations.
+   * @default false
+   */
   in?: boolean;
 }
 
