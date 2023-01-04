@@ -12,11 +12,18 @@ import useComponents from "../useComponents";
 import { ComboboxItemProps, ComboboxProps } from "./ComboboxProps";
 
 const getIndexFromChildren = (children: React.ReactNode) => {
+  const containsComboboxItems = React.Children.toArray(children).some(
+    (child) =>
+      React.isValidElement<ComboboxItemProps>(child) &&
+      (child.type as any).displayName === "ComboboxItem"
+  );
   const i = React.Children.toArray(children).findIndex(
     (child) =>
-      React.isValidElement<ComboboxItemProps>(child) && child.props.selected
+      React.isValidElement<ComboboxItemProps>(child) &&
+      (child.type as any).displayName === "ComboboxItem" &&
+      child.props.selected
   );
-  return i === -1 ? 0 : i;
+  return i === -1 ? (containsComboboxItems ? 0 : undefined) : i;
 };
 
 const Portal = ({ children }: PropsWithChildren) => {
@@ -88,7 +95,14 @@ function setComboboxPositionByCursor(
 }
 
 const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
-  const { open, onClose, onSelectItem, range, children, ...other } = props;
+  const {
+    open = false,
+    onClose,
+    onSelectItem,
+    range,
+    children,
+    ...other
+  } = props;
   const [index, setIndex] = useState(() => getIndexFromChildren(children));
   const { comboboxComponent: Component, comboboxRootStyle } = useComponents();
   const editor = useSlateStatic();
@@ -104,7 +118,7 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
 
   const handleArrowDownPress = useCallback(
     (event: KeyboardEvent) => {
-      if (numItems === 0) {
+      if (numItems === 0 || typeof index !== "number") {
         return;
       }
       event.preventDefault();
@@ -117,7 +131,7 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
 
   const handleArrowUpPress = useCallback(
     (event: KeyboardEvent) => {
-      if (numItems === 0) {
+      if (numItems === 0 || typeof index !== "number") {
         return;
       }
       event.preventDefault();

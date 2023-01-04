@@ -12,13 +12,27 @@ type ComboboxCloseReason =
 type ComboboxCloseEvents = KeyboardEvent | FocusEvent | MouseEvent | TouchEvent;
 
 interface ComboboxProps extends WithChildrenProp {
-  open: boolean;
+  /**
+   * If true, the combobox is shown.
+   * @default false
+   */
+  open?: boolean;
+  /**
+   * Callback fired when the combobox requests to be closed.
+   */
   onClose: (
     event: ComboboxCloseEvents,
     reason: ComboboxCloseReason,
-    index: number
+    index?: number
   ) => void;
+  /**
+   * Callback fired when the selected combobox item changed.
+   */
   onSelectItem?: (index: number) => void;
+  /**
+   * If a `range` is defined, the combobox opens at this point, otherwise at the
+   * position of the cursor.
+   */
   range?: BaseRange | null;
 }
 

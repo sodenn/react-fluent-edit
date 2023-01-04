@@ -73,7 +73,7 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
     (
       event: ComboboxCloseEvents,
       reason: ComboboxCloseReason,
-      index: number
+      index?: number
     ) => {
       if (!target || !mention) {
         return;
@@ -91,6 +91,10 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
       if (reason === "enterPress") {
         event.preventDefault();
         event.stopPropagation();
+      }
+
+      if (typeof index === "undefined") {
+        return;
       }
 
       const value =
