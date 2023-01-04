@@ -6,6 +6,9 @@
     "packages/dnd": {
       "component": "dnd"
     },
+    "packages/markdown": {
+      "component": "markdown"
+    },
     "packages/mentions": {
       "component": "mentions"
     },
@@ -18,7 +21,7 @@
       "type": "linked-versions",
       "group-name": "fixed",
       "components": [
-        "core", "mentions", "mui", "dnd"
+        "core", "mentions", "mui", "dnd", "markdown"
       ]
     }
   ]
