@@ -45,7 +45,7 @@ function setComboboxStyle(comboboxElem: HTMLElement, rect: DOMRect) {
   try {
     if (
       comboboxElem.offsetWidth + rect.left + window.pageXOffset <
-      window.outerWidth - 16
+      window.innerWidth - 16
     ) {
       comboboxElem.style.left = `${rect.left + window.pageXOffset}px`;
       comboboxElem.style.right = "auto";
