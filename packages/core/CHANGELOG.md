@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.2](https://github.com/sodenn/react-fluent-edit/compare/core-v3.0.1...core-v3.0.2) (2023-02-13)
+
+
+### Bug Fixes
+
+* incorrect combobox position when using WKWebView ([#119](https://github.com/sodenn/react-fluent-edit/issues/119)) ([6f50317](https://github.com/sodenn/react-fluent-edit/commit/6f50317e6244f1e4da8425c823486bac13763819))
+
 ## [3.0.1](https://github.com/sodenn/react-fluent-edit/compare/core-v3.0.0...core-v3.0.1) (2023-02-05)
 
 
