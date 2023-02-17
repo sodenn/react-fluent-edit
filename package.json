@@ -25,7 +25,7 @@
     "@storybook/manager-api": "7.0.0-beta.43",
     "@storybook/react-vite": "7.0.0-beta.43",
     "@storybook/theming": "7.0.0-beta.43",
-    "@testing-library/react": "13.4.0",
+    "@testing-library/react": "14.0.0",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "@typescript-eslint/eslint-plugin": "5.50.0",
