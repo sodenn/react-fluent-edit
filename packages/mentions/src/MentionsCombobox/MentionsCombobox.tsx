@@ -27,6 +27,7 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
   const plugin = useMentionPlugin();
   const editor = useSlateStatic();
   const mentionsContext = useMentionsInternal();
+  const disableCreatable = plugin.options.disableCreatable;
   const mentions = plugin ? [...plugin.options.mentions] : [];
   const suggestions = useMemo((): string[] => {
     const list =
@@ -37,17 +38,22 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
             i.text.toLowerCase().startsWith(search.toLowerCase())
         )
         .map((i) => i.text) || [];
-    if (!!search && list.every((i) => i !== search)) {
-      list.push(search);
+    if (disableCreatable !== true) {
+      if (!!search && list.every((i) => i !== search)) {
+        list.push(search);
+      }
+      const itemsFromEditor = getMentionNodes(editor)
+        .filter(([n]) => n.trigger === mention?.trigger)
+        .map(([n]) => n.value)
+        .filter((i) => !list.includes(i));
+      return list.concat(itemsFromEditor);
+    } else {
+      return list;
     }
-    const itemsFromEditor = getMentionNodes(editor)
-      .filter(([n]) => n.trigger === mention?.trigger)
-      .map(([n]) => n.value)
-      .filter((i) => !list.includes(i));
-    return list.concat(itemsFromEditor);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, mention, ...mentions]);
+  }, [search, mention, disableCreatable, ...mentions]);
   const showAddMenuItem =
+    disableCreatable !== true &&
     !!search &&
     items?.find((m) => m.trigger === mention?.trigger)?.text !== search;
   const open = !!target && (suggestions.length > 0 || search.length > 0);
@@ -131,13 +137,31 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
       }
       const result = getUserInputAtSelection(editor, mentions);
       if (result && result.search) {
+        if (
+          disableCreatable === true &&
+          items.filter(
+            (i) =>
+              i.text === result.search && i.trigger === result.mention.trigger
+          )
+        ) {
+          // mention cannot be inserted if it's not in `items`
+          return;
+        }
         const { mention, search, target } = result;
         insertMention({ editor, value: search, target, ...mention });
       }
       closeCombobox();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [comboboxElement, editor, closeCombobox, ...mentions]
+    [
+      comboboxElement,
+      editor,
+      closeCombobox,
+      disableCreatable,
+      items,
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      ...mentions,
+    ]
   );
 
   const handlePaste = useCallback(() => {

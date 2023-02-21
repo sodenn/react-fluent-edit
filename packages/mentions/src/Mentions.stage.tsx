@@ -24,7 +24,9 @@ interface MentionsStageProps extends FluentEditProps, WithOpenSection {}
 
 interface PluginConfigurationProps extends WithOpenSection {
   mentions: Mention[];
-  onChange: (mentions: Mention[]) => void;
+  disableCreatable: boolean;
+  onChangeMentions: (mentions: Mention[]) => void;
+  onChangeDisableCreatable: (disableCreatable: boolean) => void;
 }
 
 interface MentionToolbarProps extends WithOpenSection {
@@ -96,8 +98,10 @@ const ListItem = ({ children }: WithChildrenProp) => {
 };
 
 const PluginConfiguration = ({
-  onChange,
+  onChangeMentions,
+  onChangeDisableCreatable,
   mentions,
+  disableCreatable,
   openSections,
 }: PluginConfigurationProps) => {
   const [trigger, setTrigger] = useState("");
@@ -108,12 +112,16 @@ const PluginConfiguration = ({
     const newMentions = [...mentions, { trigger, style: styleObject }];
     setTrigger("");
     setStyle("");
-    onChange(newMentions);
+    onChangeMentions(newMentions);
   };
 
   const handleRemoveMention = (index: number) => {
     const newMentions = mentions.filter((_, i) => i !== index);
-    onChange(newMentions);
+    onChangeMentions(newMentions);
+  };
+
+  const handleToggleDisableCreatable = () => {
+    onChangeDisableCreatable(!disableCreatable);
   };
 
   return (
@@ -161,6 +169,18 @@ const PluginConfiguration = ({
           </ListItem>
         ))}
       </List>
+      <Fieldset>
+        <label htmlFor="disable-creatable">
+          <input
+            type="checkbox"
+            id="disable-creatable"
+            data-testid="rfe-disable-creatable"
+            checked={disableCreatable}
+            onChange={handleToggleDisableCreatable}
+          />
+          Disable Creatable
+        </label>
+      </Fieldset>
     </Section>
   );
 };
@@ -437,7 +457,7 @@ const Editor = ({ items, ...props }: EditorProps) => {
 
 const MentionsPlaygroundInternal = (props: MentionsStageProps) => {
   const { openSections } = props;
-
+  const [disableCreatable, setDisableCreatable] = useState(false);
   const [mentions, setMentions] = useState<Mention[]>([
     {
       trigger: "@",
@@ -464,9 +484,10 @@ const MentionsPlaygroundInternal = (props: MentionsStageProps) => {
     () => [
       createMentionsPlugin({
         mentions,
+        disableCreatable,
       }),
     ],
-    [mentions]
+    [mentions, disableCreatable]
   );
 
   const triggers = useMemo(() => mentions.map((m) => m.trigger), [mentions]);
@@ -481,8 +502,10 @@ const MentionsPlaygroundInternal = (props: MentionsStageProps) => {
     >
       <PluginConfiguration
         openSections={openSections}
-        onChange={setMentions}
+        onChangeMentions={setMentions}
+        onChangeDisableCreatable={setDisableCreatable}
         mentions={mentions}
+        disableCreatable={disableCreatable}
       />
       <MentionItems
         openSections={openSections}
