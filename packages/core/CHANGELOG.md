@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/sodenn/react-fluent-edit/compare/core-v3.0.2...core-v3.1.0) (2023-02-21)
+
+
+### Features
+
+* **Mentions:** add option to prevent the user from adding new mentions ([#127](https://github.com/sodenn/react-fluent-edit/issues/127)) ([3dec568](https://github.com/sodenn/react-fluent-edit/commit/3dec568f1a9559d74a55cde969e82b047fb0bad3))
+
 ## [3.0.2](https://github.com/sodenn/react-fluent-edit/compare/core-v3.0.1...core-v3.0.2) (2023-02-13)
 
 

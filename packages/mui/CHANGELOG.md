@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/sodenn/react-fluent-edit/compare/mui-v3.0.2...mui-v3.1.0) (2023-02-21)
+
+
+### Miscellaneous Chores
+
+* **mui:** Synchronize undefined versions
+
 ## [3.0.2](https://github.com/sodenn/react-fluent-edit/compare/mui-v3.0.1...mui-v3.0.2) (2023-02-13)
 
 
