@@ -10535,7 +10535,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     rimraf: 4.1.2
-    slate: 0.90.0
+    slate: 0.91.4
     slate-history: 0.86.0
     slate-react: 0.90.0
     storybook: 7.0.0-beta.43
@@ -10850,14 +10850,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate@npm:0.90.0":
-  version: 0.90.0
-  resolution: "slate@npm:0.90.0"
+"slate@npm:0.91.4":
+  version: 0.91.4
+  resolution: "slate@npm:0.91.4"
   dependencies:
     immer: ^9.0.6
     is-plain-object: ^5.0.0
     tiny-warning: ^1.0.3
-  checksum: c8e6900419f5a1d803a01aa38a873aada9dd0fbb967a28829d6cc38d9148347e4138a0783d6e184a804b98e4731320ff1dd67fa2f795479cff2c3699fa03220c
+  checksum: 70164a5106cac7caaa681b0eca5dba5cf172b2c406f769744babb28350906ca92dc496a0d9224911564bd4ee0650a19be7279d917bba02159e1672f37475d74d
   languageName: node
   linkType: hard
 
