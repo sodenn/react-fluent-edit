@@ -31,9 +31,9 @@
     "@react-fluent-edit/mentions": "workspace:*"
   },
   "devDependencies": {
-    "@emotion/react": "11.10.5",
-    "@emotion/styled": "11.10.5",
-    "@mui/material": "5.11.7"
+    "@emotion/react": "11.10.6",
+    "@emotion/styled": "11.10.6",
+    "@mui/material": "5.11.10"
   },
   "peerDependencies": {
     "@emotion/react": "^11.9.3",
