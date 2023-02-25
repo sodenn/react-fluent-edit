@@ -65,6 +65,14 @@ function cloneChildren(children: Descendant[]): Descendant[] {
   });
 }
 
+function editorToDomNode(editor?: Editor) {
+  try {
+    return editor ? ReactEditor.toDOMNode(editor, editor) : undefined;
+  } catch (e) {
+    return;
+  }
+}
+
 export {
   isParagraph,
   addRoot,
@@ -73,4 +81,5 @@ export {
   cloneChildren,
   hasChildren,
   nodesToText,
+  editorToDomNode,
 };

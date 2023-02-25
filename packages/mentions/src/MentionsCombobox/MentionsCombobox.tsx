@@ -3,6 +3,7 @@ import {
   ComboboxCloseEvents,
   ComboboxCloseReason,
   ComboboxItem,
+  editorToDomNode,
 } from "@react-fluent-edit/core";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Range } from "slate";
@@ -190,14 +191,14 @@ const MentionsCombobox: FC<MentionComboboxProps> = (props) => {
   );
 
   useEffect(() => {
-    const editorRef = ReactEditor.toDOMNode(editor, editor);
-    editorRef.addEventListener("blur", handleBlur);
-    editorRef.addEventListener("click", openCombobox);
-    editorRef.addEventListener("fePaste", handlePaste);
+    const editorElem = editorToDomNode(editor);
+    editorElem?.addEventListener("blur", handleBlur);
+    editorElem?.addEventListener("click", openCombobox);
+    editorElem?.addEventListener("fePaste", handlePaste);
     return () => {
-      editorRef.removeEventListener("blur", handleBlur);
-      editorRef.removeEventListener("click", openCombobox);
-      editorRef.removeEventListener("fePaste", handlePaste);
+      editorElem?.removeEventListener("blur", handleBlur);
+      editorElem?.removeEventListener("click", openCombobox);
+      editorElem?.removeEventListener("fePaste", handlePaste);
     };
   }, [suggestions, editor, handleBlur, openCombobox, handlePaste]);
 

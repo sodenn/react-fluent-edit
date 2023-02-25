@@ -10535,9 +10535,9 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     rimraf: 4.1.2
-    slate: 0.90.0
+    slate: 0.91.4
     slate-history: 0.86.0
-    slate-react: 0.91.3
+    slate-react: 0.91.5
     storybook: 7.0.0-beta.43
     ts-node: 10.9.1
     typescript: 4.9.5
@@ -10829,9 +10829,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-react@npm:0.91.3":
-  version: 0.91.3
-  resolution: "slate-react@npm:0.91.3"
+"slate-react@npm:0.91.5":
+  version: 0.91.5
+  resolution: "slate-react@npm:0.91.5"
   dependencies:
     "@juggle/resize-observer": ^3.4.0
     "@types/is-hotkey": ^0.1.1
@@ -10846,18 +10846,18 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
     slate: ">=0.65.3"
-  checksum: 151b1f8f1925a8baf8ace4836a7207468167a370985074a0a7a26c9a50867fdaf3e1df2c26b24b49eb7b2ebcc9ca931430ae064f4155b8227f05e5f5af8b5c03
+  checksum: e41cb27b9035120e9a3a2bf1bd9fb8ba7ceb999776c9acc1596189b7ec4eb1548e2b568cd510f623a78d9b4e45e27cbd6c2af83b034d2356d3f05e13fc4602e0
   languageName: node
   linkType: hard
 
-"slate@npm:0.90.0":
-  version: 0.90.0
-  resolution: "slate@npm:0.90.0"
+"slate@npm:0.91.4":
+  version: 0.91.4
+  resolution: "slate@npm:0.91.4"
   dependencies:
     immer: ^9.0.6
     is-plain-object: ^5.0.0
     tiny-warning: ^1.0.3
-  checksum: c8e6900419f5a1d803a01aa38a873aada9dd0fbb967a28829d6cc38d9148347e4138a0783d6e184a804b98e4731320ff1dd67fa2f795479cff2c3699fa03220c
+  checksum: 70164a5106cac7caaa681b0eca5dba5cf172b2c406f769744babb28350906ca92dc496a0d9224911564bd4ee0650a19be7279d917bba02159e1672f37475d74d
   languageName: node
   linkType: hard
 
