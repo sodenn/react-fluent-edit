@@ -1,10 +1,9 @@
-import type { PlaywrightTestConfig } from "@playwright/experimental-ct-react";
-import { devices } from "@playwright/experimental-ct-react";
+import { defineConfig, devices } from "@playwright/experimental-ct-react";
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-const config: PlaywrightTestConfig = {
+const config = defineConfig({
   testMatch: /.*spec.(ts|tsx)$/,
   testDir: "./packages",
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
@@ -52,6 +51,6 @@ const config: PlaywrightTestConfig = {
     //   },
     // },
   ],
-};
+});
 
 export default config;
