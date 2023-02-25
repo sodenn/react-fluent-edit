@@ -1,4 +1,5 @@
 import {
+  editorToDomNode,
   Mention as MentionElement,
   useFluentEdit,
   WithChildrenProp,
@@ -274,7 +275,7 @@ function MentionsProvider({ children }: WithChildrenProp) {
   );
 
   useEffect(() => {
-    const editorElem = editor && ReactEditor.toDOMNode(editor, editor);
+    const editorElem = editorToDomNode(editor);
     const handleBlur = () => {
       editorSelection.current = editor?.selection;
     };

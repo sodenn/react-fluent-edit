@@ -9,6 +9,7 @@ import { createPortal } from "react-dom";
 import { BaseRange, Editor, Range } from "slate";
 import { ReactEditor, useSlateStatic } from "slate-react";
 import useComponents from "../useComponents";
+import { editorToDomNode } from "../utils";
 import { ComboboxItemProps, ComboboxProps } from "./ComboboxProps";
 
 const getIndexFromChildren = (children: React.ReactNode) => {
@@ -213,14 +214,14 @@ const Combobox = forwardRef<HTMLUListElement, ComboboxProps>((props, ref) => {
   );
 
   useEffect(() => {
-    const editorRef = ReactEditor.toDOMNode(editor, editor);
+    const editorElem = editorToDomNode(editor);
     if (open) {
-      editorRef.addEventListener("keydown", handleKeyDown);
-      editorRef.addEventListener("blur", handleBlur);
+      editorElem?.addEventListener("keydown", handleKeyDown);
+      editorElem?.addEventListener("blur", handleBlur);
     }
     return () => {
-      editorRef.removeEventListener("keydown", handleKeyDown);
-      editorRef.removeEventListener("blur", handleBlur);
+      editorElem?.removeEventListener("keydown", handleKeyDown);
+      editorElem?.removeEventListener("blur", handleBlur);
     };
   }, [index, editor, open, onClose, handleKeyDown, handleBlur]);
 

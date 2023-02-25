@@ -10,7 +10,6 @@ import {
 import { Descendant, Transforms } from "slate";
 import {
   Editable,
-  ReactEditor,
   RenderElementProps,
   RenderLeafProps,
   RenderPlaceholderProps,
@@ -26,7 +25,13 @@ import PluginProvider from "../PluginProvider";
 import { useDeserialize, useSerialize } from "../serialize";
 import useEventHandler from "../useEventHandler";
 import useFluentEditInternal from "../useFluentEditInternal";
-import { addRoot, focusEditor, isParagraph, removeRoot } from "../utils";
+import {
+  addRoot,
+  editorToDomNode,
+  focusEditor,
+  isParagraph,
+  removeRoot,
+} from "../utils";
 import { getPluginOptions } from "../utils/plugin-utils";
 import createSlateEditor from "./createSlateEditor";
 import { FluentEditInternalProps, FluentEditProps } from "./FluentEditProps";
@@ -142,9 +147,8 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
       Transforms.insertNodes(editor, nodes);
       Transforms.move(editor);
 
-      const editorRef = ReactEditor.toDOMNode(editor, editor);
-      const pasteEvent = new Event("fePaste");
-      editorRef.dispatchEvent(pasteEvent);
+      const editorElem = editorToDomNode(editor);
+      editorElem?.dispatchEvent(new Event("fePaste"));
 
       onPaste?.(event);
     },
