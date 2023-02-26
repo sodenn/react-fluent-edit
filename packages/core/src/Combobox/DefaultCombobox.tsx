@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import { ComboboxComponent, ComboboxItemComponent } from "./ComboboxProps";
 
 const DefaultCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
-  (props, ref) => (
+  ({ in: _in, ...props }, ref) => (
     <ul
       {...props}
       ref={ref}

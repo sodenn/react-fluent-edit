@@ -1,12 +1,15 @@
+import { forwardRef } from "react";
 import { useFocused, useSelected } from "slate-react";
 import { ChipProps } from "./ChipProps";
 
-const Chip = ({ attributes, children, style, ...rest }: ChipProps) => {
+const Chip = forwardRef<HTMLSpanElement, ChipProps>((props, ref) => {
+  const { attributes, children, style, ...rest } = props;
   const selected = useSelected();
   const focused = useFocused();
   return (
     <span
       {...attributes}
+      ref={ref}
       style={{
         padding: "0px 4px 0px",
         margin: "0 1px",
@@ -29,6 +32,6 @@ const Chip = ({ attributes, children, style, ...rest }: ChipProps) => {
       {children}
     </span>
   );
-};
+});
 
 export default Chip;

@@ -47,14 +47,14 @@ function FluentEditProvider({
           const nodes = deserializer(
             text,
             multiline,
-            getPluginOptions(plugins)
+            getPluginOptions(plugins, children)
           );
           Transforms.insertNodes(editor, nodes);
           focusEditor();
         });
       }
     },
-    [editor, deserializer, multiline, plugins, focusEditor]
+    [editor, deserializer, multiline, plugins, focusEditor, children]
   );
 
   const value = {

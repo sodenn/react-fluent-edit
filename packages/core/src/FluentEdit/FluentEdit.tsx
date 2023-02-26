@@ -103,7 +103,10 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const pluginOptions = useMemo(() => getPluginOptions(plugins), [plugins]);
+  const pluginOptions = useMemo(
+    () => getPluginOptions(plugins, children),
+    [plugins, children]
+  );
 
   const initialValue = useMemo<Descendant[]>(
     () => addRoot(deserializer(initialTextValue, multiline, pluginOptions)),

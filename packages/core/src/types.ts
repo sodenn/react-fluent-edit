@@ -1,4 +1,4 @@
-import {
+import React, {
   ClipboardEvent,
   CSSProperties,
   DragEvent,
@@ -128,6 +128,7 @@ interface Plugin<T = {}> {
    * Custom options of the plugin.
    */
   options?: T;
+  editorComponents?: React.ElementType[];
 }
 
 interface WithChildrenProp {

@@ -15,7 +15,7 @@ import {
   Text,
   Transforms,
 } from "slate";
-import { Mention, MentionsPluginOptions } from "../types";
+import { Mention, MentionItem, MentionsPluginOptions } from "../types";
 
 interface InsertMentionOptions extends Omit<Mention, "suggestions"> {
   editor: Editor;
@@ -90,10 +90,15 @@ function getUserInputAtSelection(editor: Editor, mentions: Mention[]) {
   }
 }
 
-function withMentionNodes(
-  nodes: Descendant[],
-  mentions: Mention[]
-): Descendant[] {
+interface WithMentionNodesOptions {
+  nodes: Descendant[];
+  mentions: Mention[];
+  allowedItems?: MentionItem[];
+  disableCreatable?: boolean;
+}
+
+function withMentionNodes(opt: WithMentionNodesOptions): Descendant[] {
+  const { nodes, mentions, allowedItems = [], disableCreatable } = opt;
   const root: Node = { type: "paragraph", children: cloneChildren(nodes) };
 
   if (mentions.length === 0) {
@@ -110,6 +115,10 @@ function withMentionNodes(
     const items = getMentionItems(
       text,
       mentions.map((m) => m.trigger)
+    ).filter(
+      (i) =>
+        disableCreatable !== true ||
+        allowedItems.some((a) => a.text === i.value && a.trigger === i.trigger)
     );
 
     let index = 0;
