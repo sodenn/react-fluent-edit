@@ -27,8 +27,7 @@
     "publish": "node ../../scripts/publish.js"
   },
   "dependencies": {
-    "@react-fluent-edit/core": "workspace:*",
-    "@react-fluent-edit/mentions": "workspace:*"
+    "@react-fluent-edit/core": "workspace:*"
   },
   "devDependencies": {
     "@emotion/react": "11.10.6",

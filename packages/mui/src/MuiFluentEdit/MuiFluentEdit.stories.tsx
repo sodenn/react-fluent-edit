@@ -8,7 +8,7 @@ export default {
 
 export const MUI = {
   args: {
-    initialValue: "Hello @Jane",
+    initialValue: "Hello",
     label: "Description",
     placeholder: "Start typing",
     autoCorrect: "off",

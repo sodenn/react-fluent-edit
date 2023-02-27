@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
-import { ComboboxComponent, ComboboxItemComponent } from "./ComboboxProps";
+import { ComboboxItemProps, ComboboxProps } from "./ComboboxProps";
 
-const DefaultCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
+const DefaultCombobox = forwardRef<HTMLUListElement, ComboboxProps>(
   ({ in: _in, ...props }, ref) => (
     <ul
       {...props}
@@ -20,7 +20,7 @@ const DefaultCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
   )
 );
 
-const DefaultComboboxItem = forwardRef<HTMLLIElement, ComboboxItemComponent>(
+const DefaultComboboxItem = forwardRef<HTMLLIElement, ComboboxItemProps>(
   ({ selected, ...props }, ref) => (
     <li
       {...props}

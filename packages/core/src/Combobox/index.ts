@@ -6,4 +6,5 @@ export type {
   ComboboxItemComponent,
   ComboboxItemProps,
   ComboboxProps,
+  ComboboxRootProps,
 } from "./ComboboxProps";

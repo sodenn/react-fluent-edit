@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import { ElementType, HTMLAttributes } from "react";
 import { BaseRange } from "slate";
 import { WithChildrenProp } from "../types";
 
@@ -11,7 +11,7 @@ type ComboboxCloseReason =
 
 type ComboboxCloseEvents = KeyboardEvent | FocusEvent | MouseEvent | TouchEvent;
 
-interface ComboboxProps extends WithChildrenProp {
+interface ComboboxRootProps extends WithChildrenProp {
   /**
    * If true, the combobox is shown.
    * @default false
@@ -36,6 +36,14 @@ interface ComboboxProps extends WithChildrenProp {
   range?: BaseRange | null;
 }
 
+interface ComboboxProps extends HTMLAttributes<HTMLUListElement> {
+  /**
+   * Becomes `true` as soon as the combobox is opened. Useful for animations.
+   * @default false
+   */
+  in?: boolean;
+}
+
 interface ComboboxItemProps
   extends WithChildrenProp,
     Pick<HTMLAttributes<HTMLLIElement>, "onClick"> {
@@ -47,17 +55,12 @@ interface ComboboxItemProps
   selected?: boolean;
 }
 
-interface ComboboxComponent extends WithChildrenProp {
-  /**
-   * Becomes `true` as soon as the combobox is opened. Useful for animations.
-   * @default false
-   */
-  in?: boolean;
-}
+type ComboboxComponent = ElementType<ComboboxProps>;
 
-type ComboboxItemComponent = ComboboxItemProps;
+type ComboboxItemComponent = ElementType<ComboboxItemProps>;
 
 export type {
+  ComboboxRootProps,
   ComboboxProps,
   ComboboxItemProps,
   ComboboxComponent,
