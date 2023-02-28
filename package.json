@@ -47,7 +47,7 @@
     "rimraf": "4.1.2",
     "slate": "0.91.4",
     "slate-history": "0.86.0",
-    "slate-react": "0.91.5",
+    "slate-react": "0.91.7",
     "storybook": "7.0.0-beta.54",
     "ts-node": "10.9.1",
     "typescript": "4.9.5",
