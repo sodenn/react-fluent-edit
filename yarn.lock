@@ -3003,7 +3003,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@react-fluent-edit/mentions@workspace:*, @react-fluent-edit/mentions@workspace:packages/mentions":
+"@react-fluent-edit/mentions@workspace:packages/mentions":
   version: 0.0.0-use.local
   resolution: "@react-fluent-edit/mentions@workspace:packages/mentions"
   dependencies:
@@ -3025,7 +3025,6 @@ __metadata:
     "@emotion/styled": 11.10.6
     "@mui/material": 5.11.10
     "@react-fluent-edit/core": "workspace:*"
-    "@react-fluent-edit/mentions": "workspace:*"
   peerDependencies:
     "@emotion/react": ^11.9.3
     "@emotion/styled": ^11.9.3
