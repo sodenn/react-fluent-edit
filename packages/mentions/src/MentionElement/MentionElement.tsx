@@ -6,7 +6,7 @@ import {
 import { useMentionPlugin } from "../utils";
 
 const MentionElement = ({
-  attributes: { ref, ...attributes },
+  attributes,
   children,
   element,
 }: CustomRenderElementProps<Mention>) => {
