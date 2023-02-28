@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import { useFocused, useSelected } from "slate-react";
 import { ChipProps } from "./ChipProps";
 
-const Chip = forwardRef<HTMLSpanElement, ChipProps>((props, ref) => {
+const DefaultChip = forwardRef<HTMLSpanElement, ChipProps>((props, ref) => {
   const { attributes, children, style, ...rest } = props;
   const selected = useSelected();
   const focused = useFocused();
@@ -34,4 +34,4 @@ const Chip = forwardRef<HTMLSpanElement, ChipProps>((props, ref) => {
   );
 });
 
-export default Chip;
+export default DefaultChip;
