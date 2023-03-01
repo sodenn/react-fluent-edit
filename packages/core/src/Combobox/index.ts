@@ -1,4 +1,3 @@
-export { ComboboxItem, default } from "./Combobox";
 export type {
   ComboboxCloseEvents,
   ComboboxCloseReason,
@@ -6,4 +5,6 @@ export type {
   ComboboxItemComponent,
   ComboboxItemProps,
   ComboboxProps,
+  ComboboxRootProps,
 } from "./ComboboxProps";
+export { ComboboxItem, default } from "./ComboboxRoot";

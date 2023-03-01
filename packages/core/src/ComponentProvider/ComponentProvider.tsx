@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import Chip from "../Chip";
+import DefaultChip from "../Chip";
 import {
   DefaultCombobox,
   DefaultComboboxItem,
@@ -13,7 +13,7 @@ const defaultComboboxRootStyle = {};
 
 const ComponentProvider = ({
   children,
-  chipComponent = Chip,
+  chipComponent = DefaultChip,
   comboboxComponent = DefaultCombobox,
   comboboxRootStyle = defaultComboboxRootStyle,
   comboboxItemComponent = DefaultComboboxItem,

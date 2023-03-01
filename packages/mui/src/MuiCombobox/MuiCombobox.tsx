@@ -1,11 +1,8 @@
 import { Fade, MenuItem, MenuList, Paper } from "@mui/material";
-import {
-  ComboboxComponent,
-  ComboboxItemComponent,
-} from "@react-fluent-edit/core";
+import { ComboboxItemProps, ComboboxProps } from "@react-fluent-edit/core";
 import { forwardRef } from "react";
 
-const MuiCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
+const MuiCombobox = forwardRef<HTMLUListElement, ComboboxProps>(
   (props, ref) => {
     const { in: inProp, children, ...other } = props;
     return (
@@ -20,7 +17,7 @@ const MuiCombobox = forwardRef<HTMLUListElement, ComboboxComponent>(
   }
 );
 
-const MuiComboboxItem = forwardRef<HTMLLIElement, ComboboxItemComponent>(
+const MuiComboboxItem = forwardRef<HTMLLIElement, ComboboxItemProps>(
   (props, ref) => {
     return <MenuItem {...props} />;
   }

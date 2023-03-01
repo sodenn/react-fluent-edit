@@ -1,2 +1,2 @@
-export { default } from "./Chip";
 export * from "./ChipProps";
+export { default } from "./DefaultChip";

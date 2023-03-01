@@ -1,7 +1,8 @@
 import { useFocused, useSelected } from "slate-react";
 import { ChipProps } from "./ChipProps";
 
-const Chip = ({ attributes, children, style, ...rest }: ChipProps) => {
+const DefaultChip = (props: ChipProps) => {
+  const { attributes, children, style, ...rest } = props;
   const selected = useSelected();
   const focused = useFocused();
   return (
@@ -31,4 +32,4 @@ const Chip = ({ attributes, children, style, ...rest }: ChipProps) => {
   );
 };
 
-export default Chip;
+export default DefaultChip;

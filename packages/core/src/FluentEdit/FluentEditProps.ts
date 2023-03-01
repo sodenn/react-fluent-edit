@@ -1,9 +1,4 @@
-import {
-  CSSProperties,
-  ElementType,
-  HTMLAttributes,
-  TextareaHTMLAttributes,
-} from "react";
+import { CSSProperties, TextareaHTMLAttributes } from "react";
 import { ChipComponent } from "../Chip";
 import { ComboboxComponent, ComboboxItemComponent } from "../Combobox";
 import { Plugin } from "../types";
@@ -47,9 +42,7 @@ interface FluentEditProps
    * in plugins, for example.
    * @default {@link DefaultCombobox}
    */
-  comboboxComponent?: ElementType<
-    ComboboxComponent & HTMLAttributes<HTMLUListElement>
-  >;
+  comboboxComponent?: ComboboxComponent;
   /**
    * Extends the styling of the combobox root element.
    */
@@ -59,9 +52,7 @@ interface FluentEditProps
    * in plugins, for example.
    * @default {@link DefaultComboboxItem}
    */
-  comboboxItemComponent?: ElementType<
-    ComboboxItemComponent & HTMLAttributes<HTMLLIElement>
-  >;
+  comboboxItemComponent?: ComboboxItemComponent;
 }
 
 interface FluentEditInternalProps extends FluentEditProps {

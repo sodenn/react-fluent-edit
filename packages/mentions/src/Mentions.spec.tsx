@@ -45,7 +45,7 @@ test("should select a mention by pressing the enter key", async ({
 }) => {
   const component = await mount(<TestComponent autoFocus openSections />);
   const editor = component.getByTestId("rfe");
-  await editor.type("@");
+  await editor.type("@", { delay: 10 });
   await page.keyboard.press("ArrowDown", { delay: 10 });
   await page.keyboard.press("Enter");
   await expect(page.getByTestId("rfe-editor-value")).toContainText("@Jane");

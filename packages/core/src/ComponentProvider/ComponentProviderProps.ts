@@ -1,17 +1,13 @@
-import { CSSProperties, ElementType, HTMLAttributes } from "react";
+import { CSSProperties } from "react";
 import { ChipComponent } from "../Chip";
 import { ComboboxComponent, ComboboxItemComponent } from "../Combobox";
 import { WithChildrenProp } from "../types";
 
 interface Components {
   chipComponent: ChipComponent;
-  comboboxComponent: ElementType<
-    ComboboxComponent & HTMLAttributes<HTMLUListElement>
-  >;
+  comboboxComponent: ComboboxComponent;
   comboboxRootStyle: CSSProperties;
-  comboboxItemComponent: ElementType<
-    ComboboxItemComponent & HTMLAttributes<HTMLLIElement>
-  >;
+  comboboxItemComponent: ComboboxItemComponent;
 }
 
 type ComponentProviderProps = Partial<Components> & WithChildrenProp;
