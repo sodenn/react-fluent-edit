@@ -1,0 +1,36 @@
+{
+  "name": "@react-fluent-edit/storybook",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sodenn/react-fluent-edit.git",
+    "directory": "packages/storybook"
+  },
+  "homepage": "https://github.com/sodenn/react-fluent-edit",
+  "author": {
+    "name": "sodenn",
+    "email": "mail@sodenn.dev"
+  },
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@react-fluent-edit/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@emotion/react": "11.10.6",
+    "@emotion/styled": "11.10.6",
+    "@mui/icons-material": "5.11.11",
+    "@mui/joy": "5.0.0-alpha.69",
+    "@storybook/addon-essentials": "7.0.0-beta.54",
+    "@storybook/addon-links": "7.0.0-beta.54",
+    "@storybook/addons": "7.0.0-beta.54",
+    "@storybook/builder-vite": "7.0.0-beta.54",
+    "@storybook/manager-api": "7.0.0-beta.54",
+    "@storybook/react-vite": "7.0.0-beta.54",
+    "@storybook/theming": "7.0.0-beta.54",
+    "storybook": "7.0.0-beta.54"
+  }
+}

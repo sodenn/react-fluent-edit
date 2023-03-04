@@ -7,16 +7,12 @@
   "exclude": [
     "node_modules",
     "**/node_modules",
-    "packages/**/src/**/*.stories.ts",
-    "packages/**/src/**/*.stories.tsx",
     "packages/**/src/**/*.test.ts",
     "packages/**/src/**/*.test.tsx",
     "packages/**/src/**/*.spec.ts",
     "packages/**/src/**/*.spec.tsx",
-    "packages/**/src/**/*.stage.ts",
-    "packages/**/src/**/*.stage.tsx",
-    "packages/**/src/**/*.code.ts",
-    "packages/**/src/**/*.code.tsx",
+    "packages/**/src/**/*.tc.ts",
+    "packages/**/src/**/*.tc.tsx",
     "packages/**/lib"
   ]
 }

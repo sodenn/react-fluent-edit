@@ -1,12 +1,10 @@
 import { expect, test } from "@playwright/experimental-ct-react";
-import TestComponent from "./Mentions.stage";
+import TestComponent from "./Mentions.tc";
 
 test.use({ viewport: { width: 500, height: 500 } });
 
 test("should render a mention", async ({ mount }) => {
-  const component = await mount(
-    <TestComponent openSections initialValue="Hello @John" />
-  );
+  const component = await mount(<TestComponent initialValue="Hello @John" />);
   const element = component.getByTestId("mention-John");
   await expect(element).toContainText("John");
 });
@@ -15,7 +13,7 @@ test("should open the mention combobox by typing a trigger key", async ({
   mount,
   page,
 }) => {
-  const component = await mount(<TestComponent autoFocus openSections />);
+  const component = await mount(<TestComponent autoFocus />);
   const editor = component.getByTestId("rfe");
   await expect(page.getByTestId("rfe-mention-combobox")).not.toBeVisible();
   await editor.type("@");
@@ -32,7 +30,7 @@ test("should open the mention combobox programmatically", async ({
   mount,
   page,
 }) => {
-  const component = await mount(<TestComponent autoFocus openSections />);
+  const component = await mount(<TestComponent autoFocus />);
   await expect(page.getByTestId("rfe-mention-combobox")).not.toBeVisible();
   await component.getByTestId("rfe-open-mentions").click();
   await expect(page.getByTestId("rfe-mention-combobox")).toBeVisible();
@@ -43,7 +41,7 @@ test("should select a mention by pressing the enter key", async ({
   mount,
   page,
 }) => {
-  const component = await mount(<TestComponent autoFocus openSections />);
+  const component = await mount(<TestComponent autoFocus />);
   const editor = component.getByTestId("rfe");
   await editor.type("@", { delay: 10 });
   await page.keyboard.press("ArrowDown", { delay: 10 });
@@ -55,7 +53,7 @@ test("should limit the suggestions when a search term is entered", async ({
   mount,
   page,
 }) => {
-  const component = await mount(<TestComponent autoFocus openSections />);
+  const component = await mount(<TestComponent autoFocus />);
   const editor = component.getByTestId("rfe");
   await editor.type("@Joh");
   await expect(
@@ -72,7 +70,7 @@ test("should select a mention by clicking on a combobox item", async ({
   mount,
   page,
 }) => {
-  const component = await mount(<TestComponent autoFocus openSections />);
+  const component = await mount(<TestComponent autoFocus />);
   await component.getByTestId("rfe-open-mentions").click();
   await page.getByTestId("rfe-mention-combobox-item-Jane").click();
   await expect(component.getByTestId("rfe-editor-value")).toContainText(
@@ -81,7 +79,7 @@ test("should select a mention by clicking on a combobox item", async ({
 });
 
 test("should add a mention programmatically", async ({ mount }) => {
-  const component = await mount(<TestComponent autoFocus openSections />);
+  const component = await mount(<TestComponent autoFocus />);
   await component.getByTestId("rfe-mention-to-add").type("Test");
   await component.getByTestId("rfe-add-mention").click();
   await expect(component.getByTestId("rfe-editor-value")).toContainText(
@@ -91,11 +89,7 @@ test("should add a mention programmatically", async ({ mount }) => {
 
 test("should remove a mention programmatically", async ({ mount }) => {
   const component = await mount(
-    <TestComponent
-      autoFocus
-      openSections
-      initialValue="This is a @Small @Test"
-    />
+    <TestComponent autoFocus initialValue="This is a @Small @Test" />
   );
   await expect(component.getByTestId("rfe-editor-value")).toContainText(
     "This is a @Small @Test"
@@ -109,7 +103,7 @@ test("should remove a mention programmatically", async ({ mount }) => {
 
 test("should remove all mentions programmatically", async ({ mount, page }) => {
   const component = await mount(
-    <TestComponent autoFocus openSections initialValue="@A @B #C" />
+    <TestComponent autoFocus initialValue="@A @B #C" />
   );
   await expect(component.getByTestId("rfe-editor-value")).toContainText(
     "@A @B #C"
@@ -121,7 +115,7 @@ test("should remove all mentions programmatically", async ({ mount, page }) => {
 
 test("should rename a mention", async ({ mount, page }) => {
   const component = await mount(
-    <TestComponent autoFocus openSections initialValue="@Hello #World" />
+    <TestComponent autoFocus initialValue="@Hello #World" />
   );
   await expect(component.getByTestId("rfe-editor-value")).toContainText(
     "@Hello #World"
@@ -138,7 +132,7 @@ test("should rename a mention", async ({ mount, page }) => {
 test("should add a mention when focus is lost from the editor", async ({
   mount,
 }) => {
-  const component = await mount(<TestComponent autoFocus openSections />);
+  const component = await mount(<TestComponent autoFocus />);
   await component.getByTestId("rfe").type("@www");
   await component.getByTestId("rfe").evaluate((e) => e.blur());
   await expect(component.getByTestId("mention-www")).toContainText("@www");
@@ -148,7 +142,7 @@ test("should automatically insert a space after a mention", async ({
   mount,
 }) => {
   const component = await mount(
-    <TestComponent autoFocus openSections initialValue="@Hello" />
+    <TestComponent autoFocus initialValue="@Hello" />
   );
   await component.getByTestId("rfe").type("World");
   await expect(component.getByTestId("rfe-editor-value")).toContainText(
@@ -160,7 +154,7 @@ test("should automatically insert a space before a mention", async ({
   mount,
 }) => {
   const component = await mount(
-    <TestComponent autoFocus openSections initialValue="Hello" />
+    <TestComponent autoFocus initialValue="Hello" />
   );
   await component.getByTestId("rfe-mention-to-add").type("Harry");
   await component.getByTestId("rfe-add-mention").click();
@@ -170,9 +164,7 @@ test("should automatically insert a space before a mention", async ({
 });
 
 test("should be able to reset the editor value", async ({ mount }) => {
-  const component = await mount(
-    <TestComponent autoFocus={false} openSections />
-  );
+  const component = await mount(<TestComponent autoFocus={false} />);
   await component.getByTestId("rfe-reset-value").type("Hello @World");
   await component.getByTestId("rfe-reset").click();
   await expect(component.getByTestId("rfe")).toContainText("Hello @World");
