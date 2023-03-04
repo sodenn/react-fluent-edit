@@ -3,7 +3,7 @@ import { FluentEditProvider } from "@react-fluent-edit/core";
 import { MuiFluentEdit, MuiFluentEditProps } from "@react-fluent-edit/mui";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { defaultArgs } from "./common";
+import { defaultArgs, SbViewSource } from "./common";
 
 const Component = (props: MuiFluentEditProps) => {
   return (
@@ -37,6 +37,7 @@ const Editor = ({ initialValue, ...props }: MuiFluentEditProps) => {
             padding: 8,
             borderRadius: 4,
             marginTop: 12,
+            marginBottom: 12,
             whiteSpace: "pre-wrap",
             backgroundColor: "#efefef",
           }}
@@ -44,6 +45,7 @@ const Editor = ({ initialValue, ...props }: MuiFluentEditProps) => {
           {value}
         </div>
       )}
+      <SbViewSource src="MUI.stories.tsx" />
     </div>
   );
 };

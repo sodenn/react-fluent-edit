@@ -38,7 +38,13 @@ import {
 } from "@react-fluent-edit/mentions";
 import { Meta, StoryObj } from "@storybook/react";
 import { ChangeEvent, Fragment, useMemo, useState } from "react";
-import { defaultArgs, SbContainer, SbEditor, SbPreview } from "./common";
+import {
+  defaultArgs,
+  SbContainer,
+  SbEditor,
+  SbPreview,
+  SbViewSource,
+} from "./common";
 
 interface PluginConfigurationProps {
   mentions: Mention[];
@@ -545,6 +551,7 @@ const MentionsPlaygroundInternal = (props: FluentEditProps) => {
         </TabPanel>
       </Tabs>
       <Editor plugins={plugins} items={items} {...props} />
+      <SbViewSource src="Mentions.stories.tsx" />
     </Stack>
   );
 };

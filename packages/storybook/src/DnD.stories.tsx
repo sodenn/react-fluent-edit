@@ -3,7 +3,13 @@ import { ChipProps, FluentEditProps } from "@react-fluent-edit/core";
 import { createDnDPlugin, Draggable } from "@react-fluent-edit/dnd";
 import { Meta, StoryObj } from "@storybook/react";
 import { forwardRef, useState } from "react";
-import { defaultArgs, SbContainer, SbEditor, SbPreview } from "./common";
+import {
+  defaultArgs,
+  SbContainer,
+  SbEditor,
+  SbPreview,
+  SbViewSource,
+} from "./common";
 
 const DraggableComp = forwardRef<HTMLDivElement>((props, ref) => {
   return (
@@ -49,6 +55,7 @@ const Component = (props: FluentEditProps) => {
         {...props}
       />
       <SbPreview>{value}</SbPreview>
+      <SbViewSource src="DnD.stories.tsx" />
     </SbContainer>
   );
 };

@@ -19,12 +19,8 @@ yarn add @react-fluent-edit/core
 ### FluentEdit
 
 ```tsx
-import {
-  FluentEdit,
-  FluentEditProps,
-  FluentEditProvider,
-} from "@react-fluent-edit/core";
-
+import { FluentEdit } from "@react-fluent-edit/core";
+// ...
 return (
   <FluentEdit 
     multiline={true}
@@ -32,7 +28,6 @@ return (
     placeholder=""
     initialValue=""
     onChange={value => console.log(value)}
-    plugins={[...]}
   />
 );
 ```
@@ -71,7 +66,42 @@ const plugin: Plugin = {
 ### useFluentEdit hook
 
 ```tsx
-import { useFluentEdit } from "@react-fluent-edit"
+import { FluentEdit, FluentEditProvider } from "@react-fluent-edit/core";
 
-const { editor, focusEditor } = useFluentEdit()
+function Provider() {
+  return (
+    <FluentEditProvider>
+      <Toolbar />
+      <Editor />
+    </FluentEditProvider>
+  );
+}
+
+function Toolbar() {
+  const { focusEditor, resetEditor } = useFluentEdit();
+  return (
+    <Stack>
+      <Button onClick={focusEditor}>
+        Focus
+      </Button>
+      <Button onClick={() => resetEditor()}>
+        Reset
+      </Button>
+    </Stack>
+  )
+}
+
+function Editor() {
+  const [value, setValue] = useState("");
+  // ...
+  return (
+    <FluentEdit
+      multiline={true}
+      autoFocus={true}
+      placeholder=""
+      initialValue=""
+      onChange={setValue}
+    />
+  );
+}
 ```

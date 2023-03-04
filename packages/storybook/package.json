@@ -13,8 +13,8 @@
     "email": "mail@sodenn.dev"
   },
   "scripts": {
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "node sb.js storybook dev -p 6006",
+    "storybook:build": "node sb.js storybook build"
   },
   "dependencies": {
     "@react-fluent-edit/core": "workspace:*"

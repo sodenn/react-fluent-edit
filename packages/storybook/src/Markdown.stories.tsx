@@ -2,7 +2,13 @@ import { FluentEditProps } from "@react-fluent-edit/core";
 import createMarkdownPlugin from "@react-fluent-edit/markdown/src/createMarkdownPlugin";
 import { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { defaultArgs, SbContainer, SbEditor, SbPreview } from "./common";
+import {
+  defaultArgs,
+  SbContainer,
+  SbEditor,
+  SbPreview,
+  SbViewSource,
+} from "./common";
 
 const plugins = [createMarkdownPlugin()];
 
@@ -17,6 +23,7 @@ const Component = (props: FluentEditProps) => {
         {...props}
       />
       <SbPreview>{value}</SbPreview>
+      <SbViewSource src="Markdown.stories.tsx" />
     </SbContainer>
   );
 };

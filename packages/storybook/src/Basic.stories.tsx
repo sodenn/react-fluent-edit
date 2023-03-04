@@ -6,7 +6,13 @@ import {
 } from "@react-fluent-edit/core";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { defaultArgs, SbContainer, SbEditor, SbPreview } from "./common";
+import {
+  defaultArgs,
+  SbContainer,
+  SbEditor,
+  SbPreview,
+  SbViewSource,
+} from "./common";
 
 const Component = (props: FluentEditProps) => {
   return (
@@ -31,6 +37,7 @@ const Editor = (props: FluentEditProps) => {
       </Stack>
       <SbEditor onChange={setValue} {...props} />
       <SbPreview>{value}</SbPreview>
+      <SbViewSource src="Basic.stories.tsx" />
     </SbContainer>
   );
 };
@@ -47,4 +54,7 @@ export const Basic: Story = {
   name: "Basic",
   args: defaultArgs,
   render: (props) => <Component {...props} />,
+  parameters: {
+    sourceLink: "https://github.com/Sirrine-Jonathan/storybook-source-link/",
+  },
 };
