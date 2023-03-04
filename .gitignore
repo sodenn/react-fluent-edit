@@ -4,7 +4,7 @@
 /playwright/.cache/
 
 # storybook
-/storybook-static
+storybook-static
 
 # ide
 .idea
