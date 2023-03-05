@@ -11220,7 +11220,7 @@ __metadata:
     rimraf: 4.1.2
     slate: 0.91.4
     slate-history: 0.86.0
-    slate-react: 0.91.7
+    slate-react: 0.91.8
     ts-node: 10.9.1
     typescript: 4.9.5
     vitest: 0.29.1
@@ -11511,9 +11511,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-react@npm:0.91.7":
-  version: 0.91.7
-  resolution: "slate-react@npm:0.91.7"
+"slate-react@npm:0.91.8":
+  version: 0.91.8
+  resolution: "slate-react@npm:0.91.8"
   dependencies:
     "@juggle/resize-observer": ^3.4.0
     "@types/is-hotkey": ^0.1.1
@@ -11528,7 +11528,7 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
     slate: ">=0.65.3"
-  checksum: 6c6eb80ffd1069c88824a1a6891c31c6d66e1b27ae2c19fe720b61d005235c65cdd72d2a4fb928721b0fd3db6555ffd2853a0a1fa29f3414fab021c49c078855
+  checksum: ad6d8c1682a497364ba446639fd487b8006c02682f947542a7a3ebc1ab9a8d7a2aa40d3d94f9f1ce2485c2ef0e2c8d7a4fb622d3ad8dfd09dee8f1f12300bce3
   languageName: node
   linkType: hard
 
