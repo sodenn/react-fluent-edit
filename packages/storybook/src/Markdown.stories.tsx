@@ -37,7 +37,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Markdown: Story = {
-  name: "Markdown",
   args: {
     ...defaultArgs,
     initialValue:

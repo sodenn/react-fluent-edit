@@ -51,7 +51,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
-  name: "Basic",
   args: defaultArgs,
   render: (props) => <Component {...props} />,
   parameters: {
