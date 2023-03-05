@@ -1,4 +1,4 @@
-.env.locale
+.env.local
 
 # test
 /test-results/
