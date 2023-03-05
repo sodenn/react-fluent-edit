@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/sodenn/react-fluent-edit/compare/markdown-v3.1.0...markdown-v3.2.0) (2023-03-05)
+
+
+### Miscellaneous Chores
+
+* **markdown:** Synchronize undefined versions
+
 ## [3.1.0](https://github.com/sodenn/react-fluent-edit/compare/markdown-v3.0.2...markdown-v3.1.0) (2023-02-21)
 
 
