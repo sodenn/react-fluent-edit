@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/sodenn/react-fluent-edit/compare/core-v3.1.0...core-v3.2.0) (2023-03-05)
+
+
+### Features
+
+* **Mentions:** only allow mentions that are predefined if `disableCreatable=true` ([#131](https://github.com/sodenn/react-fluent-edit/issues/131)) ([443668a](https://github.com/sodenn/react-fluent-edit/commit/443668a5a9fe2422f6de16636c2a5d55cb6ed911))
+
 ## [3.1.0](https://github.com/sodenn/react-fluent-edit/compare/core-v3.0.2...core-v3.1.0) (2023-02-21)
 
 

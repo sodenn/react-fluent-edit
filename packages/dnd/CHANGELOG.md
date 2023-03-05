@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/sodenn/react-fluent-edit/compare/dnd-v3.1.0...dnd-v3.2.0) (2023-03-05)
+
+
+### Miscellaneous Chores
+
+* **dnd:** Synchronize undefined versions
+
 ## [3.1.0](https://github.com/sodenn/react-fluent-edit/compare/dnd-v3.0.2...dnd-v3.1.0) (2023-02-21)
 
 
