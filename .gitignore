@@ -1,10 +1,12 @@
+.env.local
+
 # test
 /test-results/
 /playwright-report/
 /playwright/.cache/
 
 # storybook
-/storybook-static
+storybook-static
 
 # ide
 .idea

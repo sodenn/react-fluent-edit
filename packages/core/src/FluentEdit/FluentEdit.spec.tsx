@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/experimental-ct-react";
-import TestComponent from "./FluentEdit.stage";
+import TestComponent from "./FluentEdit.tc";
 
 test.use({ viewport: { width: 500, height: 500 } });
 
