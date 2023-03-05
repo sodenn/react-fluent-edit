@@ -13,8 +13,11 @@
     "email": "mail@sodenn.dev"
   },
   "scripts": {
-    "storybook": "STORYBOOK_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook": "run-s storybook:pre storybook:dev",
+    "storybook:static": "run-s storybook:pre storybook:build",
+    "storybook:dev": "storybook dev -p 6006",
+    "storybook:build": "storybook build",
+    "storybook:pre": "node prebuild.js"
   },
   "dependencies": {
     "@react-fluent-edit/core": "workspace:*"

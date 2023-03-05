@@ -14,7 +14,7 @@
     "fmt": "prettier --check packages/**/src/**",
     "test:ct": "playwright test -c playwright-ct.config.ts",
     "storybook": "yarn workspace @react-fluent-edit/storybook storybook",
-    "storybook:build": "yarn workspace @react-fluent-edit/storybook storybook:build"
+    "storybook:static": "yarn workspace @react-fluent-edit/storybook storybook:static"
   },
   "devDependencies": {
     "@playwright/experimental-ct-react": "1.31.1",
