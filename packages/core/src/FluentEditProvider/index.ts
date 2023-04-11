@@ -1,2 +1,2 @@
-export { default, FluentEditCtx } from "./FluentEditProvider";
+export { FluentEditCtx, default } from "./FluentEditProvider";
 export type { FluentEditContext } from "./FluentEditProviderProps";

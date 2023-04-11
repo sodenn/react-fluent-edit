@@ -3,7 +3,7 @@ import { FluentEditProvider } from "@react-fluent-edit/core";
 import { MuiFluentEdit, MuiFluentEditProps } from "@react-fluent-edit/mui";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { defaultArgs, SbViewSource } from "./common";
+import { SbViewSource, defaultArgs } from "./common";
 
 const Component = (props: MuiFluentEditProps) => {
   return (

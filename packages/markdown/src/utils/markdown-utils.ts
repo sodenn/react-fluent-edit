@@ -1,7 +1,7 @@
 import { CustomText, DecoratorProps } from "@react-fluent-edit/core";
 import { BaseRange, NodeEntry, Text } from "slate";
 import { MarkdownPluginOptions } from "../types";
-import { getTokens, HeadingToken, rules, Token, walkTokens } from "./tokenizer";
+import { HeadingToken, Token, getTokens, rules, walkTokens } from "./tokenizer";
 
 function getHeadingType(token: HeadingToken) {
   switch (token.depth) {

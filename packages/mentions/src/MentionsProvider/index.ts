@@ -1,1 +1,1 @@
-export { default, MentionsCtx } from "./MentionsProvider";
+export { MentionsCtx, default } from "./MentionsProvider";
