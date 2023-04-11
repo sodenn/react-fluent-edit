@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/sodenn/react-fluent-edit/compare/mentions-v3.2.0...mentions-v3.2.1) (2023-04-11)
+
+
+### Miscellaneous Chores
+
+* **mentions:** Synchronize undefined versions
+
 ## [3.2.0](https://github.com/sodenn/react-fluent-edit/compare/mentions-v3.1.0...mentions-v3.2.0) (2023-03-05)
 
 
