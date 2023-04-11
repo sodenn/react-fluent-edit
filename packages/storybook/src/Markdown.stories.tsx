@@ -3,11 +3,11 @@ import createMarkdownPlugin from "@react-fluent-edit/markdown/src/createMarkdown
 import { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import {
-  defaultArgs,
   SbContainer,
   SbEditor,
   SbPreview,
   SbViewSource,
+  defaultArgs,
 } from "./common";
 
 const plugins = [createMarkdownPlugin()];

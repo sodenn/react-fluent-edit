@@ -16,12 +16,12 @@ import {
   Slate,
 } from "slate-react";
 import ComponentProvider from "../ComponentProvider";
-import useDecorate from "../decorate";
 import ElementRenderer from "../ElementRenderer";
 import LeafRenderer from "../LeafRenderer";
-import useOverrides from "../overrides";
 import Placeholder from "../Placeholder";
 import PluginProvider from "../PluginProvider";
+import useDecorate from "../decorate";
+import useOverrides from "../overrides";
 import { useDeserialize, useSerialize } from "../serialize";
 import useEventHandler from "../useEventHandler";
 import useFluentEditInternal from "../useFluentEditInternal";
@@ -33,8 +33,8 @@ import {
   removeRoot,
 } from "../utils";
 import { getPluginOptions } from "../utils/plugin-utils";
-import createSlateEditor from "./createSlateEditor";
 import { FluentEditInternalProps, FluentEditProps } from "./FluentEditProps";
+import createSlateEditor from "./createSlateEditor";
 
 const FluentEdit = ({
   chipComponent,

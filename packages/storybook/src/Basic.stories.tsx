@@ -7,11 +7,11 @@ import {
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import {
-  defaultArgs,
   SbContainer,
   SbEditor,
   SbPreview,
   SbViewSource,
+  defaultArgs,
 } from "./common";
 
 const Component = (props: FluentEditProps) => {

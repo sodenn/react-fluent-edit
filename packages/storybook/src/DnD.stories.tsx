@@ -1,14 +1,14 @@
 import { Chip, Stack } from "@mui/joy";
 import { ChipProps, FluentEditProps } from "@react-fluent-edit/core";
-import { createDnDPlugin, Draggable } from "@react-fluent-edit/dnd";
+import { Draggable, createDnDPlugin } from "@react-fluent-edit/dnd";
 import { Meta, StoryObj } from "@storybook/react";
 import { forwardRef, useState } from "react";
 import {
-  defaultArgs,
   SbContainer,
   SbEditor,
   SbPreview,
   SbViewSource,
+  defaultArgs,
 } from "./common";
 
 const DraggableComp = forwardRef<HTMLDivElement>((props, ref) => {

@@ -5,9 +5,9 @@ import {
   useFluentEdit,
 } from "@react-fluent-edit/core";
 import { ChangeEvent, useMemo, useState } from "react";
-import createMentionsPlugin from "./createMentionsPlugin";
 import MentionsCombobox from "./MentionsCombobox";
 import MentionsProvider from "./MentionsProvider";
+import createMentionsPlugin from "./createMentionsPlugin";
 import { Mention, MentionItem } from "./types";
 import useMentions from "./useMentions";
 

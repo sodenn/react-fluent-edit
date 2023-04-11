@@ -25,25 +25,25 @@ import {
 import {
   FluentEditProps,
   FluentEditProvider,
-  useFluentEdit,
   WithChildrenProp,
+  useFluentEdit,
 } from "@react-fluent-edit/core";
 import {
-  createMentionsPlugin,
   Mention,
   MentionCombobox,
   MentionItem,
   MentionsProvider,
+  createMentionsPlugin,
   useMentions,
 } from "@react-fluent-edit/mentions";
 import { Meta, StoryObj } from "@storybook/react";
 import { ChangeEvent, Fragment, useMemo, useState } from "react";
 import {
-  defaultArgs,
   SbContainer,
   SbEditor,
   SbPreview,
   SbViewSource,
+  defaultArgs,
 } from "./common";
 
 interface PluginConfigurationProps {
