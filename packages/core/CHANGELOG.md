@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/sodenn/react-fluent-edit/compare/core-v3.2.0...core-v3.2.1) (2023-04-11)
+
+
+### Bug Fixes
+
+* **Placeholder:** fix misplaced input placeholder on Safari ([#147](https://github.com/sodenn/react-fluent-edit/issues/147)) ([56fac70](https://github.com/sodenn/react-fluent-edit/commit/56fac70b52cfd63b11f0c95a0d1ec4f3627852b0))
+
 ## [3.2.0](https://github.com/sodenn/react-fluent-edit/compare/core-v3.1.0...core-v3.2.0) (2023-03-05)
 
 
