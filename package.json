@@ -41,7 +41,7 @@
     "rimraf": "5.0.0",
     "slate": "0.93.0",
     "slate-history": "0.93.0",
-    "slate-react": "0.93.0",
+    "slate-react": "0.94.2",
     "ts-node": "10.9.1",
     "typescript": "5.0.4",
     "vitest": "0.30.1"
