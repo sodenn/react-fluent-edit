@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@react-fluent-edit/core": "workspace:*",
-    "marked": "4.3.0"
+    "marked": "5.0.4"
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
@@ -38,6 +38,6 @@
     "slate-react": ">=0.81.0"
   },
   "devDependencies": {
-    "@types/marked": "4.0.8"
+    "@types/marked": "5.0.0"
   }
 }
