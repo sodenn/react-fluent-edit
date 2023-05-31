@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.2](https://github.com/sodenn/react-fluent-edit/compare/markdown-v3.2.1...markdown-v3.2.2) (2023-05-31)
+
+
+### Bug Fixes
+
+* **deps:** update dependency marked to v4.3.0 ([#141](https://github.com/sodenn/react-fluent-edit/issues/141)) ([09f0e75](https://github.com/sodenn/react-fluent-edit/commit/09f0e758dd4caeceed1240433ae811753966e565))
+* **deps:** update dependency marked to v5 ([#157](https://github.com/sodenn/react-fluent-edit/issues/157)) ([1706d76](https://github.com/sodenn/react-fluent-edit/commit/1706d7634ff78de13c0abe1b9521057c5358c94c))
+
 ## [3.2.1](https://github.com/sodenn/react-fluent-edit/compare/markdown-v3.2.0...markdown-v3.2.1) (2023-04-11)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.2](https://github.com/sodenn/react-fluent-edit/compare/core-v3.2.1...core-v3.2.2) (2023-05-31)
+
+
+### Miscellaneous Chores
+
+* **core:** Synchronize undefined versions
+
 ## [3.2.1](https://github.com/sodenn/react-fluent-edit/compare/core-v3.2.0...core-v3.2.1) (2023-04-11)
 
 
