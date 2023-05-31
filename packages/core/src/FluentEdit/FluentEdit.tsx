@@ -176,7 +176,7 @@ const FluentEditInternal = (props: FluentEditInternalProps) => {
   }, [autoFocus]);
 
   return (
-    <Slate editor={editor} value={initialValue} onChange={handleChange}>
+    <Slate editor={editor} initialValue={initialValue} onChange={handleChange}>
       <Editable
         renderLeaf={renderLeaf}
         renderElement={renderElement}
