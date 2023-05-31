@@ -23,17 +23,17 @@
     "@react-fluent-edit/core": "workspace:*"
   },
   "devDependencies": {
-    "@emotion/react": "11.10.6",
-    "@emotion/styled": "11.10.6",
+    "@emotion/react": "11.11.0",
+    "@emotion/styled": "11.11.0",
     "@mui/icons-material": "5.11.16",
-    "@mui/joy": "5.0.0-alpha.75",
-    "@storybook/addon-essentials": "7.0.2",
-    "@storybook/addon-links": "7.0.2",
-    "@storybook/addons": "7.0.2",
-    "@storybook/builder-vite": "7.0.2",
-    "@storybook/manager-api": "7.0.2",
-    "@storybook/react-vite": "7.0.2",
-    "@storybook/theming": "7.0.2",
-    "storybook": "7.0.2"
+    "@mui/joy": "5.0.0-alpha.82",
+    "@storybook/addon-essentials": "7.0.18",
+    "@storybook/addon-links": "7.0.18",
+    "@storybook/addons": "7.0.18",
+    "@storybook/builder-vite": "7.0.18",
+    "@storybook/manager-api": "7.0.18",
+    "@storybook/react-vite": "7.0.18",
+    "@storybook/theming": "7.0.18",
+    "storybook": "7.0.18"
   }
 }

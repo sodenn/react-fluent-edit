@@ -38,6 +38,6 @@
     "slate-react": ">=0.81.0"
   },
   "devDependencies": {
-    "@types/marked": "4.0.8"
+    "@types/marked": "4.3.1"
   }
 }
