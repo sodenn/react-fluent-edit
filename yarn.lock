@@ -8551,9 +8551,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:9.20.3":
-  version: 9.20.3
-  resolution: "happy-dom@npm:9.20.3"
+"happy-dom@npm:11.2.0":
+  version: 11.2.0
+  resolution: "happy-dom@npm:11.2.0"
   dependencies:
     css.escape: ^1.5.1
     entities: ^4.5.0
@@ -8561,7 +8561,7 @@ __metadata:
     webidl-conversions: ^7.0.0
     whatwg-encoding: ^2.0.0
     whatwg-mimetype: ^3.0.0
-  checksum: 7c737a0005aaf72e1f7138e5fe651759618d45c67597ab9865434da4a980a2854b4179ee678a84a5613c1bf4da88e64437670048cc2466c946265110c8a49f55
+  checksum: 05d9cfcce6eddd0814043b61eb9709a47b68079f526858b6611d03e5f47ea47be29f896a40c363f5888347d012692caf0ea724225b22228b8c01ca6e3f8d78e7
   languageName: node
   linkType: hard
 
@@ -11706,7 +11706,7 @@ __metadata:
     eslint-plugin-storybook: 0.6.12
     fast-glob: 3.2.12
     fs-extra: 11.1.1
-    happy-dom: 9.20.3
+    happy-dom: 11.2.0
     npm-run-all: 4.1.5
     prettier: 2.8.8
     prettier-plugin-organize-imports: 3.2.2
