@@ -8756,10 +8756,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immer@npm:^9.0.6":
-  version: 9.0.15
-  resolution: "immer@npm:9.0.15"
-  checksum: 92e3d63e810e3c3c2bb61b70c45443e37ef983ad12924e3edaf03725ae5979618f5b473439bb3bb4a8c4769f25132f18dec10ea15c40f0b20da5691ff96ff611
+"immer@npm:^10.0.3":
+  version: 10.0.3
+  resolution: "immer@npm:10.0.3"
+  checksum: 76acabe6f40e752028313762ba477a5d901e57b669f3b8fb406b87b9bb9b14e663a6fbbf5a6d1ab323737dd38f4b2494a4e28002045b88948da8dbf482309f28
   languageName: node
   linkType: hard
 
@@ -11713,7 +11713,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     rimraf: 5.0.1
-    slate: 0.94.1
+    slate: 0.102.0
     slate-history: 0.93.0
     slate-react: 0.95.0
     ts-node: 10.9.1
@@ -12045,14 +12045,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate@npm:0.94.1":
-  version: 0.94.1
-  resolution: "slate@npm:0.94.1"
+"slate@npm:0.102.0":
+  version: 0.102.0
+  resolution: "slate@npm:0.102.0"
   dependencies:
-    immer: ^9.0.6
+    immer: ^10.0.3
     is-plain-object: ^5.0.0
     tiny-warning: ^1.0.3
-  checksum: 07666fe3373e59aaa19261366fd3cf1df546edfc0162fb88d675d71f158ebd1bf0630fd00ecc9152ab6547080f3e90c9f6d1504e09c25b3bf980cceb9b15c3c1
+  checksum: 69bb9160c24342804a3771d9ef69d9f58749b361181576a58b60e8fdcdfe3ee4f8afddb4745f5b3cd7e1d99af0ff949586c5720d1c15c600f4e121a59a488369
   languageName: node
   linkType: hard
 
